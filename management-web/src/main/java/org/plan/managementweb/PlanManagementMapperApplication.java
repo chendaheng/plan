@@ -1,0 +1,19 @@
+package org.plan.managementweb;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan(basePackages = {"org.plan.managementservice",
+        "org.plan.managementfacade",
+        "org.plan.managementweb"})
+@MapperScan({"org.material.managementservice.mapper"})
+public class PlanManagementMapperApplication {
+
+    public static void main (String[] args) {
+        SpringApplication.run(PlanManagementMapperApplication.class, args);
+    }
+}
+
