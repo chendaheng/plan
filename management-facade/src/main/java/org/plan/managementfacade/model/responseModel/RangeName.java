@@ -2,8 +2,8 @@ package org.plan.managementfacade.model.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("客户名称模型")
-public class CustomerName {
+@ApiModel("系列名称模型")
+public class RangeName {
     private int id;
     private String name;
 

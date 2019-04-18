@@ -2,8 +2,8 @@ package org.plan.managementfacade.model.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("客户名称模型")
-public class CustomerName {
+@ApiModel("服装层次名称模型")
+public class ClothingLevelName {
     private int id;
     private String name;
 
@@ -22,4 +22,5 @@ public class CustomerName {
     public void setName(String name) {
         this.name = name;
     }
+
 }

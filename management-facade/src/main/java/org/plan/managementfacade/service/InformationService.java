@@ -13,12 +13,12 @@ public interface InformationService {
     // 获取客户名称
     List <CustomerName> getCustomerName();
 
-    // 获取品牌
-    List <Brand> getBrandName();
+    // 获取品牌名称
+    List <BrandName> getBrandName();
 
     //  获取系列名称
-    List <Range> getRangeName();
+    List <RangeName> getRangeName();
 
     // 获取服装层次
-    List <ClothingLevel> getClothingLevelName();
+    List <ClothingLevelName> getClothingLevelName();
 }

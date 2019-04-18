@@ -18,10 +18,10 @@ public interface InformationMapper {
     List <Brand> getAllBrand();
 
     // 获取所有的系列信息
-    @Select("SELECT * FROM range")
+    @Select("SELECT * FROM `range`")
     List <Range> getAllRange();
 
     // 获取所有的服装层次
-    @Select("SELECT * FROM clothinglevel")
+    @Select("SELECT * FROM clothingLevel")
     List <ClothingLevel> getAllClothingLevel();
 }

@@ -25,5 +25,26 @@ public class InformationController {
     public List <CustomerName> getCustomerName(){
         return informationServiceImpl.getCustomerName();
     }
+
+    @RequestMapping (value = "/getBrandName", method = RequestMethod.GET)
+    @ApiOperation(value = "获取品牌名称")
+    public List <BrandName> getBrandName(){
+        return informationServiceImpl.getBrandName();
+    }
+
+    @RequestMapping (value = "/getRangeName", method = RequestMethod.GET)
+    @ApiOperation(value = "获取系列名称")
+    public List <RangeName> getRangeName(){
+        return informationServiceImpl.getRangeName();
+    }
+
+    @RequestMapping (value = "/getClothingLevelName", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服装层次名称")
+    public List <ClothingLevelName> getClothingLevelName(){
+        return informationServiceImpl.getClothingLevelName();
+    }
+
+
+
 }
 

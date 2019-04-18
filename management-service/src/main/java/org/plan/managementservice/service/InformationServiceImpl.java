@@ -36,17 +36,50 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public List <Brand> getBrandName() {
-        return null;
+    public List <BrandName> getBrandName() {
+        // 获取品牌名称
+        List <Brand> brandResult = informationMapper.getAllBrand();
+        List <BrandName> brandNameList = new ArrayList<>();
+        for (Brand brand : brandResult){
+            BrandName brandName = new BrandName();
+            int id = brand.getId();
+            String name = brand.getName();
+            brandName.setId(id);
+            brandName.setName(name);
+            brandNameList.add(brandName);
+        }
+        return brandNameList;
     }
 
     @Override
-    public List <Range> getRangeName() {
-        return null;
+    public List<RangeName> getRangeName() {
+        //  获取系列名称
+        List <Range> rangeResult = informationMapper.getAllRange();
+        List <RangeName> rangeNameList = new ArrayList<>();
+        for (Range range : rangeResult){
+            RangeName rangeName = new RangeName();
+            int id = range.getId();
+            String name = range.getName();
+            rangeName.setId(id);
+            rangeName.setName(name);
+            rangeNameList.add(rangeName);
+        }
+        return rangeNameList;
     }
 
     @Override
-    public List <ClothingLevel> getClothingLevelName() {
-        return null;
+    public List <ClothingLevelName> getClothingLevelName() {
+        // 获取服装层次名称
+        List <ClothingLevel> clothingLevelResult = informationMapper.getAllClothingLevel();
+        List <ClothingLevelName> clothingLevelNameList = new ArrayList<>();
+        for (ClothingLevel clothingLevel : clothingLevelResult){
+            ClothingLevelName clothingLevelName = new ClothingLevelName();
+            int id = clothingLevel.getId();
+            String name = clothingLevel.getName();
+            clothingLevelName.setId(id);
+            clothingLevelName.setName(name);
+            clothingLevelNameList.add(clothingLevelName);
+        }
+        return clothingLevelNameList;
     }
 }
