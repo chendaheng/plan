@@ -15,13 +15,14 @@ public class PlanModifyServiceImply {
 
     private static final int ERROR = -1;
 
-    public int updatePlanState(int id, int state) {
+    public int modifyPlan(int id, int state) {
         int planState = planObtainMapper.getPlanStateById(id);
-        if (planState != State.getIndex("已制定")) {
+
+        if (planState != State.getIndex("已删除")) {
             return ERROR;
         } else {
             return planModifyMapper.updatePlanState(id, state);
         }
-
     }
+
 }
