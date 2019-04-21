@@ -27,3 +27,7 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+management-facade/src/main/resources/application.yml
+management-service/src/main/resources/application.yml
+management-web/src/main/resources/application.yml
