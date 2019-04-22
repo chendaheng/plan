@@ -11,7 +11,7 @@ import java.util.List;
 public interface InformationService {
 
     // 获取客户名称
-    List <CustomerName> getCustomerName();
+    List <CustomerName> getCustomerName(int userId);
 
     // 获取品牌名称
     List <BrandName> getBrandName();

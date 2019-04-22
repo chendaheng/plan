@@ -22,8 +22,9 @@ public class InformationController {
 
     @RequestMapping (value = "/getCustomerName", method = RequestMethod.GET)
     @ApiOperation(value = "获取客户名称")
-    public List <CustomerName> getCustomerName(){
-        return informationServiceImpl.getCustomerName();
+    public List <CustomerName> getCustomerName(@RequestHeader(value = "user-id") String userIdInHeader){
+        int userId = Integer.parseInt(userIdInHeader);
+        return informationServiceImpl.getCustomerName(userId);
     }
 
     @RequestMapping (value = "/getBrandName", method = RequestMethod.GET)

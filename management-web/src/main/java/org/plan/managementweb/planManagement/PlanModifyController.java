@@ -1,4 +1,4 @@
-package org.plan.managementweb.web.planManagement;
+package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/planManagement")
 @Api(value = "计划服务接口")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.GET},
+        methods = {RequestMethod.POST},
         origins = "*")
 public class PlanModifyController {
     @Autowired

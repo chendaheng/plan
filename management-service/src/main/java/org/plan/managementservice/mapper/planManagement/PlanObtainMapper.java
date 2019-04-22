@@ -1,4 +1,4 @@
-package org.plan.managementservice.mapper.planManagement.imply;
+package org.plan.managementservice.mapper.planManagement;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

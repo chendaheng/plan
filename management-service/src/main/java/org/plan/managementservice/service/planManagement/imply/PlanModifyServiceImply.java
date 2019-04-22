@@ -1,8 +1,8 @@
 package org.plan.managementservice.service.planManagement.imply;
 
 import org.plan.managementfacade.model.enumModel.State;
-import org.plan.managementservice.mapper.planManagement.imply.PlanModifyMapper;
-import org.plan.managementservice.mapper.planManagement.imply.PlanObtainMapper;
+import org.plan.managementservice.mapper.planManagement.PlanModifyMapper;
+import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

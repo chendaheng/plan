@@ -20,7 +20,7 @@ public class InformationServiceImpl implements InformationService{
     private InformationMapper informationMapper;
 
     @Override
-    public List <CustomerName> getCustomerName() {
+    public List <CustomerName> getCustomerName(int userId) {
         // 获取客户名称
         List <Customer> customerResult = informationMapper.getAllCustomer();
         List <CustomerName> customerNameList = new ArrayList<>();
