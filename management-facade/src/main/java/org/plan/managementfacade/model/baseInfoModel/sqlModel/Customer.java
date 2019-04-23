@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.baseInfoModel;
+package org.plan.managementfacade.model.baseInfoModel.sqlModel;
 
 import io.swagger.annotations.ApiModel;
 

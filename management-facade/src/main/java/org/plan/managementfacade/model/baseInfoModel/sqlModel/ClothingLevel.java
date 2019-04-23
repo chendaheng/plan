@@ -1,14 +1,12 @@
-package org.plan.managementfacade.model.baseInfoModel;
+package org.plan.managementfacade.model.baseInfoModel.sqlModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("品牌信息模型")
-public class Brand {
+@ApiModel("服装层次模型")
+public class ClothingLevel {
     private int id;
     private String name;
-    private String abbr;
     private String description;
-    private int customerId;
 
     public int getId() {
         return id;
@@ -26,14 +24,6 @@ public class Brand {
         this.name = name;
     }
 
-    public String getAbbr() {
-        return abbr;
-    }
-
-    public void setAbbr(String abbr) {
-        this.abbr = abbr;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -41,13 +31,4 @@ public class Brand {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
 }
-

@@ -2,10 +2,8 @@ package org.plan.managementservice.service;
 
 
 import org.plan.managementfacade.model.infoModel.Range;
-import org.plan.managementfacade.model.responseModel.*;
-import org.plan.managementfacade.model.baseInfoModel.Brand;
-import org.plan.managementfacade.model.baseInfoModel.ClothingLevel;
-import org.plan.managementfacade.model.baseInfoModel.Customer;
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

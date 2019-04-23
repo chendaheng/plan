@@ -1,10 +1,8 @@
 package org.plan.managementfacade.service;
 
 import org.plan.managementfacade.model.infoModel.Range;
-import org.plan.managementfacade.model.baseInfoModel.Brand;
-import org.plan.managementfacade.model.baseInfoModel.ClothingLevel;
 import org.springframework.stereotype.Service;
-import org.plan.managementfacade.model.responseModel.*;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import java.util.List;
 
 @Service

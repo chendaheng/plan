@@ -1,9 +1,9 @@
-package org.plan.managementfacade.model.responseModel;
+package org.plan.managementfacade.model.baseInfoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("服装层次名称模型")
-public class ClothingLevelName {
+@ApiModel("品牌名称模型")
+public class BrandName {
     private int id;
     private String name;
 
@@ -22,5 +22,4 @@ public class ClothingLevelName {
     public void setName(String name) {
         this.name = name;
     }
-
 }

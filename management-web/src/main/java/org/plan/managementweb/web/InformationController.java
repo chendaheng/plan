@@ -5,7 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import org.plan.managementservice.service.InformationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.plan.managementfacade.model.responseModel.*;
+//import org.plan.managementfacade.model.responseModel.*;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package org.plan.managementfacade.model.responseModel;
+package org.plan.managementfacade.model.baseInfoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("品牌名称模型")
-public class BrandName {
+@ApiModel("系列名称模型")
+public class RangeName {
     private int id;
     private String name;
 
