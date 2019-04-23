@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Brand;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
-import org.plan.managementfacade.model.infoModel.Range;
+import org.plan.managementfacade.model.infoModel.sqlModel.Range;
 
 import java.util.List;
 

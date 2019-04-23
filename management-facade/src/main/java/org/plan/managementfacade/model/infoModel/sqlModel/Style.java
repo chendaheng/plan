@@ -1,15 +1,17 @@
-package org.plan.managementfacade.model.infoModel;
+package org.plan.managementfacade.model.infoModel.sqlModel;
 
 import io.swagger.annotations.ApiModel;
-
 import java.sql.Timestamp;
 
-@ApiModel("款式组信息模型")
-public class StyleGroup {
+@ApiModel("款式信息模型")
+public class Style {
     private int id;
     private String number;
-    private String name;
     private int rangeId;
+    private int styleGroupId;
+    private String styleGroupNumber;
+    private String styleGroupName;
+    private int addingMode;
     private int state;
     private Timestamp createTime;
     private Boolean havePlan;
@@ -30,20 +32,44 @@ public class StyleGroup {
         this.number = number;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getRangeId() {
         return rangeId;
     }
 
     public void setRangeId(int rangeId) {
         this.rangeId = rangeId;
+    }
+
+    public int getStyleGroupId() {
+        return styleGroupId;
+    }
+
+    public void setStyleGroupId(int styleGroupId) {
+        this.styleGroupId = styleGroupId;
+    }
+
+    public String getStyleGroupNumber() {
+        return styleGroupNumber;
+    }
+
+    public void setStyleGroupNumber(String styleGroupNumber) {
+        this.styleGroupNumber = styleGroupNumber;
+    }
+
+    public String getStyleGroupName() {
+        return styleGroupName;
+    }
+
+    public void setStyleGroupName(String styleGroupName) {
+        this.styleGroupName = styleGroupName;
+    }
+
+    public int getAddingMode() {
+        return addingMode;
+    }
+
+    public void setAddingMode(int addingMode) {
+        this.addingMode = addingMode;
     }
 
     public int getState() {

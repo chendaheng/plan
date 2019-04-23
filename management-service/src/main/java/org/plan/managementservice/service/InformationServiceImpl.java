@@ -1,7 +1,8 @@
 package org.plan.managementservice.service;
 
 
-import org.plan.managementfacade.model.infoModel.Range;
+import org.plan.managementfacade.model.infoModel.responseModel.RangeName;
+import org.plan.managementfacade.model.infoModel.sqlModel.Range;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.service.*;

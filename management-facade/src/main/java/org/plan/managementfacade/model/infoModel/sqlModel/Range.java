@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.infoModel;
+package org.plan.managementfacade.model.infoModel.sqlModel;
 
 import io.swagger.annotations.ApiModel;
 import java.sql.Timestamp;

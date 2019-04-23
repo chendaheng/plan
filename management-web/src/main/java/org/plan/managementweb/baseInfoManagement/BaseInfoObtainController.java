@@ -3,6 +3,7 @@ package org.plan.managementweb.baseInfoManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.CustomerName;
 import org.plan.managementservice.service.baseInfoManagement.Imply.BaseInfoObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,11 @@ public class BaseInfoObtainController {
     public List <BrandName> getBrandName(){
         return baseInfoObtainServiceImply.getBrandName();
     }
+
+    @RequestMapping (value = "/getClothingLevelName", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服装层次名称")
+    public List <ClothingLevelName> getClothingLevelName(){
+        return baseInfoObtainServiceImply.getClothingLevelName();
+    }
+
 }

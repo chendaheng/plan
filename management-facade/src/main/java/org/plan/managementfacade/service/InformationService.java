@@ -1,6 +1,6 @@
 package org.plan.managementfacade.service;
 
-import org.plan.managementfacade.model.infoModel.Range;
+import org.plan.managementfacade.model.infoModel.responseModel.RangeName;
 import org.springframework.stereotype.Service;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import java.util.List;

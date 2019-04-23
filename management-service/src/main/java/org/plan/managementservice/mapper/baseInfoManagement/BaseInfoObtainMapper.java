@@ -14,6 +14,10 @@ public interface BaseInfoObtainMapper {
     List <CustomerName> getCustomerName();
 
     // 获取品牌名称
-    @Select("SELECT id, name FROM brand")
+    @Select("SELECT id, name FROM brand;")
     List <BrandName> getBrandName();
+
+    // 获取服装层次名称
+    @Select("SELECT * FROM clothingLevel;")
+    List <ClothingLevelName> getClothingLevelName();
 }

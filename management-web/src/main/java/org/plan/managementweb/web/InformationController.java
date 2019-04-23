@@ -2,6 +2,7 @@ package org.plan.managementweb.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.plan.managementfacade.model.infoModel.responseModel.RangeName;
 import org.plan.managementservice.service.InformationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

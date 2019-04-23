@@ -1,4 +1,28 @@
 package org.plan.managementservice.service.infoManagement.Imply;
 
-public class InfoObtainServiceImply {
+import org.plan.managementfacade.model.infoModel.responseModel.*;
+import org.plan.managementfacade.service.InfoService.*;
+import org.plan.managementservice.mapper.InfoManagement.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class InfoObtainServiceImply implements InfoObtainService {
+
+    @Autowired
+    private InfoObtainMapper infoObtainMapper;
+
+    @Override
+    public List <RangeName> getRangeName() {
+        // 获取系列名称
+        return infoObtainMapper.getRangeName();
+    }
+
+    @Override
+    public List <RangeResponse> getRangeResponse() {
+        // 获取系列response信息
+        return infoObtainMapper.getRangeResponse();
+    }
 }

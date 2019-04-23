@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.baseInfoModel.responseModel;
+package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
