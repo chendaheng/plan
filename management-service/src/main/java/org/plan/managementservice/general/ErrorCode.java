@@ -12,4 +12,6 @@ public class ErrorCode {
     public static Integer errCodeClassIsEmpty = -1;
     // 传送的参数重复
     public static Integer paramDuplication = -2;
+    // 传送的参数存在不一致的情况
+    public static Integer dataInconsistency = -3;
 }

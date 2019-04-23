@@ -19,7 +19,7 @@ import java.util.List;
              origins = "*")
 public class DictionaryObtainController {
     @Autowired
-    DictionaryObtainServiceImply dictionaryObtainService;
+    private DictionaryObtainServiceImply dictionaryObtainService;
 
     @GetMapping(value = "/getAllDictionaryCategory")
     @ApiOperation(value = "获取全部数据字典类别", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
