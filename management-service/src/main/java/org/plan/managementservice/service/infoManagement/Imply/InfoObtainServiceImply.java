@@ -1,5 +1,6 @@
 package org.plan.managementservice.service.infoManagement.Imply;
 
+import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
 import org.plan.managementfacade.service.InfoService.*;
 import org.plan.managementservice.mapper.InfoManagement.*;
@@ -21,8 +22,14 @@ public class InfoObtainServiceImply implements InfoObtainService {
     }
 
     @Override
-    public List <RangeResponse> getRangeResponse() {
+    public List <RangeResponse> getRangeResponse(RangeSearchRequest rangeSearchRequest) {
         // 获取系列response信息
-        return infoObtainMapper.getRangeResponse();
+        return infoObtainMapper.getRangeResponseByCondition(rangeSearchRequest);
+    }
+
+    @Override
+    public List <StyleGroupName> getStyleGroupName(int rangeId) {
+        // 获取款式组名称
+        return infoObtainMapper.getStyleGroupNameByRangeId(rangeId);
     }
 }
