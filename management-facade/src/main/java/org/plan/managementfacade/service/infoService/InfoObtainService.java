@@ -1,4 +1,4 @@
-package org.plan.managementfacade.service.InfoService;
+package org.plan.managementfacade.service.infoService;
 
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;

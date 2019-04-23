@@ -1,4 +1,4 @@
-package org.plan.managementservice.mapper.InfoManagement;
+package org.plan.managementservice.mapper.infoManagement;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

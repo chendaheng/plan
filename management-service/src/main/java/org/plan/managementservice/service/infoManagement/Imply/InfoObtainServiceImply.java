@@ -2,8 +2,8 @@ package org.plan.managementservice.service.infoManagement.Imply;
 
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
-import org.plan.managementfacade.service.InfoService.*;
-import org.plan.managementservice.mapper.InfoManagement.*;
+import org.plan.managementfacade.service.infoService.*;
+import org.plan.managementservice.mapper.infoManagement.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
