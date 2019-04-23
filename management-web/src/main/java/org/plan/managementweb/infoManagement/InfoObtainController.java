@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/infoObtainManagement")
+@RequestMapping("/infoManagement")
 @Api(value = "获取信息")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
         origins = "*")

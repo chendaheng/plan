@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/infoModifyController")
+@RequestMapping("/infoManagement")
 @Api(value = "增删信息")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
         origins = "*")
