@@ -12,6 +12,11 @@ public class InfoModifyProvider {
                 INSERT_INTO("range");
                 VALUES("name", "'" + rangeAddRequest.getName() + "'");
                 VALUES("customerId", Integer.toString(rangeAddRequest.getCustomerId()));
+                VALUES("brandId", Integer.toString(rangeAddRequest.getBrandId()));
+                VALUES("clothingLevelId ", Integer.toString(rangeAddRequest.getClothingLevelId()));
+                if (rangeAddRequest.getNote() != null){
+                    VALUES("note", "'" + rangeAddRequest.getNote() + "'");
+                }
             }
         }.toString();
     }

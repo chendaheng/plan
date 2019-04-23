@@ -12,4 +12,8 @@ public class ErrorCode {
     public static Integer errCodeClassIsEmpty = -1;
     // 传送的参数重复
     public static Integer paramDuplication = -2;
+    // 新增的数据数据库中已经存在
+    public static Integer dataExist = -1;
+    // 传入信息的字段不匹配
+    public static Integer dataNotMatch = -1;
 }

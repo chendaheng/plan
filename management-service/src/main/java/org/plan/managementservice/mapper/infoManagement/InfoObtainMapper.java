@@ -6,11 +6,16 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.infoModel.requestModel.RangeSearchRequest;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
+import org.plan.managementfacade.model.infoModel.sqlModel.*;
 
 import java.util.List;
 
 @Mapper
 public interface InfoObtainMapper {
+
+    // 根据系列名称获取系列
+    @Select("SELECT * FROM `range` WHERE name=#{name};")
+    List <Range> getRangeByName(String name);
 
     // 获取系列名称
     @Select("SELECT id, name FROM `range`;")

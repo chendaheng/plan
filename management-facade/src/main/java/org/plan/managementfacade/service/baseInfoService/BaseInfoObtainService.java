@@ -13,7 +13,7 @@ public interface BaseInfoObtainService {
     List <CustomerName> getCustomerName();
 
     // 获取品牌名称
-    List <BrandName> getBrandName();
+    List <BrandName> getBrandName(int customerId);
 
     // 获取服装层次名称
     List <ClothingLevelName> getClothingLevelName();
