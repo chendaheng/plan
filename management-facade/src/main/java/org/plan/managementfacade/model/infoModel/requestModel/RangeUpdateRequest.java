@@ -2,25 +2,14 @@ package org.plan.managementfacade.model.infoModel.requestModel;
 
 import io.swagger.annotations.ApiModel;
 
-import java.sql.Timestamp;
-
-@ApiModel("获取系列条件参数模型")
-public class RangeSearchRequest {
-    private int userId = -1;
+@ApiModel("更新系列信息参数模型")
+public class RangeUpdateRequest {
     private int id = -1;
+    private String name = null;
     private int customerId = -1;
     private int brandId = -1;
     private int clothingLevelId = -1;
-    private Timestamp startDate = null;
-    private Timestamp endDate = null;
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    private String note = null;
 
     public int getId() {
         return id;
@@ -28,6 +17,14 @@ public class RangeSearchRequest {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getCustomerId() {
@@ -54,19 +51,11 @@ public class RangeSearchRequest {
         this.clothingLevelId = clothingLevelId;
     }
 
-    public Timestamp getStartDate() {
-        return startDate;
+    public String getNote() {
+        return note;
     }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
-    }
-
-    public Timestamp getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
+    public void setNote(String note) {
+        this.note = note;
     }
 }

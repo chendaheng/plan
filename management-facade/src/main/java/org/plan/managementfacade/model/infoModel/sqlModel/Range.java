@@ -16,6 +16,7 @@ public class Range {
     private int state;
     private int createrId;
     private String createrName;
+    private String deptName;
     private Timestamp createTime;
     private String note;
     private Boolean havePredictPlan;
@@ -108,6 +109,14 @@ public class Range {
 
     public void setCreaterName(String createrName) {
         this.createrName = createrName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
     public Timestamp getCreateTime() {

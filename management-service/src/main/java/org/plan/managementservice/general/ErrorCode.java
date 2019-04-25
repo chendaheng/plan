@@ -16,4 +16,6 @@ public class ErrorCode {
     public static Integer dataExist = -1;
     // 传入信息的字段不匹配
     public static Integer dataNotMatch = -1;
+    // 数据库操作错误
+    public static Integer sqlError = -1;
 }

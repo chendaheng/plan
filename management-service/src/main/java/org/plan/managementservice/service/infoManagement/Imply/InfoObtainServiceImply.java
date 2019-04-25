@@ -17,9 +17,9 @@ public class InfoObtainServiceImply implements InfoObtainService {
     private InfoObtainMapper infoObtainMapper;
 
     @Override
-    public List <RangeName> getRangeName() {
+    public List <RangeName> getRangeName(int brandId) {
         // 获取系列名称
-        return infoObtainMapper.getRangeName();
+        return infoObtainMapper.getRangeName(brandId);
     }
 
     @Override

@@ -1,7 +1,10 @@
 package org.plan.managementfacade.model.infoModel.responseModel;
 
+import io.swagger.annotations.ApiModel;
+
 import java.sql.Timestamp;
 
+@ApiModel("系列返回模型")
 public class RangeResponse {
     private int id;
     private String number;

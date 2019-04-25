@@ -9,8 +9,8 @@ import java.util.List;
 @Service
 public interface InfoObtainService {
 
-    // 获取系列名称
-    List <RangeName> getRangeName();
+    // 根据brandId获取系列名称
+    List <RangeName> getRangeName(int brandId);
 
     // 获取系列response信息
     List <RangeResponse> getRangeResponse(RangeSearchRequest rangeSearchRequest);

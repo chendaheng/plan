@@ -2,9 +2,8 @@ package org.plan.managementfacade.model.infoModel.requestModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("新增系列模型")
+@ApiModel("新增系列参数模型")
 public class RangeAddRequest {
-
     private String number; // 暂缺自动生成方法 假数据填充
     private String name;
     private int brandId;

@@ -22,8 +22,8 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getRangeName", method = RequestMethod.GET)
     @ApiOperation(value = "获取系列名称")
-    public List <RangeName> getRangeName(){
-        return infoObtainServiceImply.getRangeName();
+    public List <RangeName> getRangeName(@RequestParam int brandId){
+        return infoObtainServiceImply.getRangeName(brandId);
     }
 
     @RequestMapping (value = "/getRangeList", method = RequestMethod.POST)
