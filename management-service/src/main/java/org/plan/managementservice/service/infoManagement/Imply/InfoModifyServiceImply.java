@@ -37,18 +37,11 @@ public class InfoModifyServiceImply implements InfoModifyService {
             logger.error("数据库中已存在该系列的名称");
             return ErrorCode.dataExist;
         }else {
-            int customerId = rangeAddRequest.getCustomerId();
-            int brandId = rangeAddRequest.getBrandId();
-            List <Brand> brandResult = baseInfoObtainMapper.getBrandByBrandId(brandId);
-            Brand brand = brandResult.get(0);
-            if (customerId == brand.getCustomerId()){
-                logger.info("新增系列中的customerId与brandId相匹配");
-                return infoModifyMapper.addRange(rangeAddRequest);
-            }
-            else {
-                logger.error("新增系列中的customerId与brandId不匹配");
-                return ErrorCode.dataNotMatch;
-            }
+            rangeAddRequest.setNumber("XL_new");
+            rangeAddRequest.setAddingMode(1);
+            rangeAddRequest.setCreaterId(3);
+            rangeAddRequest.setCreaterName("张三");
+            return infoModifyMapper.addRange(rangeAddRequest);
         }
     }
 }
