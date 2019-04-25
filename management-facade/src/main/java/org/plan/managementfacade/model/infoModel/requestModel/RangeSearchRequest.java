@@ -6,12 +6,21 @@ import java.sql.Timestamp;
 
 @ApiModel("获取系列条件模型")
 public class RangeSearchRequest {
+    private int userId = -1;
     private int id = -1;
     private int customerId = -1;
     private int brandId = -1;
     private int clothingLevelId = -1;
     private Timestamp startDate = null;
     private Timestamp endDate = null;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getId() {
         return id;

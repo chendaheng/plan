@@ -8,26 +8,31 @@ public class InfoObtainProvider {
     public String getRangeResponseByCondition (@Param("rangeSearchRequest") RangeSearchRequest rangeSearchRequest) {
         return new SQL() {
             {
-                SELECT("`range`.*, customer.name as customerName, brand.name as brandName, clothingLevel.name as clothingLevelName");
-                FROM("`range`, customer, brand, clothingLevel");
-                WHERE("range.customerId = customer.id and range.brandId = brand.id and range.clothingLevelId = clothingLevel.id");
+//                SELECT("`range`.*, customer.name as customerName, brand.name as brandName, clothingLevel.name as clothingLevelName");
+//                FROM("`range`, customer, brand, clothingLevel");
+//                WHERE("range.customerId = customer.id and range.brandId = brand.id and range.clothingLevelId = clothingLevel.id");
+                SELECT("*");
+                FROM("rangesearch");
+                if (rangeSearchRequest.getUserId() != -1){
+                    WHERE("userId" + "=" + rangeSearchRequest.getUserId());
+                }
                 if (rangeSearchRequest.getId() != -1){
-                    WHERE("range.id" + "=" + rangeSearchRequest.getId());
+                    WHERE("id" + "=" + rangeSearchRequest.getId());
                 }
                 if (rangeSearchRequest.getCustomerId() != -1){
-                    WHERE("range.customerId" + "=" + rangeSearchRequest.getCustomerId());
+                    WHERE("customerId" + "=" + rangeSearchRequest.getCustomerId());
                 }
                 if (rangeSearchRequest.getBrandId() != -1){
-                    WHERE("range.brandId" + "=" + rangeSearchRequest.getBrandId());
+                    WHERE("brandId" + "=" + rangeSearchRequest.getBrandId());
                 }
                 if (rangeSearchRequest.getClothingLevelId() != -1){
-                    WHERE("range.clothingLevelId" + "=" + rangeSearchRequest.getClothingLevelId());
+                    WHERE("clothingLevelId" + "=" + rangeSearchRequest.getClothingLevelId());
                 }
                 if (rangeSearchRequest.getStartDate() != null){
-                    WHERE("range.createTime>='" + rangeSearchRequest.getStartDate().toString() + "'");
+                    WHERE("createTime>='" + rangeSearchRequest.getStartDate().toString() + "'");
                 }
                 if (rangeSearchRequest.getEndDate() != null){
-                    WHERE("range.createTime<='" + rangeSearchRequest.getEndDate().toString() + "'");
+                    WHERE("createTime<='" + rangeSearchRequest.getEndDate().toString() + "'");
                 }
             }
         }.toString();

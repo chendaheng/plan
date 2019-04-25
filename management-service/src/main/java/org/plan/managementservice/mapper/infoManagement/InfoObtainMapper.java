@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.plan.managementfacade.model.infoModel.requestModel.RangeSearchRequest;
+import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
 
@@ -32,4 +32,8 @@ public interface InfoObtainMapper {
     // 根据rangeId获取款式组名称
     @Select("SELECT id, name FROM stylegroup WHERE rangeId=#{rangeId};")
     List <StyleGroupName> getStyleGroupNameByRangeId(int rangeId);
+
+    // 根据rangeId获取款号
+    @Select("SELECT id, number FROM style WHERE rangeId=#{rangeId};")
+    List <StyleNumber> getStyleNumberByRangeId(int rangeId);
 }
