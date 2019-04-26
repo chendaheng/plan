@@ -25,4 +25,12 @@ public interface InfoModifyMapper {
     @Delete("DELETE FROM stylegroup WHERE id=#{id};")
     int deleteStyleGroup(int id);
 
+    // 新增款式
+    @InsertProvider(type = InfoModifyProvider.class, method = "addStyle")
+    int addStyle(@Param("styleAddRequest") StyleAddRequest styleAddRequest);
+
+    // 删除款式
+    @Delete("DELETE FROM style WHERE id=#{id};")
+    int deleteStyle(int id);
+
 }

@@ -64,4 +64,27 @@ public class InfoModifyController {
     public int deleteStyleGroup(@RequestParam int id){
         return infoModifyServiceImply.deleteStyleGroup(id);
     }
+
+    @RequestMapping (value = "/addStyle", method = RequestMethod.POST)
+    @ApiOperation(value = "新增款式")
+    public int addStyle(@RequestBody StyleAddRequest styleAddRequest){
+        return infoModifyServiceImply.addStyle(styleAddRequest);
+    }
+
+    @RequestMapping (value = "/addStyleList", method = RequestMethod.POST)
+    @ApiOperation(value = "批量新增款式")
+    public int addStyleList(@RequestBody List <StyleAddRequest> styleAddRequestList){
+        int listSize = styleAddRequestList.size();
+        int addSize = infoModifyServiceImply.addStyleList(styleAddRequestList);
+        if (listSize != addSize){
+            logger.warn("传入列表的长度为" + listSize + ",实际增加的长度为" + addSize + ",请检查前端传入的数据");
+        }
+        return addSize;
+    }
+
+    @RequestMapping (value = "/deleteStyle", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除款式")
+    public int deleteStyle(@RequestParam int id){
+        return infoModifyServiceImply.deleteStyle(id);
+    }
 }

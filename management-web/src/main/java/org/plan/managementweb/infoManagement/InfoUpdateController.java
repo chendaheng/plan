@@ -2,9 +2,8 @@ package org.plan.managementweb.infoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.infoModel.requestModel.RangeUpdateRequest;
-import org.plan.managementfacade.model.infoModel.requestModel.StyleGroupUpdateRequest;
-import org.plan.managementservice.service.infoManagement.Imply.InfoUpdateServiceImply;
+import org.plan.managementfacade.model.infoModel.requestModel.*;
+import org.plan.managementservice.service.infoManagement.Imply.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,15 @@ public class InfoUpdateController {
     }
 
     @RequestMapping (value = "/updateStyleGroup", method = RequestMethod.POST)
-    @ApiOperation(value = "更新系列")
+    @ApiOperation(value = "更新款式组")
     public int updateStyleGroup(@RequestBody StyleGroupUpdateRequest styleGroupUpdateRequest){
         return infoUpdateServiceImply.updateStyleGroup(styleGroupUpdateRequest);
+    }
+
+    @RequestMapping (value = "/updateStyle", method = RequestMethod.POST)
+    @ApiOperation(value = "更新款式")
+    public int updateStyle(@RequestBody StyleUpdateRequest styleUpdateRequest){
+        return infoUpdateServiceImply.updateStyle(styleUpdateRequest);
     }
 
 }

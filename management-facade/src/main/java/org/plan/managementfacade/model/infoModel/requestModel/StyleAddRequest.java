@@ -2,16 +2,14 @@ package org.plan.managementfacade.model.infoModel.requestModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("新增款式组参数模型")
-public class StyleGroupAddRequest {
-
-    private String number; // 暂缺自动生成方法 假数据填充
-    private String name;
+@ApiModel("新增款式参数模型")
+public class StyleAddRequest {
+    private String number;
     private int rangeId;
+    private int addingMode; // 自动添加
     private int createrId; //  用户服务传 假数据填充
     private String createrName; //  用户服务传 假数据填充
     private String deptName; //  用户服务传 假数据填充
-    private String note;
 
     public String getNumber() {
         return number;
@@ -21,24 +19,24 @@ public class StyleGroupAddRequest {
         this.number = number;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCreaterId() {
-        return createrId;
-    }
-
     public int getRangeId() {
         return rangeId;
     }
 
     public void setRangeId(int rangeId) {
         this.rangeId = rangeId;
+    }
+
+    public int getAddingMode() {
+        return addingMode;
+    }
+
+    public void setAddingMode(int addingMode) {
+        this.addingMode = addingMode;
+    }
+
+    public int getCreaterId() {
+        return createrId;
     }
 
     public void setCreaterId(int createrId) {
@@ -59,13 +57,5 @@ public class StyleGroupAddRequest {
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 }

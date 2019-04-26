@@ -6,6 +6,7 @@ import org.plan.managementfacade.model.infoModel.requestModel.*;
 
 public class InfoObtainProvider {
     public String getRangeResponseByCondition (@Param("rangeSearchRequest") RangeSearchRequest rangeSearchRequest) {
+        // 获取系列
         return new SQL() {
             {
                 SELECT("*");
@@ -36,6 +37,7 @@ public class InfoObtainProvider {
     }
 
     public String getStyleGroupResponseByCondition (@Param("styleGroupSearchRequest") StyleGroupSearchRequest styleGroupSearchRequest) {
+        // 获取款式组
         return new SQL() {
             {
                 SELECT("*");
@@ -63,6 +65,43 @@ public class InfoObtainProvider {
                 }
                 if (styleGroupSearchRequest.getEndDate() != null){
                     WHERE("createTime<='" + styleGroupSearchRequest.getEndDate().toString() + "'");
+                }
+            }
+        }.toString();
+    }
+
+    public String getStyleResponseByCondition (@Param("styleSearchRequest") StyleSearchRequest styleSearchRequest) {
+        // 获取款式
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("stylesearch");
+                if (styleSearchRequest.getUserId() != -1){
+                    WHERE("userId" + "=" + styleSearchRequest.getUserId());
+                }
+                if (styleSearchRequest.getId() != -1){
+                    WHERE("id" + "=" + styleSearchRequest.getId());
+                }
+                if (styleSearchRequest.getNumber() != null){
+                    WHERE("number='" + styleSearchRequest.getNumber() + "'");
+                }
+                if (styleSearchRequest.getCustomerId() != -1){
+                    WHERE("customerId" + "=" + styleSearchRequest.getCustomerId());
+                }
+                if (styleSearchRequest.getBrandId() != -1){
+                    WHERE("brandId" + "=" + styleSearchRequest.getBrandId());
+                }
+                if (styleSearchRequest.getRangeId() != -1){
+                    WHERE("rangeId" + "=" + styleSearchRequest.getRangeId());
+                }
+                if (styleSearchRequest.getClothingLevelId() != -1){
+                    WHERE("clothingLevelId" + "=" + styleSearchRequest.getClothingLevelId());
+                }
+                if (styleSearchRequest.getStartDate() != null){
+                    WHERE("createTime>='" + styleSearchRequest.getStartDate().toString() + "'");
+                }
+                if (styleSearchRequest.getEndDate() != null){
+                    WHERE("createTime<='" + styleSearchRequest.getEndDate().toString() + "'");
                 }
             }
         }.toString();

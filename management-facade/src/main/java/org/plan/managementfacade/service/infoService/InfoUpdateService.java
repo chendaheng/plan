@@ -13,4 +13,7 @@ public interface InfoUpdateService {
 
     // 解绑款式组
     int unbindStyleGroup (StyleGroupUpdateRequest styleGroupUpdateRequest);
+
+    // 更新款式信息
+    int updateStyle (StyleUpdateRequest styleUpdateRequest);
 }

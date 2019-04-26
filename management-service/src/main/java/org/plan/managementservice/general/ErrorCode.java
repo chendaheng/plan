@@ -20,4 +20,8 @@ public class ErrorCode {
     public static Integer dataNotMatch = -1;
     // 数据库操作错误
     public static Integer sqlError = -1;
+    // 数据不唯一
+    public static Integer notUnique = -1;
+    // 数据库其他错误
+    public static Integer otherUnique = -1;
 }

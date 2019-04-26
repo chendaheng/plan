@@ -23,4 +23,7 @@ public interface InfoObtainService {
 
     // 根据rangeId获取款号
     List <StyleNumber> getStyleNumber(int rangeId);
+
+    // 获取款式response信息
+    List <StyleResponse> getStyleResponse(StyleSearchRequest styleSearchRequest);
 }

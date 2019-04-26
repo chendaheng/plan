@@ -15,4 +15,8 @@ public interface InfoUpdateMapper {
     // 更新款式组信息
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyleGroup")
     int updateStyleGroup (@Param("styleGroupUpdateRequest") StyleGroupUpdateRequest styleGroupUpdateRequest);
+
+    // 更新款式信息
+    @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyle")
+    int updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest);
 }

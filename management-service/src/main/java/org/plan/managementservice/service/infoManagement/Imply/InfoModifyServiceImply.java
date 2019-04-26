@@ -1,6 +1,5 @@
 package org.plan.managementservice.service.infoManagement.Imply;
 
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
 import org.plan.managementfacade.service.infoService.*;
@@ -89,7 +88,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
         }
         else {
             styleGroupAddRequest.setNumber("KSZ_new");
-            styleGroupAddRequest.setState(1); // 1为未绑定
             styleGroupAddRequest.setCreaterId(3);
             styleGroupAddRequest.setCreaterName("张三");
             styleGroupAddRequest.setDeptName("信息管理");
@@ -108,6 +106,65 @@ public class InfoModifyServiceImply implements InfoModifyService {
         }
         else {
             return infoModifyMapper.deleteStyleGroup(id);
+        }
+    }
+
+    @Override
+    public int addStyle(StyleAddRequest styleAddRequest) {
+        // 新增款式
+        String number = styleAddRequest.getNumber();
+        List <Style> styleResult = infoObtainMapper.getStyleByNumber(number);
+        if (styleResult.size() > 0){
+            logger.error("数据库中已存在该款式的款号");
+            return ErrorCode.dataExist;
+        }
+        else {
+            styleAddRequest.setAddingMode(1);
+            styleAddRequest.setCreaterId(3);
+            styleAddRequest.setCreaterName("张三");
+            styleAddRequest.setDeptName("信息管理");
+            return infoModifyMapper.addStyle(styleAddRequest);
+        }
+    }
+
+    @Override
+    public int addStyleList(List<StyleAddRequest> styleAddRequestList) {
+        // 批量新增款式
+        int addRangeCount = 0;
+        for (StyleAddRequest styleAddRequest : styleAddRequestList){
+            String number = styleAddRequest.getNumber();
+            List <Style> styleResult = infoObtainMapper.getStyleByNumber(number);
+            if (styleResult.size() > 0){
+                logger.error("数据库中已存在该款式的款号,当前款式的款号为:" + styleAddRequest.getNumber());
+            }
+            else {
+                styleAddRequest.setAddingMode(2);
+                styleAddRequest.setCreaterId(3);
+                styleAddRequest.setCreaterName("张三");
+                styleAddRequest.setDeptName("信息管理");
+                int addResult = infoModifyMapper.addStyle(styleAddRequest);
+                if (addResult == 1){
+                    addRangeCount += addResult;
+                }
+                else {
+                    logger.info("新增信息出错,当前款式的款号为:" + styleAddRequest.getNumber());
+                }
+            }
+        }
+        return addRangeCount;
+    }
+
+    @Override
+    public int deleteStyle(int id) {
+        // 删除款式
+        List <Style> styleResult = infoObtainMapper.getStyleById(id);
+        int state = styleResult.get(0).getState();
+        if (state == 2){
+            logger.error("该款式已经与款式组绑定，无法删除");
+            return ErrorCode.sqlError;
+        }
+        else {
+            return infoModifyMapper.deleteStyle(id);
         }
     }
 }

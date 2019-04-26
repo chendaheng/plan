@@ -49,4 +49,16 @@ public interface InfoObtainMapper {
     // 根据rangeId获取款号
     @Select("SELECT id, number FROM style WHERE rangeId=#{rangeId};")
     List <StyleNumber> getStyleNumberByRangeId(int rangeId);
+
+    // 根据搜索条件获取款式response信息
+    @SelectProvider(type = InfoObtainProvider.class, method = "getStyleResponseByCondition")
+    List <StyleResponse> getStyleResponseByCondition(@Param("styleSearchRequest") StyleSearchRequest styleSearchRequest);
+
+    // 根据款号获取系列
+    @Select("SELECT * FROM style WHERE number=#{number};")
+    List <Style> getStyleByNumber(String number);
+
+    // 根据id获取款式
+    @Select("SELECT * FROM style WHERE id=#{id};")
+    List <Style> getStyleById(int id);
 }

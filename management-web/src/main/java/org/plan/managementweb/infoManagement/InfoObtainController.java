@@ -53,4 +53,12 @@ public class InfoObtainController {
     public List <StyleNumber> getStyleNumber(@RequestParam int rangeId){
         return infoObtainServiceImply.getStyleNumber(rangeId);
     }
+
+    @RequestMapping (value = "/getStyleList", method = RequestMethod.POST)
+    @ApiOperation(value = "获取款式response信息")
+    public List <StyleResponse> getStyleList(@RequestBody StyleSearchRequest styleSearchRequest){
+        int userId = 3;
+        styleSearchRequest.setUserId(userId);
+        return infoObtainServiceImply.getStyleResponse(styleSearchRequest);
+    }
 }

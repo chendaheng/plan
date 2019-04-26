@@ -18,13 +18,14 @@ public class StyleResponse {
     private String customerName; // 待取
     private int brandId; // 待取
     private String brandName; // 待取
-    private int clothingLevelId;
-    private String clothingLevelName;
+    private int clothingLevelId; // 待取
+    private String clothingLevelName; // 待取
     private int createrId;
     private String createrName;
     private Timestamp createTime;
     private String deptName;
     private int addingMode;
+    private String addingModeStr;
     private int state;
     private Boolean havePlan;
 
@@ -178,6 +179,14 @@ public class StyleResponse {
 
     public void setAddingMode(int addingMode) {
         this.addingMode = addingMode;
+    }
+
+    public String getAddingModeStr() {
+        return addingModeStr;
+    }
+
+    public void setAddingModeStr(String addingModeStr) {
+        this.addingModeStr = addingModeStr;
     }
 
     public int getState() {

@@ -48,4 +48,33 @@ public class InfoUpdateProvider {
             }
         }.toString();
     }
+
+    public String updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest) {
+        // 更新款式
+        return new SQL() {
+            {
+                UPDATE("style");
+                if (styleUpdateRequest.getNumber() != null){
+                    SET("number" + "='" + styleUpdateRequest.getNumber() + "'");
+                }
+                if (styleUpdateRequest.getRangeId() != -1){
+                    SET("rangeId" + "=" + styleUpdateRequest.getRangeId());
+                }
+                if (styleUpdateRequest.getState() != -1){
+                    SET("state" + "=" + styleUpdateRequest.getState());
+                }
+                if (styleUpdateRequest.getStyleGroupId() != -1){
+                    SET("styleGroupId" + "=" + styleUpdateRequest.getStyleGroupId());
+                }
+                if (styleUpdateRequest.getStyleGroupNumber() != null){
+                    SET("styleGroupNumber" + "='" + styleUpdateRequest.getStyleGroupNumber() + "'");
+                }
+                if (styleUpdateRequest.getStyleGroupName() != null){
+                    SET("styleGroupName" + "='" + styleUpdateRequest.getStyleGroupName() + "'");
+                }
+                WHERE("id" + "=" + styleUpdateRequest.getId());
+            }
+        }.toString();
+    }
+
 }
