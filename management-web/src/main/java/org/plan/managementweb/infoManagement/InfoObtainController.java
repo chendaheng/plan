@@ -22,13 +22,15 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getRangeName", method = RequestMethod.GET)
     @ApiOperation(value = "获取系列名称")
-    public List <RangeName> getRangeName(){
-        return infoObtainServiceImply.getRangeName();
+    public List <RangeName> getRangeName(@RequestParam int brandId){
+        return infoObtainServiceImply.getRangeName(brandId);
     }
 
-    @RequestMapping (value = "/getRangeResponse", method = RequestMethod.POST)
+    @RequestMapping (value = "/getRangeList", method = RequestMethod.POST)
     @ApiOperation(value = "获取系列response信息")
-    public List <RangeResponse> getRangeResponse(@RequestBody RangeSearchRequest rangeSearchRequest){
+    public List <RangeResponse> getRangeList(@RequestBody RangeSearchRequest rangeSearchRequest){
+        int userId = 3;
+        rangeSearchRequest.setUserId(userId);
         return infoObtainServiceImply.getRangeResponse(rangeSearchRequest);
     }
 
@@ -36,5 +38,11 @@ public class InfoObtainController {
     @ApiOperation(value = "获取款式组名称")
     public List <StyleGroupName> getStyleGroupName(@RequestParam int rangeId){
         return infoObtainServiceImply.getStyleGroupName(rangeId);
+    }
+
+    @RequestMapping (value = "/getStyleNumber", method = RequestMethod.GET)
+    @ApiOperation(value = "获取订单款号")
+    public List <StyleNumber> getStyleNumber(@RequestParam int rangeId){
+        return infoObtainServiceImply.getStyleNumber(rangeId);
     }
 }

@@ -11,6 +11,9 @@ public class StyleGroup {
     private String name;
     private int rangeId;
     private int state;
+    private int createrId;
+    private String createrName;
+    private String deptName;
     private Timestamp createTime;
     private Boolean havePlan;
 
@@ -52,6 +55,30 @@ public class StyleGroup {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public int getCreaterId() {
+        return createrId;
+    }
+
+    public void setCreaterId(int createrId) {
+        this.createrId = createrId;
+    }
+
+    public String getCreaterName() {
+        return createrName;
+    }
+
+    public void setCreaterName(String createrName) {
+        this.createrName = createrName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
     public Timestamp getCreateTime() {

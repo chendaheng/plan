@@ -23,9 +23,9 @@ public class BaseInfoObtainServiceImply implements BaseInfoObtainService {
     }
 
     @Override
-    public List <BrandName> getBrandName() {
+    public List <BrandName> getBrandName(int customerId) {
         // 获取品牌名称
-        return baseInfoObtainMapper.getBrandName();
+        return baseInfoObtainMapper.getBrandName(customerId);
     }
 
     @Override

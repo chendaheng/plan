@@ -14,8 +14,12 @@ public class Range {
     private int styleQuantity;
     private int addingMode;
     private int state;
+    private int createrId;
+    private String createrName;
+    private String deptName;
     private Timestamp createTime;
     private String note;
+    private Boolean havePredictPlan;
     private Boolean havePlan;
     private Boolean isCompleted;
 
@@ -91,6 +95,30 @@ public class Range {
         this.state = state;
     }
 
+    public int getCreaterId() {
+        return createrId;
+    }
+
+    public void setCreaterId(int createrId) {
+        this.createrId = createrId;
+    }
+
+    public String getCreaterName() {
+        return createrName;
+    }
+
+    public void setCreaterName(String createrName) {
+        this.createrName = createrName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -105,6 +133,14 @@ public class Range {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Boolean getHavePredictPlan() {
+        return havePredictPlan;
+    }
+
+    public void setHavePredictPlan(Boolean havePredictPlan) {
+        this.havePredictPlan = havePredictPlan;
     }
 
     public Boolean getHavePlan() {

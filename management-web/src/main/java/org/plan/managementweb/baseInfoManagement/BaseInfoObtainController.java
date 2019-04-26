@@ -6,11 +6,10 @@ import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.CustomerName;
 import org.plan.managementservice.service.baseInfoManagement.Imply.BaseInfoObtainServiceImply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +19,8 @@ import java.util.List;
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
         origins = "*")
 public class BaseInfoObtainController {
+
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     @Autowired
     private BaseInfoObtainServiceImply baseInfoObtainServiceImply;
@@ -32,8 +33,8 @@ public class BaseInfoObtainController {
 
     @RequestMapping (value = "/getBrandName", method = RequestMethod.GET)
     @ApiOperation(value = "获取品牌名称")
-    public List <BrandName> getBrandName(){
-        return baseInfoObtainServiceImply.getBrandName();
+    public List <BrandName> getBrandName(@RequestParam int customerId ){
+        return baseInfoObtainServiceImply.getBrandName(customerId);
     }
 
     @RequestMapping (value = "/getClothingLevelName", method = RequestMethod.GET)

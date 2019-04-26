@@ -9,9 +9,17 @@ public class InfoModifyProvider {
     public String addRange (@Param("rangeAddRequest") RangeAddRequest rangeAddRequest){
         return new SQL() {
             {
-                INSERT_INTO("range");
+                INSERT_INTO("`range`");
+                VALUES("number", "'" + rangeAddRequest.getNumber() + "'");
                 VALUES("name", "'" + rangeAddRequest.getName() + "'");
-                VALUES("customerId", Integer.toString(rangeAddRequest.getCustomerId()));
+                VALUES("brandId", Integer.toString(rangeAddRequest.getBrandId()));
+                VALUES("clothingLevelId ", Integer.toString(rangeAddRequest.getClothingLevelId()));
+                VALUES("addingMode ", Integer.toString(rangeAddRequest.getAddingMode()));
+                VALUES("createrId ", Integer.toString(rangeAddRequest.getCreaterId()));
+                VALUES("createrName", "'" + rangeAddRequest.getCreaterName() + "'");
+                if (rangeAddRequest.getNote() != null){
+                    VALUES("note", "'" + rangeAddRequest.getNote() + "'");
+                }
             }
         }.toString();
     }

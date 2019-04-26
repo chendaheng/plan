@@ -13,6 +13,7 @@ public class Style {
     private String styleGroupName;
     private int addingMode;
     private int state;
+    private int createrId;
     private Timestamp createTime;
     private Boolean havePlan;
 
