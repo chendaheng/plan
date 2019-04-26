@@ -11,9 +11,6 @@ import java.util.List;
 
 @Mapper
 public interface AuthorityObtainMapper {
-    @Select("SELECT * FROM user_customer_brand WHERE id=#{id};")
-    List<UserAuthority> getUserAuthorityById (@Param("id") int id);
-
     @Select("SELECT COUNT(*) FROM user_customer_brand WHERE userId=#{userId} AND brandId=#{brandId};")
     int getUserAuthorityCountByUserIdAndBrandId (@Param("userId") int userId, @Param("brandId") int brandId);
 

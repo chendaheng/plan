@@ -42,7 +42,7 @@ public class DictionaryUpdateServiceImply {
                 }
                 break;
             default:
-                resutlt = ErrorCode.paramDuplication;
+                resutlt = ErrorCode.databaseError;
                 break;
         }
         return resutlt;

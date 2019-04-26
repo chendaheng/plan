@@ -27,7 +27,7 @@ public class AuthorityModifyController {
         if (authorityReq.getUserId() > 0 && authorityReq.getCustomerId() > 0 && authorityReq.getBrandId() >= 0) {
             return authorityModifyService.addUserDataAuthority(authorityReq);
         } else {
-            return ErrorCode.errCodeClassIsEmpty;
+            return ErrorCode.fieldIsEmpty;
         }
     }
 

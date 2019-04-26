@@ -26,7 +26,7 @@ public class AuthorityUpdateController {
     @ApiOperation(value = "更新字典类别", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateUserDataAuthorityById (@RequestBody @NotNull UserAuthority userAuthority) {
         if (CheckObject.isContainsEmpty(userAuthority)) {
-            return ErrorCode.errCodeClassIsEmpty;
+            return ErrorCode.fieldIsEmpty;
         }
         return authorityUpdateService.updateUserDataAuthorityById(userAuthority);
     }

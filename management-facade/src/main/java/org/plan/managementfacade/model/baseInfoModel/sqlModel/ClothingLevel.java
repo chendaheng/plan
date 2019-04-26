@@ -4,15 +4,15 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel("服装层次模型")
 public class ClothingLevel {
-    private int id;
+    private Integer id;
     private String name;
     private String description;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

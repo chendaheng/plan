@@ -27,7 +27,7 @@ public class DictionaryModifyController {
     @ApiOperation(value = "增加字典类别", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addDictionaryCategory (@RequestBody @NotNull CategoryReq categoryReq) {
         if (CheckObject.isContainsEmpty(categoryReq)) {
-            return ErrorCode.errCodeClassIsEmpty;
+            return ErrorCode.fieldIsEmpty;
         }
         return dictionaryModifyService.addCategory(categoryReq);
     }
@@ -36,7 +36,7 @@ public class DictionaryModifyController {
     @ApiOperation(value = "增加类别属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addCategoryProperty (@RequestBody PropertyReq propertyReq) {
         if (CheckObject.isContainsEmpty(propertyReq)) {
-            return ErrorCode.errCodeClassIsEmpty;
+            return ErrorCode.fieldIsEmpty;
         }
         return dictionaryModifyService.addProperty(propertyReq);
     }

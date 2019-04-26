@@ -4,17 +4,17 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel("客户信息模型")
 public class Customer {
-    private int id;
+    private Integer id;
     private String name;
     private String abbr;
     private String description;
-    private int groupId;
+    private String groupName;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,11 +42,11 @@ public class Customer {
         this.description = description;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

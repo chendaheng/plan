@@ -3,7 +3,8 @@ package org.plan.managementweb.planManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.enumModel.State;
-import org.plan.managementservice.service.planManagement.imply.PlanDeleteServiceImply;
+import org.plan.managementservice.service.planManagement.imply.PlanModifyServiceImply;
+import org.plan.managementservice.service.planManagement.imply.PlanUpdateServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
         methods = {RequestMethod.POST},
         origins = "*")
-public class PlanDeleteController {
+public class PlanUpdateController {
     @Autowired
-    private PlanDeleteServiceImply planDeleteService;
+    private PlanUpdateServiceImply planUpdateService;
 
-    @RequestMapping (value = "/deletePlan", method = RequestMethod.POST)
-    @ApiOperation(value = "依据计划id删除计划")
-    public int deletePlanById(@RequestParam("id") int id) {
-        int state = State.getIndex("已删除");
-        return planDeleteService.deletePlan(id, state);
+    @RequestMapping (value = "/restorePlan", method = RequestMethod.POST)
+    @ApiOperation(value = "依据计划id恢复计划")
+    public int restorePlanById(@RequestParam("id") int id) {
+        int state = State.getIndex("已制定");
+        return planUpdateService.restorePlan(id, state);
     }
 }
