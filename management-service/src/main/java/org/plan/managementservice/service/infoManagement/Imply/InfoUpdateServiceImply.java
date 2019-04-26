@@ -32,7 +32,7 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
             logger.info("当前传入的系列名称不存在，操作将更新系列名称");
             return infoUpdateMapper.updateRange(rangeUpdateRequest);
         }
-        if (rangeResult.size() == 1){
+        else if (rangeResult.size() == 1){
             int idDatabase = rangeResult.get(0).getId();
             int id = rangeUpdateRequest.getId();
             if (idDatabase == id){
@@ -44,13 +44,13 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
                 return ErrorCode.dataExist;
             }
         }
-        if (rangeResult.size() > 1){
+        else if (rangeResult.size() > 1){
             logger.error("数据不唯一,更新失败，请检查数据库");
             return ErrorCode.notUnique;
         }
         else {
             logger.error("其他错误");
-            return ErrorCode.otherUnique;
+            return ErrorCode.otherError;
         }
     }
 
@@ -63,7 +63,7 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
             logger.info("当前传入的款式组名称不存在，操作将更新款式组名称");
             return infoUpdateMapper.updateStyleGroup(styleGroupUpdateRequest);
         }
-        if (styleGroupResult.size() == 1){
+        else if (styleGroupResult.size() == 1){
             int idDatabase = styleGroupResult.get(0).getId();
             int id = styleGroupUpdateRequest.getId();
             if (idDatabase == id){
@@ -75,21 +75,14 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
                 return ErrorCode.dataExist;
             }
         }
-        if (styleGroupResult.size() > 1){
+        else if (styleGroupResult.size() > 1){
             logger.error("数据不唯一,更新失败，请检查数据库");
             return ErrorCode.notUnique;
         }
         else {
             logger.error("其他错误");
-            return ErrorCode.otherUnique;
+            return ErrorCode.otherError;
         }
-    }
-
-    @Override
-    public int unbindStyleGroup(StyleGroupUpdateRequest styleGroupUpdateRequest) {
-        // 解绑款式组
-        styleGroupUpdateRequest.setState(1);
-        return infoUpdateMapper.updateStyleGroup(styleGroupUpdateRequest);
     }
 
     @Override
@@ -113,13 +106,98 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
                 return ErrorCode.dataExist;
             }
         }
-        if (styleResult.size() > 1){
+        else if (styleResult.size() > 1){
             logger.error("数据不唯一,更新失败，请检查数据库");
             return ErrorCode.notUnique;
         }
         else {
             logger.error("其他错误");
-            return ErrorCode.otherUnique;
+            return ErrorCode.otherError;
         }
+    }
+
+    @Override
+    public int bindStyleGroup(List <BindStyleGroupRequest> bindStyleGroupRequestList) {
+        // 绑定款式组
+        int updateStyleCount = 0; // 记录被更新style的数量
+        for (BindStyleGroupRequest bindStyleGroupRequest : bindStyleGroupRequestList){
+            int styleGroupId = bindStyleGroupRequest.getStyleGroupId();
+            String styleGroupNumber = bindStyleGroupRequest.getStyleGroupNumber();
+            String styleGroupName = bindStyleGroupRequest.getStyleGroupName();
+            // 更新款式组状态
+            if (updateStyleCount == 0){
+                StyleGroupUpdateRequest styleGroupUpdateRequest = new StyleGroupUpdateRequest();
+                styleGroupUpdateRequest.setId(styleGroupId);
+                styleGroupUpdateRequest.setState(2);
+                int updateStyleGroup = infoUpdateMapper.updateStyleGroup(styleGroupUpdateRequest);
+                if (updateStyleGroup == 1){
+                    logger.info("成功修改款式组状态");
+                }
+            }
+            // 更新款式信息和状态
+            String styleNumber = bindStyleGroupRequest.getStyleNumber();
+            StyleUpdateRequest styleUpdateRequest = new StyleUpdateRequest();
+            List <Style> styleResult = infoObtainMapper.getStyleByNumber(styleNumber);
+            if (styleResult.size() == 1){
+                int id = styleResult.get(0).getId();
+                styleUpdateRequest.setId(id);
+                styleUpdateRequest.setStyleGroupId(styleGroupId);
+                styleUpdateRequest.setStyleGroupNumber(styleGroupNumber);
+                styleUpdateRequest.setStyleGroupName(styleGroupName);
+                styleUpdateRequest.setState(2);
+                int updateStyle = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                if (updateStyle == 1){
+                    logger.info("成功更新款式信息，当前款式id为"+ id);
+                    updateStyleCount += 1;
+                }
+                else {
+                    logger.error("更新款式信息失败，当前款式id为"+ id);
+                }
+            }
+            else if (styleResult.size() > 1){
+                logger.error("数据不唯一,更新失败，请检查数据库");
+            }
+            else {
+                logger.error("其他错误");
+            }
+        }
+        return updateStyleCount;
+    }
+
+    @Override
+    public int unbindStyleGroup(int id) {
+        // 解绑款式组
+        int updateStyleCount = 0; // 记录被更新style的数量
+        // 更新款式组状态
+        StyleGroupUpdateRequest styleGroupUpdateRequest = new StyleGroupUpdateRequest();
+        styleGroupUpdateRequest.setId(id);
+        styleGroupUpdateRequest.setState(1);
+        int updateStyleGroup = infoUpdateMapper.updateStyleGroup(styleGroupUpdateRequest);
+        if (updateStyleGroup == 1){
+            List <Style> styleResult = infoObtainMapper.getStyleByStyleGroupId(id);
+            if (styleResult.size() == 0){
+                logger.error("该款式组没有对应的款式，请检查数据库");
+            }
+            else if (styleResult.size() > 0){
+                for (Style style : styleResult){
+                    StyleUpdateRequest styleUpdateRequest = new StyleUpdateRequest();
+                    int styleId = style.getId();
+                    styleUpdateRequest.setId(styleId);
+                    styleUpdateRequest.setStyleGroupId(0);
+                    styleUpdateRequest.setStyleGroupName("");
+                    styleUpdateRequest.setStyleGroupNumber("");
+                    styleUpdateRequest.setState(1);
+
+                }
+            }
+            else {
+                logger.error("其他错误");
+            }
+        }
+        else {
+            logger.error("更新款式组信息失败，当前款式组id为"+ id);
+            return ErrorCode.sqlError;
+        }
+        return 0;
     }
 }

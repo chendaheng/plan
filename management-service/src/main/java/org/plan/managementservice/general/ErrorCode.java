@@ -23,5 +23,7 @@ public class ErrorCode {
     // 数据不唯一
     public static Integer notUnique = -1;
     // 数据库其他错误
-    public static Integer otherUnique = -1;
+    public static Integer otherError = -1;
+    // 数据不存在
+    public static Integer nullError = -1;
 }

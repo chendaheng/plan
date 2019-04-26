@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/infoManagement")
 @Api(value = "更新信息")
@@ -37,6 +39,23 @@ public class InfoUpdateController {
     @ApiOperation(value = "更新款式")
     public int updateStyle(@RequestBody StyleUpdateRequest styleUpdateRequest){
         return infoUpdateServiceImply.updateStyle(styleUpdateRequest);
+    }
+
+    @RequestMapping (value = "/bindStyleGroup", method = RequestMethod.POST)
+    @ApiOperation(value = "绑定款式组")
+    public int bindStyleGroup(@RequestBody List <BindStyleGroupRequest> bindStyleGroupRequestList){
+        int listSize = bindStyleGroupRequestList.size();
+        int updateSize = infoUpdateServiceImply.bindStyleGroup(bindStyleGroupRequestList);
+        if (listSize != updateSize){
+            logger.warn("传入列表的长度为" + listSize + ",实际更新的长度为" + updateSize + ",请检查前端传入的数据");
+        }
+        return updateSize;
+    }
+
+    @RequestMapping (value = "/unbindStyleGroup ", method = RequestMethod.POST)
+    @ApiOperation(value = "解绑款式组")
+    public int unbindStyleGroup (@RequestParam int id){
+        return 0;
     }
 
 }

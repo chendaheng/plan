@@ -61,4 +61,8 @@ public interface InfoObtainMapper {
     // 根据id获取款式
     @Select("SELECT * FROM style WHERE id=#{id};")
     List <Style> getStyleById(int id);
+
+    // 根据styleGroupId获取款式
+    @Select("SELECT * FROM style WHERE styleGroupId=#{styleGroupId};")
+    List <Style> getStyleByStyleGroupId(int styleGroupId);
 }
