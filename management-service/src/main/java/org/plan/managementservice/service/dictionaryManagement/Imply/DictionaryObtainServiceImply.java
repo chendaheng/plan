@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class DictionaryObtainServiceImply {
     @Autowired
-    DictionaryObtainMapper dictionaryObtainMapper;
+    private DictionaryObtainMapper dictionaryObtainMapper;
 
     public List<DictionaryCategory> getAllDictionaryCategory () {
         return dictionaryObtainMapper.getAllDictionaryCategory();

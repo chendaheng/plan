@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/dictionaryManagement")
 @Api(value = "数据字典信息修改接口", tags = {"数据字典信息修改接口"})
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.PUT},
+        methods = {RequestMethod.POST},
         origins = "*")
 public class DictionaryUpdateController {
     @Autowired
     private DictionaryUpdateServiceImply dictionaryUpdateService;
 
-    @PutMapping(value = "/updateDictionaryCategory")
+    @PostMapping(value = "/updateDictionaryCategory")
     @ApiOperation(value = "更新字典类别", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateDictionaryCategory (@RequestBody DictionaryCategory dictionaryCategory) {
         if (CheckObject.isContainsEmpty(dictionaryCategory)) {
@@ -30,7 +30,7 @@ public class DictionaryUpdateController {
         return dictionaryUpdateService.updateDictionaryCategory(dictionaryCategory);
     }
 
-    @PutMapping(value = "/updateCategoryProperty")
+    @PostMapping(value = "/updateCategoryProperty")
     @ApiOperation(value = "更新类别属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateCategoryProperty (@RequestBody CategoryProperty categoryProperty) {
         if (CheckObject.isContainsEmpty(categoryProperty)) {

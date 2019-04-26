@@ -41,13 +41,13 @@ public class DictionaryModifyController {
         return dictionaryModifyService.addProperty(propertyReq);
     }
 
-    @PostMapping(value = "/deleteDictionaryCategory")
+    @DeleteMapping(value = "/deleteDictionaryCategory")
     @ApiOperation(value = "删除字典类别", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deleteDictionaryCategory (@RequestParam("id") int id) {
         return dictionaryModifyService.deleteCategoryById(id);
     }
 
-    @PostMapping(value = "/deleteCategoryProperty")
+    @DeleteMapping(value = "/deleteCategoryProperty")
     @ApiOperation(value = "删除类别属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deleteCategoryProperty (@RequestParam("id") int id) {
         return dictionaryModifyService.deletePropertyById(id);
