@@ -3,6 +3,7 @@ package org.plan.managementweb.infoManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.infoModel.requestModel.RangeUpdateRequest;
+import org.plan.managementfacade.model.infoModel.requestModel.StyleGroupUpdateRequest;
 import org.plan.managementservice.service.infoManagement.Imply.InfoUpdateServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,12 @@ public class InfoUpdateController {
     @ApiOperation(value = "更新系列")
     public int updateRange(@RequestBody RangeUpdateRequest rangeUpdateRequest){
         return infoUpdateServiceImply.updateRange(rangeUpdateRequest);
+    }
+
+    @RequestMapping (value = "/updateStyleGroup", method = RequestMethod.POST)
+    @ApiOperation(value = "更新系列")
+    public int updateStyleGroup(@RequestBody StyleGroupUpdateRequest styleGroupUpdateRequest){
+        return infoUpdateServiceImply.updateStyleGroup(styleGroupUpdateRequest);
     }
 
 }

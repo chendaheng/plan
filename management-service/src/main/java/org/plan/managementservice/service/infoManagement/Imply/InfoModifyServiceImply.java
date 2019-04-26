@@ -40,6 +40,7 @@ public class InfoModifyServiceImply implements InfoModifyService {
             rangeAddRequest.setAddingMode(1);
             rangeAddRequest.setCreaterId(3);
             rangeAddRequest.setCreaterName("张三");
+            rangeAddRequest.setDeptName("信息管理");
             return infoModifyMapper.addRange(rangeAddRequest);
         }
     }
@@ -75,5 +76,38 @@ public class InfoModifyServiceImply implements InfoModifyService {
     public int deleteRange(int id) {
         // 删除系列
         return infoModifyMapper.deleteRange(id);
+    }
+
+    @Override
+    public int addStyleGroup(StyleGroupAddRequest styleGroupAddRequest) {
+        // 新增款式组
+        String name = styleGroupAddRequest.getName();
+        List <StyleGroup> styleGroupResult = infoObtainMapper.getStyleGroupByName(name);
+        if (styleGroupResult.size() > 0){
+            logger.error("数据库中已存在该款式组的名称");
+            return ErrorCode.dataExist;
+        }
+        else {
+            styleGroupAddRequest.setNumber("KSZ_new");
+            styleGroupAddRequest.setState(1); // 1为未绑定
+            styleGroupAddRequest.setCreaterId(3);
+            styleGroupAddRequest.setCreaterName("张三");
+            styleGroupAddRequest.setDeptName("信息管理");
+            return infoModifyMapper.addStyleGroup(styleGroupAddRequest);
+        }
+    }
+
+    @Override
+    public int deleteStyleGroup(int id) {
+        // 删除款式组
+        List <StyleGroup> styleGroupResult = infoObtainMapper.getStyleGroupById(id);
+        int state = styleGroupResult.get(0).getState();
+        if (state == 2){
+            logger.error("该款式组已经与款式绑定，无法删除");
+            return ErrorCode.sqlError;
+        }
+        else {
+            return infoModifyMapper.deleteStyleGroup(id);
+        }
     }
 }

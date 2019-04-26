@@ -41,7 +41,7 @@ public class InfoModifyController {
         return addSize;
     }
 
-    @RequestMapping (value = "/deleteRange", method = RequestMethod.POST)
+    @RequestMapping (value = "/deleteRange", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除单条系列")
     public int deleteRange(@RequestParam int id){
         try {
@@ -51,5 +51,17 @@ public class InfoModifyController {
             logger.error("删除操作出错，错误为" + e);
             return ErrorCode.sqlError;
         }
+    }
+
+    @RequestMapping (value = "/addStyleGroup", method = RequestMethod.POST)
+    @ApiOperation(value = "新增款式组")
+    public int addStyleGroup(@RequestBody StyleGroupAddRequest styleGroupAddRequest){
+        return infoModifyServiceImply.addStyleGroup(styleGroupAddRequest);
+    }
+
+    @RequestMapping (value = "/deleteStyleGroup", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除款式组")
+    public int deleteStyleGroup(@RequestParam int id){
+        return infoModifyServiceImply.deleteStyleGroup(id);
     }
 }

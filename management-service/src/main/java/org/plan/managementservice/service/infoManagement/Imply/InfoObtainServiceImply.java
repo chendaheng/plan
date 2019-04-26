@@ -41,6 +41,12 @@ public class InfoObtainServiceImply implements InfoObtainService {
     }
 
     @Override
+    public List<StyleGroupResponse> getStyleGroupResponse(StyleGroupSearchRequest styleGroupSearchRequest) {
+        // 获取款式组response信息
+        return infoObtainMapper.getStyleGroupResponseByCondition(styleGroupSearchRequest);
+    }
+
+    @Override
     public List <StyleNumber> getStyleNumber(int rangeId) {
         // 根据rangeId获取款号
         return infoObtainMapper.getStyleNumberByRangeId(rangeId);

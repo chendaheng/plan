@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
+import org.springframework.web.servlet.view.script.ScriptTemplateConfig;
 
 import java.util.List;
 
@@ -34,7 +35,16 @@ public interface InfoObtainMapper {
     List <StyleGroupName> getStyleGroupNameByRangeId(int rangeId);
 
     // 根据搜索条件获取款式组response信息
+    @SelectProvider(type = InfoObtainProvider.class, method = "getStyleGroupResponseByCondition")
+    List <StyleGroupResponse> getStyleGroupResponseByCondition(@Param("styleGroupSearchRequest") StyleGroupSearchRequest styleGroupSearchRequest);
 
+    // 根据款式组名称获取款式组
+    @Select("SELECT * FROM stylegroup WHERE name=#{name};")
+    List <StyleGroup> getStyleGroupByName(String name);
+
+    // 根据id获取款式组
+    @Select("SELECT * FROM stylegroup WHERE id=#{id};")
+    List <StyleGroup> getStyleGroupById(int id);
 
     // 根据rangeId获取款号
     @Select("SELECT id, number FROM style WHERE rangeId=#{rangeId};")
