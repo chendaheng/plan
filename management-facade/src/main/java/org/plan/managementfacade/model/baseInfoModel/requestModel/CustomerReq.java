@@ -1,22 +1,10 @@
-package org.plan.managementfacade.model.baseInfoModel.sqlModel;
+package org.plan.managementfacade.model.baseInfoModel.requestModel;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel("客户信息模型")
-public class Customer {
-    private Integer id;
+public class CustomerReq {
     private String name;
     private String abbr;
     private String description;
     private String groupName;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

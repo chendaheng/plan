@@ -9,28 +9,56 @@ import java.util.List;
 
 @Mapper
 public interface BaseInfoObtainMapper {
+    @Select("SELECT * FROM product;")
+    List<Product> getAllProduct();
 
-    // 获取客户名称
-    @Select("SELECT id, name FROM customer;")
-    List <CustomerName> getCustomerName();
+    @Select("SELECT * FROM product WHERE name=#{name};")
+    List<Product> getProductByName(@Param("name") String name);
 
-    // 根据brandId获取品牌
-    @Select("SELECT * FROM brand WHERE id=#{id};")
-    List <Brand> getBrandByBrandId(int id);
+    @Select("SELECT * FROM product WHERE name=#{name} AND deptName=#{deptName};")
+    List<Product> getProductByNameAndDept(@Param("name") String name, @Param("deptName") String deptName);
 
-    // 获取品牌名称
+    @Select("SELECT COUNT(*) FROM product WHERE name=#{name} AND deptName=#{deptName};")
+    int countProductByNameAndDept(@Param("name") String name, @Param("deptName") String deptName);
+
+    @Select("SELECT * FROM customer;")
+    List<Customer> getAllCustomer();
+
+    @Select("SELECT * FROM customer WHERE name=#{name};")
+    List<Customer> getCustomerByName(@Param("name") String name);
+
+    @Select("SELECT distinct customer.id, customer.name FROM customer LEFT JOIN user_customer_brand " +
+            "ON customer.id=user_customer_brand.customerId WHERE user_customer_brand.userId=#{userId};")
+    List<CustomerName> getCustomerName(@Param("userId") int userId);
+
+    @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON brand.customerId=customer.id;")
+    List<BrandResp> getAllBrand();
+
+    @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON " +
+            "brand.customerId=customer.id WHERE brand.name=#{name};")
+    List<BrandResp> getBrandByName(@Param("name") String name);
+
+    @Select("SELECT * FROM brand WHERE name=#{name} AND customerId=#{customerId};")
+    List<Brand> getBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
+
     @Select("SELECT id, name FROM brand WHERE customerId=#{customerId};")
-    List <BrandName> getBrandName(int customerId);
+    List<BrandName> getBrandName(@Param("customerId") int customerId);
 
-    // 获取服装层次名称
+    @Select("SELECT COUNT(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
+    int countBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
+
     @Select("SELECT * FROM clothingLevel;")
-    List <ClothingLevelName> getClothingLevelName();
+    List<ClothingLevel> getAllClothingLevel();
 
-    //根据customerId获取全部brandId存于list
+    @Select("SELECT * FROM clothingLevel WHERE name=#{name};")
+    List<ClothingLevel> getClothingLevelByName(@Param("name") String name);
+
+    @Select("SELECT id, name FROM clothingLevel;")
+    List<ClothingLevelName> getClothingLevelName();
+
     @Select("SELECT id FROM brand WHERE customerId=#{customerId};")
     List<Integer> getBrandIdByCustomerId(@Param("customerId") int customerId);
 
-    //根据brandId获取对应的customerId
     @Select("SELECT customerId FROM brand WHERE id=#{brandId};")
-    int getCustomerIdByBrandId(@Param("brandID") int brandId);
+    int getCustomerIdByBrandId(@Param("brandId") int brandId);
 }

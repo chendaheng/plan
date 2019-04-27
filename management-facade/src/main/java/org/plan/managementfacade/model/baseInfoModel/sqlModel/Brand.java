@@ -4,17 +4,17 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel("品牌信息模型")
 public class Brand {
-    private int id;
+    private Integer id;
     private String name;
     private String abbr;
     private String description;
-    private int customerId;
+    private Integer customerId;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,11 +42,11 @@ public class Brand {
         this.description = description;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 }

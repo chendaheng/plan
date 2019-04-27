@@ -1,20 +1,8 @@
-package org.plan.managementfacade.model.baseInfoModel.sqlModel;
+package org.plan.managementfacade.model.baseInfoModel.requestModel;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel("服装层次模型")
-public class ClothingLevel {
-    private Integer id;
+public class ClothingLevelReq {
     private String name;
     private String description;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

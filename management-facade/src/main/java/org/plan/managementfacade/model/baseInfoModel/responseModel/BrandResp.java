@@ -1,14 +1,12 @@
-package org.plan.managementfacade.model.baseInfoModel.sqlModel;
+package org.plan.managementfacade.model.baseInfoModel.responseModel;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel("客户信息模型")
-public class Customer {
+public class BrandResp {
     private Integer id;
     private String name;
     private String abbr;
     private String description;
-    private String groupName;
+    private Integer customerId;
+    private String customerName;
 
     public Integer getId() {
         return id;
@@ -42,11 +40,19 @@ public class Customer {
         this.description = description;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }

@@ -52,7 +52,7 @@ public class AuthorityModifyServiceImply {
 
     //依据userId,customerId,brandId直接添加权限记录
     private int addOneUserDataAuthority (AuthorityReq authorityReq) {
-        int count = authorityObtainMapper.getUserAuthorityCountByUserIdAndBrandId(authorityReq.getUserId(), authorityReq.getBrandId());
+        int count = authorityObtainMapper.getUserAuthorityCountByUserIdAndBrandId(authorityReq.getUserId(), authorityReq.getBrandId()).size();
         if (count > 0) {
             //count大于0表示当前userId与brandId已存在，返回数据重复错误
             return ErrorCode.paramDuplication;
