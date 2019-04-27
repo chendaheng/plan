@@ -40,9 +40,25 @@ public class InfoObtainController {
         return infoObtainServiceImply.getStyleGroupName(rangeId);
     }
 
+    @RequestMapping (value = "/getStyleGroupList", method = RequestMethod.POST)
+    @ApiOperation(value = "获取款式组response信息")
+    public List <StyleGroupResponse> getStyleGroupList(@RequestBody StyleGroupSearchRequest styleGroupSearchRequest){
+        int userId = 3;
+        styleGroupSearchRequest.setUserId(userId);
+        return infoObtainServiceImply.getStyleGroupResponse(styleGroupSearchRequest);
+    }
+
     @RequestMapping (value = "/getStyleNumber", method = RequestMethod.GET)
     @ApiOperation(value = "获取订单款号")
     public List <StyleNumber> getStyleNumber(@RequestParam int rangeId){
         return infoObtainServiceImply.getStyleNumber(rangeId);
+    }
+
+    @RequestMapping (value = "/getStyleList", method = RequestMethod.POST)
+    @ApiOperation(value = "获取款式response信息")
+    public List <StyleResponse> getStyleList(@RequestBody StyleSearchRequest styleSearchRequest){
+        int userId = 3;
+        styleSearchRequest.setUserId(userId);
+        return infoObtainServiceImply.getStyleResponse(styleSearchRequest);
     }
 }

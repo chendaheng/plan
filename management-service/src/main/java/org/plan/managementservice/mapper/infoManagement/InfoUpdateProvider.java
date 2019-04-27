@@ -6,6 +6,7 @@ import org.plan.managementfacade.model.infoModel.requestModel.*;
 
 public class InfoUpdateProvider {
     public String updateRange (@Param("rangeUpdateRequest") RangeUpdateRequest rangeUpdateRequest) {
+        // 更新系列
         return new SQL() {
             {
                 UPDATE("`range`");
@@ -28,4 +29,52 @@ public class InfoUpdateProvider {
             }
         }.toString();
     }
+
+    public String updateStyleGroup (@Param("styleGroupUpdateRequest") StyleGroupUpdateRequest styleGroupUpdateRequest) {
+        // 更新款式组
+        return new SQL() {
+            {
+                UPDATE("stylegroup");
+                if (styleGroupUpdateRequest.getName() != null){
+                    SET("name" + "='" + styleGroupUpdateRequest.getName() + "'");
+                }
+                if (styleGroupUpdateRequest.getRangeId() != -1){
+                    SET("rangeId" + "=" + styleGroupUpdateRequest.getRangeId());
+                }
+                if (styleGroupUpdateRequest.getState() != -1){
+                    SET("state" + "=" + styleGroupUpdateRequest.getState());
+                }
+                WHERE("id" + "=" + styleGroupUpdateRequest.getId());
+            }
+        }.toString();
+    }
+
+    public String updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest) {
+        // 更新款式
+        return new SQL() {
+            {
+                UPDATE("style");
+                if (styleUpdateRequest.getNumber() != null){
+                    SET("number" + "='" + styleUpdateRequest.getNumber() + "'");
+                }
+                if (styleUpdateRequest.getRangeId() != -1){
+                    SET("rangeId" + "=" + styleUpdateRequest.getRangeId());
+                }
+                if (styleUpdateRequest.getState() != -1){
+                    SET("state" + "=" + styleUpdateRequest.getState());
+                }
+                if (styleUpdateRequest.getStyleGroupId() != -1){
+                    SET("styleGroupId" + "=" + styleUpdateRequest.getStyleGroupId());
+                }
+                if (styleUpdateRequest.getStyleGroupNumber() != null){
+                    SET("styleGroupNumber" + "='" + styleUpdateRequest.getStyleGroupNumber() + "'");
+                }
+                if (styleUpdateRequest.getStyleGroupName() != null){
+                    SET("styleGroupName" + "='" + styleUpdateRequest.getStyleGroupName() + "'");
+                }
+                WHERE("id" + "=" + styleUpdateRequest.getId());
+            }
+        }.toString();
+    }
+
 }

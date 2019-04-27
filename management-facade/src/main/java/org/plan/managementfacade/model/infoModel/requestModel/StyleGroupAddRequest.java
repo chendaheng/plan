@@ -2,13 +2,12 @@ package org.plan.managementfacade.model.infoModel.requestModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("新增系列参数模型")
-public class RangeAddRequest {
+@ApiModel("新增款式组参数模型")
+public class StyleGroupAddRequest {
+
     private String number; // 暂缺自动生成方法 假数据填充
     private String name;
-    private int brandId;
-    private int clothingLevelId;
-    private int addingMode; // 自动添加
+    private int rangeId;
     private int createrId; //  用户服务传 假数据填充
     private String createrName; //  用户服务传 假数据填充
     private String deptName; //  用户服务传 假数据填充
@@ -30,32 +29,16 @@ public class RangeAddRequest {
         this.name = name;
     }
 
-    public int getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
-    }
-
-    public int getClothingLevelId() {
-        return clothingLevelId;
-    }
-
-    public void setClothingLevelId(int clothingLevelId) {
-        this.clothingLevelId = clothingLevelId;
-    }
-
-    public int getAddingMode() {
-        return addingMode;
-    }
-
-    public void setAddingMode(int addingMode) {
-        this.addingMode = addingMode;
-    }
-
     public int getCreaterId() {
         return createrId;
+    }
+
+    public int getRangeId() {
+        return rangeId;
+    }
+
+    public void setRangeId(int rangeId) {
+        this.rangeId = rangeId;
     }
 
     public void setCreaterId(int createrId) {

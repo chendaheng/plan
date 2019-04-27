@@ -4,14 +4,16 @@ import io.swagger.annotations.ApiModel;
 
 import java.sql.Timestamp;
 
-@ApiModel("款式组返回模型")
-public class StyleGroupResponse {
+@ApiModel("款式返回模型")
+public class StyleResponse {
     private int id;
     private String number;
-    private String name;
     private int rangeId;
     private String rangeNumber; // 待取
     private String rangeName; // 待取
+    private int styleGroupId;
+    private String styleGroupNumber;
+    private String styleGroupName;
     private int customerId; // 待取
     private String customerName; // 待取
     private int brandId; // 待取
@@ -20,8 +22,10 @@ public class StyleGroupResponse {
     private String clothingLevelName; // 待取
     private int createrId;
     private String createrName;
-    private String deptName; // 待取
     private Timestamp createTime;
+    private String deptName;
+    private int addingMode;
+    private String addingModeStr;
     private int state;
     private Boolean havePlan;
 
@@ -39,14 +43,6 @@ public class StyleGroupResponse {
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getRangeId() {
@@ -71,6 +67,30 @@ public class StyleGroupResponse {
 
     public void setRangeName(String rangeName) {
         this.rangeName = rangeName;
+    }
+
+    public int getStyleGroupId() {
+        return styleGroupId;
+    }
+
+    public void setStyleGroupId(int styleGroupId) {
+        this.styleGroupId = styleGroupId;
+    }
+
+    public String getStyleGroupNumber() {
+        return styleGroupNumber;
+    }
+
+    public void setStyleGroupNumber(String styleGroupNumber) {
+        this.styleGroupNumber = styleGroupNumber;
+    }
+
+    public String getStyleGroupName() {
+        return styleGroupName;
+    }
+
+    public void setStyleGroupName(String styleGroupName) {
+        this.styleGroupName = styleGroupName;
     }
 
     public int getCustomerId() {
@@ -137,6 +157,14 @@ public class StyleGroupResponse {
         this.createrName = createrName;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
     public String getDeptName() {
         return deptName;
     }
@@ -145,12 +173,20 @@ public class StyleGroupResponse {
         this.deptName = deptName;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
+    public int getAddingMode() {
+        return addingMode;
     }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
+    public void setAddingMode(int addingMode) {
+        this.addingMode = addingMode;
+    }
+
+    public String getAddingModeStr() {
+        return addingModeStr;
+    }
+
+    public void setAddingModeStr(String addingModeStr) {
+        this.addingModeStr = addingModeStr;
     }
 
     public int getState() {

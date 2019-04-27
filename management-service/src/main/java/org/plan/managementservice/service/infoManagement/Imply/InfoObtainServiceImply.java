@@ -1,6 +1,6 @@
 package org.plan.managementservice.service.infoManagement.Imply;
 
-import org.plan.managementfacade.model.enumModel.AddingMode;
+import org.plan.managementfacade.model.enumModel.*;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
 import org.plan.managementfacade.service.infoService.*;
@@ -41,8 +41,26 @@ public class InfoObtainServiceImply implements InfoObtainService {
     }
 
     @Override
+    public List<StyleGroupResponse> getStyleGroupResponse(StyleGroupSearchRequest styleGroupSearchRequest) {
+        // 获取款式组response信息
+        return infoObtainMapper.getStyleGroupResponseByCondition(styleGroupSearchRequest);
+    }
+
+    @Override
     public List <StyleNumber> getStyleNumber(int rangeId) {
         // 根据rangeId获取款号
         return infoObtainMapper.getStyleNumberByRangeId(rangeId);
+    }
+
+    @Override
+    public List <StyleResponse> getStyleResponse(StyleSearchRequest styleSearchRequest) {
+        // 获取款式response信息
+        List <StyleResponse> styleResponseResult = infoObtainMapper.getStyleResponseByCondition(styleSearchRequest);
+        for (StyleResponse styleResponse : styleResponseResult){
+            int addingMode = styleResponse.getAddingMode();
+            String addingModeStr = AddingMode.getType(addingMode);
+            styleResponse.setAddingModeStr(addingModeStr);
+        }
+        return styleResponseResult;
     }
 }
