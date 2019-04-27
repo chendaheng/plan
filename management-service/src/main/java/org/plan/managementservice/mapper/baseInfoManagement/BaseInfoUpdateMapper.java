@@ -18,7 +18,7 @@ public interface BaseInfoUpdateMapper {
             "groupName=#{customer.groupName} WHERE id=#{customer.id};")
     int updateCustomer(@Param("customer") Customer customer);
 
-    @Update("UPDATE brand SET name=#{brand.name}, abbr=#{brand.abbr}, description=#{brand.description} " +
+    @Update("UPDATE brand SET name=#{brand.name}, abbr=#{brand.abbr}, description=#{brand.description}, " +
             "customerId=#{brand.customerId} WHERE id=#{brand.id};")
     int updateBrand(@Param("brand") Brand brand);
 

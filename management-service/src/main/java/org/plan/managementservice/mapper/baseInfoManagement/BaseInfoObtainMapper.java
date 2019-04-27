@@ -18,7 +18,7 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT * FROM product WHERE name=#{name} AND deptName=#{deptName};")
     List<Product> getProductByNameAndDept(@Param("name") String name, @Param("deptName") String deptName);
 
-    @Select("SELECT count(*) FROM product WHERE name=#{name} AND deptName={deptName};")
+    @Select("SELECT COUNT(*) FROM product WHERE name=#{name} AND deptName=#{deptName};")
     int countProductByNameAndDept(@Param("name") String name, @Param("deptName") String deptName);
 
     @Select("SELECT * FROM customer;")
@@ -28,14 +28,15 @@ public interface BaseInfoObtainMapper {
     List<Customer> getCustomerByName(@Param("name") String name);
 
     @Select("SELECT distinct customer.id, customer.name FROM customer LEFT JOIN user_customer_brand " +
-            "ON customer.id=user_customer_brand.userId WHERE user_customer_brand.userId=#{userId};")
+            "ON customer.id=user_customer_brand.customerId WHERE user_customer_brand.userId=#{userId};")
     List<CustomerName> getCustomerName(@Param("userId") int userId);
 
-    @Select("SELECT * FROM brand;")
-    List<Brand> getAllBrand();
+    @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON brand.customerId=customer.id;")
+    List<BrandResp> getAllBrand();
 
-    @Select("SELECT * FROM brand WHERE name=#{name};")
-    List<Brand> getBrandByName(@Param("name") String name);
+    @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON " +
+            "brand.customerId=customer.id WHERE brand.name=#{name};")
+    List<BrandResp> getBrandByName(@Param("name") String name);
 
     @Select("SELECT * FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     List<Brand> getBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
@@ -43,7 +44,7 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT id, name FROM brand WHERE customerId=#{customerId};")
     List<BrandName> getBrandName(@Param("customerId") int customerId);
 
-    @Select("SELECT count(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
+    @Select("SELECT COUNT(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     int countBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
 
     @Select("SELECT * FROM clothingLevel;")
@@ -59,5 +60,5 @@ public interface BaseInfoObtainMapper {
     List<Integer> getBrandIdByCustomerId(@Param("customerId") int customerId);
 
     @Select("SELECT customerId FROM brand WHERE id=#{brandId};")
-    int getCustomerIdByBrandId(@Param("brandID") int brandId);
+    int getCustomerIdByBrandId(@Param("brandId") int brandId);
 }

@@ -11,16 +11,16 @@ import org.plan.managementfacade.model.baseInfoModel.requestModel.ProductReq;
 
 @Mapper
 public interface BaseInfoModifyMapper {
-    @Insert("INSERT INTO product(number, name, description, deptName) VALUES(#{productReq.number}, #{productReq.name}, #{productReq.description}, #{productReq.deptName};")
+    @Insert("INSERT INTO product(number, name, description, deptName) VALUES(#{productReq.number}, #{productReq.name}, #{productReq.description}, #{productReq.deptName});")
     int addProduct (@Param("productReq") ProductReq productReq);
 
-    @Insert("INSERT INTO customer(name, abbr, description, groupName) VALUES(#{customerReq.name}, #{customerReq.abbr}, #{customerReq.description}, #{customerReq.groupName};")
+    @Insert("INSERT INTO customer(name, abbr, description, groupName) VALUES(#{customerReq.name}, #{customerReq.abbr}, #{customerReq.description}, #{customerReq.groupName});")
     int addCustomer (@Param("customerReq") CustomerReq customerReq);
 
-    @Insert("INSERT INTO brand(name, abbr, description, customerId) VALUES(#{brandReq.name}, #{brandReq.abbr}, #{brandReq.description}, #{brandReq.customerId};")
+    @Insert("INSERT INTO brand(name, abbr, description, customerId) VALUES(#{brandReq.name}, #{brandReq.abbr}, #{brandReq.description}, #{brandReq.customerId});")
     int addBrand (@Param("brandReq") BrandReq brandReq);
 
-    @Insert("INSERT INTO clothingLevel(name, description) VALUES(#{clothingLevelReq.name}, #{clothingLevelReq.description};")
+    @Insert("INSERT INTO clothingLevel(name, description) VALUES(#{clothingLevelReq.name}, #{clothingLevelReq.description});")
     int addClothingLevel (@Param("clothingLevelReq") ClothingLevelReq clothingLevelReq);
 
     @Delete("DELETE FROM product WHERE id=#{id};")

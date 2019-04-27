@@ -1,9 +1,9 @@
 package org.plan.managementservice.service.baseInfoManagement.Imply;
 
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandResp;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.CustomerName;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Brand;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
@@ -40,7 +40,7 @@ public class BaseInfoObtainServiceImply {
         return baseInfoObtainMapper.getCustomerName(userId);
     }
 
-    public List<Brand> getBrand (String name) {
+    public List<BrandResp> getBrand (String name) {
         if (name == null) {
             return baseInfoObtainMapper.getAllBrand();
         } else {

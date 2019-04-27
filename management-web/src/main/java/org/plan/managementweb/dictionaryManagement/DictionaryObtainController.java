@@ -29,7 +29,7 @@ public class DictionaryObtainController {
 
     @GetMapping(value = "/getCategoryProperty")
     @ApiOperation(value = "根据类别获取属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<CategoryProperty> getCategoryPropertyByCategoryId (@RequestParam int categoryId) {
+    public List<CategoryProperty> getCategoryPropertyByCategoryId (@RequestParam("categoryId") int categoryId) {
         return dictionaryObtainService.getCategoryPropertyByCategory(categoryId);
     }
 }

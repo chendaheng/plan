@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @RestController
 @RequestMapping("/baseInfoManagement")
@@ -64,10 +63,5 @@ public class BaseInfoUpdateController {
         } else {
             return baseInfoUpdateService.updateClothingLevel(clothingLevel);
         }
-    }
-
-    @PostMapping(value = "/test")
-    public List<String> test (@RequestBody Product product) {
-        return CheckObject.getNotNullFields(product);
     }
 }

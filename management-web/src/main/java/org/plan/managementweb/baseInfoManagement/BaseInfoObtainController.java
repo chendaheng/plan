@@ -3,9 +3,9 @@ package org.plan.managementweb.baseInfoManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandResp;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.CustomerName;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Brand;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
@@ -45,14 +45,14 @@ public class BaseInfoObtainController {
 
     @GetMapping (value = "/getCustomerName")
     @ApiOperation(value = "获取客户名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List <CustomerName> getCustomerName(){
+    public List <CustomerName> getCustomerName () {
         int userId = 3;
         return baseInfoObtainService.getCustomerName(userId);
     }
 
     @GetMapping(value = "/getBrand")
     @ApiOperation(value = "获取品牌信息列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Brand> getBrand (@RequestParam(value = "name", required = false) String name) {
+    public List<BrandResp> getBrand (@RequestParam(value = "name", required = false) String name) {
         return baseInfoObtainService.getBrand(name);
     }
 

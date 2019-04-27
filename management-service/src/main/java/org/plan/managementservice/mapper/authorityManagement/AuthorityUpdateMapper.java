@@ -7,6 +7,7 @@ import org.plan.managementfacade.model.authorityModel.UserAuthority;
 
 @Mapper
 public interface AuthorityUpdateMapper {
-    @Update("UPDATE user_customer_brand SET userId=#{userAuthority.userId}, customerId=#{userAuthority.customerId}, brandId=#{brandId} WHERE id=#{userAuthority.id};")
+    @Update("UPDATE user_customer_brand SET userId=#{userAuthority.userId}, userName=#{userAuthority.userName}, customerId=#{userAuthority.customerId}, " +
+            "brandId=#{userAuthority.brandId} WHERE id=#{userAuthority.id};")
     int updateUserDataAuthorityById (@Param("userAuthority") UserAuthority userAuthority);
 }

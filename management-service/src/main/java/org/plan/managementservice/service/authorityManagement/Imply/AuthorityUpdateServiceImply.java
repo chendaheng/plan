@@ -8,6 +8,8 @@ import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AuthorityUpdateServiceImply {
     @Autowired
@@ -18,19 +20,29 @@ public class AuthorityUpdateServiceImply {
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
     public int updateUserDataAuthorityById (UserAuthority userAuthority) {
+        int id = userAuthority.getId();
         int customerId = userAuthority.getCustomerId();
         int brandId = userAuthority.getBrandId();
         // 用户对品牌的操作权限必须在客户权限之下
         if (customerId != baseInfoObtainMapper.getCustomerIdByBrandId(brandId)) {
             return ErrorCode.dataInconsistency;
         }
-        int count = authorityObtainMapper.getUserAuthorityCountByUserIdAndBrandId(userAuthority.getUserId(), userAuthority.getBrandId());
-        if (count > 0) {
-            //同userId和brandId的记录已存在，不再重复添加数据
-            return ErrorCode.paramDuplication;
-        } else {
-            return authorityUpdateMapper.updateUserDataAuthorityById(userAuthority);
+        List<UserAuthority> userAuthorityList = authorityObtainMapper.getUserAuthorityCountByUserIdAndBrandId(userAuthority.getUserId(), userAuthority.getBrandId());
+        int result;
+        switch (userAuthorityList.size()) {
+            case 0:
+                result = authorityUpdateMapper.updateUserDataAuthorityById(userAuthority);
+                break;
+            case 1:
+                if(id == userAuthorityList.get(0).getId()) {
+                    result = authorityUpdateMapper.updateUserDataAuthorityById(userAuthority);
+                } else {
+                    result = ErrorCode.paramDuplication;
+                }
+                break;
+            default:
+                result = ErrorCode.databaseError;
         }
+        return result;
     }
-
 }
