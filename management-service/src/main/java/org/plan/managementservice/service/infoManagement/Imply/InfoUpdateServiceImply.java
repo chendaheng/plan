@@ -187,7 +187,20 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
                     styleUpdateRequest.setStyleGroupName("");
                     styleUpdateRequest.setStyleGroupNumber("");
                     styleUpdateRequest.setState(1);
-
+                    int updateStyle = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                    if (updateStyle == 1){
+                        logger.info("成功更新款式信息，当前款式id为"+ styleId);
+                        updateStyleCount += 1;
+                    }
+                    else {
+                        logger.error("更新款式信息失败，当前款式id为"+ styleId);
+                    }
+                }
+                if (styleResult.size() == updateStyleCount){
+                    logger.info("解绑成功，信息已完全更新");
+                }
+                else {
+                    logger.warn("传入列表的长度为" + styleResult.size() + ",实际更新的长度为" + updateStyleCount + ",请检查数据库");
                 }
             }
             else {
@@ -198,6 +211,6 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
             logger.error("更新款式组信息失败，当前款式组id为"+ id);
             return ErrorCode.sqlError;
         }
-        return 0;
+        return updateStyleCount;
     }
 }

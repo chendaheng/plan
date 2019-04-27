@@ -52,10 +52,9 @@ public class InfoUpdateController {
         return updateSize;
     }
 
-    @RequestMapping (value = "/unbindStyleGroup ", method = RequestMethod.POST)
+    @RequestMapping (value = "/unbindStyleGroup", method = RequestMethod.GET)
     @ApiOperation(value = "解绑款式组")
     public int unbindStyleGroup (@RequestParam int id){
-        return 0;
+        return infoUpdateServiceImply.unbindStyleGroup(id);
     }
-
 }
