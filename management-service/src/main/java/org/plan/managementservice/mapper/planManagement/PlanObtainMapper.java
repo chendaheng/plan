@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface PlanObtainMapper {
-    @Select("SELECT state FROM Plan WHERE id=#{id};")
+    @Select("SELECT state FROM plan WHERE id=#{id};")
     int getPlanStateById (int id);
 }

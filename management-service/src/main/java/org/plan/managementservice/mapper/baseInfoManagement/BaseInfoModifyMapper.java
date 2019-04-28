@@ -20,7 +20,7 @@ public interface BaseInfoModifyMapper {
     @Insert("INSERT INTO brand(name, abbr, description, customerId) VALUES(#{brandReq.name}, #{brandReq.abbr}, #{brandReq.description}, #{brandReq.customerId});")
     int addBrand (@Param("brandReq") BrandReq brandReq);
 
-    @Insert("INSERT INTO clothingLevel(name, description) VALUES(#{clothingLevelReq.name}, #{clothingLevelReq.description});")
+    @Insert("INSERT INTO clothinglevel(name, description) VALUES(#{clothingLevelReq.name}, #{clothingLevelReq.description});")
     int addClothingLevel (@Param("clothingLevelReq") ClothingLevelReq clothingLevelReq);
 
     @Delete("DELETE FROM product WHERE id=#{id};")
@@ -32,6 +32,6 @@ public interface BaseInfoModifyMapper {
     @Delete("DELETE FROM brand WHERE id=#{id};")
     int deleteBrand (@Param("id") int id);
 
-    @Delete("DELETE FROM clothingLevel WHERE id=#{id};")
+    @Delete("DELETE FROM clothinglevel WHERE id=#{id};")
     int deleteClothingLevel (@Param("id") int id);
 }

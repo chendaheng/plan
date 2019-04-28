@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: hadoop
-    url: jdbc:mysql://127.0.0.1:3306/zhuriPlan?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    password: 950709
+    url: jdbc:mysql://127.0.0.1:3306/planservice?useSSL=false&useUnicode=true&characterEncoding=UTF-8
   application:
     name: PlanService
   servlet:
@@ -14,12 +14,12 @@ spring:
   output:
     ansi:
       enabled: detect
-#  thymeleaf:
-#    mode: HTML5
-#    encoding: UTF-8
-#    servlet:
-#      content-type: text/html
-#    cache: false
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
 
 server:
   port: 8080
@@ -31,7 +31,7 @@ logging:
   level:
     org.material.managementservice.mapper.*: trace
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

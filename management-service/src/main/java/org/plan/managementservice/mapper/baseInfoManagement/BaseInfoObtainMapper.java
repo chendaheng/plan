@@ -47,13 +47,13 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT COUNT(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     int countBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
 
-    @Select("SELECT * FROM clothingLevel;")
+    @Select("SELECT * FROM clothinglevel;")
     List<ClothingLevel> getAllClothingLevel();
 
-    @Select("SELECT * FROM clothingLevel WHERE name=#{name};")
+    @Select("SELECT * FROM clothinglevel WHERE name=#{name};")
     List<ClothingLevel> getClothingLevelByName(@Param("name") String name);
 
-    @Select("SELECT id, name FROM clothingLevel;")
+    @Select("SELECT id, name FROM clothinglevel;")
     List<ClothingLevelName> getClothingLevelName();
 
     @Select("SELECT id FROM brand WHERE customerId=#{customerId};")
