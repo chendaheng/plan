@@ -5,16 +5,16 @@ import java.sql.Timestamp;
 
 @ApiModel("系列信息模型")
 public class Range {
-    private int id;
+    private Integer id;
     private String number;
     private String name;
-    private int customerId;
-    private int brandId;
-    private int clothingLevelId;
-    private int styleQuantity;
-    private int addingMode;
-    private int state;
-    private int createrId;
+    private Integer customerId;
+    private Integer brandId;
+    private Integer clothingLevelId;
+    private Integer styleQuantity;
+    private Integer addingMode;
+    private Integer state;
+    private Integer createrId;
     private String createrName;
     private String deptName;
     private Timestamp createTime;
@@ -23,11 +23,11 @@ public class Range {
     private Boolean havePlan;
     private Boolean isCompleted;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,59 +47,59 @@ public class Range {
         this.name = name;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 
-    public int getStyleQuantity() {
+    public Integer getStyleQuantity() {
         return styleQuantity;
     }
 
-    public void setStyleQuantity(int styleQuantity) {
+    public void setStyleQuantity(Integer styleQuantity) {
         this.styleQuantity = styleQuantity;
     }
 
-    public int getAddingMode() {
+    public Integer getAddingMode() {
         return addingMode;
     }
 
-    public void setAddingMode(int addingMode) {
+    public void setAddingMode(Integer addingMode) {
         this.addingMode = addingMode;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 

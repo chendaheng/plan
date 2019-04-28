@@ -1,18 +1,19 @@
 package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.models.auth.In;
 
 @ApiModel("款式组名称模型")
 public class StyleGroupName {
 
-    private int id;
+    private Integer id;
     private String name;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

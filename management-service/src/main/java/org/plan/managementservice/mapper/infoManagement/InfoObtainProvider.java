@@ -11,19 +11,19 @@ public class InfoObtainProvider {
             {
                 SELECT("*");
                 FROM("rangesearch");
-                if (rangeSearchRequest.getUserId() != -1){
+                if (rangeSearchRequest.getUserId() != null){
                     WHERE("userId" + "=" + rangeSearchRequest.getUserId());
                 }
-                if (rangeSearchRequest.getId() != -1){
+                if (rangeSearchRequest.getId() != null){
                     WHERE("id" + "=" + rangeSearchRequest.getId());
                 }
-                if (rangeSearchRequest.getCustomerId() != -1){
+                if (rangeSearchRequest.getCustomerId() != null){
                     WHERE("customerId" + "=" + rangeSearchRequest.getCustomerId());
                 }
-                if (rangeSearchRequest.getBrandId() != -1){
+                if (rangeSearchRequest.getBrandId() != null){
                     WHERE("brandId" + "=" + rangeSearchRequest.getBrandId());
                 }
-                if (rangeSearchRequest.getClothingLevelId() != -1){
+                if (rangeSearchRequest.getClothingLevelId() != null){
                     WHERE("clothingLevelId" + "=" + rangeSearchRequest.getClothingLevelId());
                 }
                 if (rangeSearchRequest.getStartDate() != null){
@@ -42,22 +42,22 @@ public class InfoObtainProvider {
             {
                 SELECT("*");
                 FROM("stylegroupsearch");
-                if (styleGroupSearchRequest.getUserId() != -1){
+                if (styleGroupSearchRequest.getUserId() != null){
                     WHERE("userId" + "=" + styleGroupSearchRequest.getUserId());
                 }
-                if (styleGroupSearchRequest.getId() != -1){
+                if (styleGroupSearchRequest.getId() != null){
                     WHERE("id" + "=" + styleGroupSearchRequest.getId());
                 }
-                if (styleGroupSearchRequest.getCustomerId() != -1){
+                if (styleGroupSearchRequest.getCustomerId() != null){
                     WHERE("customerId" + "=" + styleGroupSearchRequest.getCustomerId());
                 }
-                if (styleGroupSearchRequest.getBrandId() != -1){
+                if (styleGroupSearchRequest.getBrandId() != null){
                     WHERE("brandId" + "=" + styleGroupSearchRequest.getBrandId());
                 }
-                if (styleGroupSearchRequest.getRangeId() != -1){
+                if (styleGroupSearchRequest.getRangeId() != null){
                     WHERE("rangeId" + "=" + styleGroupSearchRequest.getRangeId());
                 }
-                if (styleGroupSearchRequest.getClothingLevelId() != -1){
+                if (styleGroupSearchRequest.getClothingLevelId() != null){
                     WHERE("clothingLevelId" + "=" + styleGroupSearchRequest.getClothingLevelId());
                 }
                 if (styleGroupSearchRequest.getStartDate() != null){
@@ -76,25 +76,25 @@ public class InfoObtainProvider {
             {
                 SELECT("*");
                 FROM("stylesearch");
-                if (styleSearchRequest.getUserId() != -1){
+                if (styleSearchRequest.getUserId() != null){
                     WHERE("userId" + "=" + styleSearchRequest.getUserId());
                 }
-                if (styleSearchRequest.getId() != -1){
+                if (styleSearchRequest.getId() != null){
                     WHERE("id" + "=" + styleSearchRequest.getId());
                 }
                 if (styleSearchRequest.getNumber() != null){
                     WHERE("number='" + styleSearchRequest.getNumber() + "'");
                 }
-                if (styleSearchRequest.getCustomerId() != -1){
+                if (styleSearchRequest.getCustomerId() != null){
                     WHERE("customerId" + "=" + styleSearchRequest.getCustomerId());
                 }
-                if (styleSearchRequest.getBrandId() != -1){
+                if (styleSearchRequest.getBrandId() != null){
                     WHERE("brandId" + "=" + styleSearchRequest.getBrandId());
                 }
-                if (styleSearchRequest.getRangeId() != -1){
+                if (styleSearchRequest.getRangeId() != null){
                     WHERE("rangeId" + "=" + styleSearchRequest.getRangeId());
                 }
-                if (styleSearchRequest.getClothingLevelId() != -1){
+                if (styleSearchRequest.getClothingLevelId() != null){
                     WHERE("clothingLevelId" + "=" + styleSearchRequest.getClothingLevelId());
                 }
                 if (styleSearchRequest.getStartDate() != null){

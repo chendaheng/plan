@@ -4,18 +4,17 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel("更新系列信息参数模型")
 public class RangeUpdateRequest {
-    private int id = -1;
-    private String name = null;
-    private int customerId = -1;
-    private int brandId = -1;
-    private int clothingLevelId = -1;
-    private String note = null;
+    private Integer id;
+    private String name;
+    private Integer brandId;
+    private Integer clothingLevelId;
+    private String note;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -27,27 +26,19 @@ public class RangeUpdateRequest {
         this.name = name;
     }
 
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 

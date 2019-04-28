@@ -7,16 +7,16 @@ import java.util.List;
 @ApiModel("绑定款式组参数模型")
 public class BindStyleGroupRequest {
 
-    private int styleGroupId = -1;
-    private String styleGroupNumber = null;
-    private String styleGroupName = null;
-    private String styleNumber = null;
+    private Integer styleGroupId;
+    private String styleGroupNumber;
+    private String styleGroupName;
+    private String styleNumber;
 
-    public int getStyleGroupId() {
+    public Integer getStyleGroupId() {
         return styleGroupId;
     }
 
-    public void setStyleGroupId(int styleGroupId) {
+    public void setStyleGroupId(Integer styleGroupId) {
         this.styleGroupId = styleGroupId;
     }
 

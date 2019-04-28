@@ -2,9 +2,10 @@ package org.plan.managementweb.infoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
-import org.plan.managementservice.service.infoManagement.Imply.InfoObtainServiceImply;
+import org.plan.managementservice.service.infoManagement.Imply.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getRangeName", method = RequestMethod.GET)
     @ApiOperation(value = "获取系列名称")
-    public List <RangeName> getRangeName(@RequestParam int brandId){
+    public List <RangeName> getRangeName(@RequestParam Integer brandId){
         return infoObtainServiceImply.getRangeName(brandId);
     }
 
@@ -36,7 +37,7 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getStyleGroupName", method = RequestMethod.GET)
     @ApiOperation(value = "获取款式组名称")
-    public List <StyleGroupName> getStyleGroupName(@RequestParam int rangeId){
+    public List <StyleGroupName> getStyleGroupName(@RequestParam Integer rangeId){
         return infoObtainServiceImply.getStyleGroupName(rangeId);
     }
 
@@ -50,7 +51,7 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getStyleNumber", method = RequestMethod.GET)
     @ApiOperation(value = "获取订单款号")
-    public List <StyleNumber> getStyleNumber(@RequestParam int rangeId){
+    public List <StyleNumber> getStyleNumber(@RequestParam Integer rangeId){
         return infoObtainServiceImply.getStyleNumber(rangeId);
     }
 

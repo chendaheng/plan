@@ -13,13 +13,10 @@ public class InfoUpdateProvider {
                 if (rangeUpdateRequest.getName() != null){
                     SET("name" + "='" + rangeUpdateRequest.getName() + "'");
                 }
-                if (rangeUpdateRequest.getCustomerId() != -1){
-                    SET("customerId" + "=" + rangeUpdateRequest.getCustomerId());
-                }
-                if (rangeUpdateRequest.getBrandId() != -1){
+                if (rangeUpdateRequest.getBrandId() != null){
                     SET("brandId" + "=" + rangeUpdateRequest.getBrandId());
                 }
-                if (rangeUpdateRequest.getClothingLevelId() != -1){
+                if (rangeUpdateRequest.getClothingLevelId() != null){
                     SET("clothingLevelId" + "=" + rangeUpdateRequest.getClothingLevelId());
                 }
                 if (rangeUpdateRequest.getNote() != null){
@@ -38,10 +35,10 @@ public class InfoUpdateProvider {
                 if (styleGroupUpdateRequest.getName() != null){
                     SET("name" + "='" + styleGroupUpdateRequest.getName() + "'");
                 }
-                if (styleGroupUpdateRequest.getRangeId() != -1){
+                if (styleGroupUpdateRequest.getRangeId() != null){
                     SET("rangeId" + "=" + styleGroupUpdateRequest.getRangeId());
                 }
-                if (styleGroupUpdateRequest.getState() != -1){
+                if (styleGroupUpdateRequest.getState() != null){
                     SET("state" + "=" + styleGroupUpdateRequest.getState());
                 }
                 WHERE("id" + "=" + styleGroupUpdateRequest.getId());
@@ -57,13 +54,13 @@ public class InfoUpdateProvider {
                 if (styleUpdateRequest.getNumber() != null){
                     SET("number" + "='" + styleUpdateRequest.getNumber() + "'");
                 }
-                if (styleUpdateRequest.getRangeId() != -1){
+                if (styleUpdateRequest.getRangeId() != null){
                     SET("rangeId" + "=" + styleUpdateRequest.getRangeId());
                 }
-                if (styleUpdateRequest.getState() != -1){
+                if (styleUpdateRequest.getState() != null){
                     SET("state" + "=" + styleUpdateRequest.getState());
                 }
-                if (styleUpdateRequest.getStyleGroupId() != -1){
+                if (styleUpdateRequest.getStyleGroupId() != null){
                     SET("styleGroupId" + "=" + styleUpdateRequest.getStyleGroupId());
                 }
                 if (styleUpdateRequest.getStyleGroupNumber() != null){

@@ -1,35 +1,36 @@
 package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.models.auth.In;
 
 import java.sql.Timestamp;
 
 @ApiModel("款式组返回模型")
 public class StyleGroupResponse {
-    private int id;
+    private Integer id;
     private String number;
     private String name;
-    private int rangeId;
+    private Integer rangeId;
     private String rangeNumber; // 待取
     private String rangeName; // 待取
-    private int customerId; // 待取
+    private Integer customerId; // 待取
     private String customerName; // 待取
-    private int brandId; // 待取
+    private Integer brandId; // 待取
     private String brandName; // 待取
-    private int clothingLevelId; // 待取
+    private Integer clothingLevelId; // 待取
     private String clothingLevelName; // 待取
-    private int createrId;
+    private Integer createrId;
     private String createrName;
     private String deptName; // 待取
     private Timestamp createTime;
-    private int state;
+    private Integer state;
     private Boolean havePlan;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,11 +50,11 @@ public class StyleGroupResponse {
         this.name = name;
     }
 
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
@@ -73,11 +74,11 @@ public class StyleGroupResponse {
         this.rangeName = rangeName;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
@@ -89,11 +90,11 @@ public class StyleGroupResponse {
         this.customerName = customerName;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
@@ -105,11 +106,11 @@ public class StyleGroupResponse {
         this.brandName = brandName;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 
@@ -121,11 +122,11 @@ public class StyleGroupResponse {
         this.clothingLevelName = clothingLevelName;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 
@@ -153,11 +154,11 @@ public class StyleGroupResponse {
         this.createTime = createTime;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

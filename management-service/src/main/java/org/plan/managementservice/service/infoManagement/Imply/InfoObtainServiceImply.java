@@ -17,9 +17,14 @@ public class InfoObtainServiceImply implements InfoObtainService {
     private InfoObtainMapper infoObtainMapper;
 
     @Override
-    public List <RangeName> getRangeName(int brandId) {
+    public List <RangeName> getRangeName(Integer brandId) {
         // 获取系列名称
-        return infoObtainMapper.getRangeName(brandId);
+        if (brandId != null){
+            return infoObtainMapper.getRangeName(brandId);
+        }
+        else {
+            return infoObtainMapper.getAllRangeName();
+        }
     }
 
     @Override
@@ -35,9 +40,14 @@ public class InfoObtainServiceImply implements InfoObtainService {
     }
 
     @Override
-    public List <StyleGroupName> getStyleGroupName(int rangeId) {
+    public List <StyleGroupName> getStyleGroupName(Integer rangeId) {
         // 获取款式组名称
-        return infoObtainMapper.getStyleGroupNameByRangeId(rangeId);
+        if (rangeId != null){
+            return infoObtainMapper.getStyleGroupNameByRangeId(rangeId);
+        }
+        else {
+            return infoObtainMapper.getAllStyleGroupName();
+        }
     }
 
     @Override
@@ -47,9 +57,14 @@ public class InfoObtainServiceImply implements InfoObtainService {
     }
 
     @Override
-    public List <StyleNumber> getStyleNumber(int rangeId) {
+    public List <StyleNumber> getStyleNumber(Integer rangeId) {
         // 根据rangeId获取款号
-        return infoObtainMapper.getStyleNumberByRangeId(rangeId);
+        if (rangeId != null){
+            return infoObtainMapper.getStyleNumberByRangeId(rangeId);
+        }
+        else {
+            return infoObtainMapper.getAllStyleNumber();
+        }
     }
 
     @Override

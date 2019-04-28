@@ -4,19 +4,19 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel("更新款式信息参数模型")
 public class StyleUpdateRequest {
-    private int id = -1;
-    private String number = null;
-    private int rangeId = -1;
-    private int state = -1;
-    private int styleGroupId = -1;
-    private String styleGroupNumber = null;
-    private String styleGroupName = null;
+    private Integer id;
+    private String number;
+    private Integer rangeId;
+    private Integer state;
+    private Integer styleGroupId;
+    private String styleGroupNumber;
+    private String styleGroupName;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -28,27 +28,27 @@ public class StyleUpdateRequest {
         this.number = number;
     }
 
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public int getStyleGroupId() {
+    public Integer getStyleGroupId() {
         return styleGroupId;
     }
 
-    public void setStyleGroupId(int styleGroupId) {
+    public void setStyleGroupId(Integer styleGroupId) {
         this.styleGroupId = styleGroupId;
     }
 

@@ -6,21 +6,21 @@ import java.sql.Timestamp;
 
 @ApiModel("系列返回模型")
 public class RangeResponse {
-    private int id;
+    private Integer id;
     private String number;
     private String name;
-    private int customerId;
+    private Integer customerId;
     private String customerName; // 待取
-    private int brandId;
+    private Integer brandId;
     private String brandName; // 待取
-    private int clothingLevelId;
+    private Integer clothingLevelId;
     private String clothingLevelName; // 待取
-    private int styleQuantity;
+    private Integer styleQuantity;
     private String deptName; // 待取
-    private int addingMode;
+    private Integer addingMode;
     private String addingModeStr;
-    private int state;
-    private int createrId;
+    private Integer state;
+    private Integer createrId;
     private String createrName; // 待取
     private Timestamp createTime;
     private String note;
@@ -28,11 +28,11 @@ public class RangeResponse {
     private Boolean havePlan;
     private Boolean isCompleted;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,11 +52,11 @@ public class RangeResponse {
         this.name = name;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
@@ -68,11 +68,11 @@ public class RangeResponse {
         this.customerName = customerName;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
@@ -84,11 +84,11 @@ public class RangeResponse {
         this.brandName = brandName;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 
@@ -100,11 +100,11 @@ public class RangeResponse {
         this.clothingLevelName = clothingLevelName;
     }
 
-    public int getStyleQuantity() {
+    public Integer getStyleQuantity() {
         return styleQuantity;
     }
 
-    public void setStyleQuantity(int styleQuantity) {
+    public void setStyleQuantity(Integer styleQuantity) {
         this.styleQuantity = styleQuantity;
     }
 
@@ -116,11 +116,11 @@ public class RangeResponse {
         this.deptName = deptName;
     }
 
-    public int getAddingMode() {
+    public Integer getAddingMode() {
         return addingMode;
     }
 
-    public void setAddingMode(int addingMode) {
+    public void setAddingMode(Integer addingMode) {
         this.addingMode = addingMode;
     }
 
@@ -132,19 +132,19 @@ public class RangeResponse {
         this.addingModeStr = addingModeStr;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 

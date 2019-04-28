@@ -59,6 +59,7 @@ public class InfoModifyServiceImply implements InfoModifyService {
                 rangeAddRequest.setAddingMode(2);
                 rangeAddRequest.setCreaterId(3);
                 rangeAddRequest.setCreaterName("张三");
+                rangeAddRequest.setDeptName("信息管理");
                 int addResult = infoModifyMapper.addRange(rangeAddRequest);
                 if (addResult == 1){
                     addRangeCount += addResult;

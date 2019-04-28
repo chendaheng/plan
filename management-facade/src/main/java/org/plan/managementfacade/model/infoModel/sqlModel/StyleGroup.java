@@ -6,22 +6,22 @@ import java.sql.Timestamp;
 
 @ApiModel("款式组信息模型")
 public class StyleGroup {
-    private int id;
+    private Integer id;
     private String number;
     private String name;
-    private int rangeId;
-    private int state;
-    private int createrId;
+    private Integer rangeId;
+    private Integer state;
+    private Integer createrId;
     private String createrName;
     private String deptName;
     private Timestamp createTime;
     private Boolean havePlan;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -41,27 +41,27 @@ public class StyleGroup {
         this.name = name;
     }
 
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 

@@ -1,39 +1,40 @@
 package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.models.auth.In;
 
 import java.sql.Timestamp;
 
 @ApiModel("款式返回模型")
 public class StyleResponse {
-    private int id;
+    private Integer id;
     private String number;
-    private int rangeId;
+    private Integer rangeId;
     private String rangeNumber; // 待取
     private String rangeName; // 待取
-    private int styleGroupId;
+    private Integer styleGroupId;
     private String styleGroupNumber;
     private String styleGroupName;
-    private int customerId; // 待取
+    private Integer customerId; // 待取
     private String customerName; // 待取
-    private int brandId; // 待取
+    private Integer brandId; // 待取
     private String brandName; // 待取
-    private int clothingLevelId; // 待取
+    private Integer clothingLevelId; // 待取
     private String clothingLevelName; // 待取
-    private int createrId;
+    private Integer createrId;
     private String createrName;
     private Timestamp createTime;
     private String deptName;
-    private int addingMode;
+    private Integer addingMode;
     private String addingModeStr;
-    private int state;
+    private Integer state;
     private Boolean havePlan;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -45,11 +46,11 @@ public class StyleResponse {
         this.number = number;
     }
 
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
@@ -69,11 +70,11 @@ public class StyleResponse {
         this.rangeName = rangeName;
     }
 
-    public int getStyleGroupId() {
+    public Integer getStyleGroupId() {
         return styleGroupId;
     }
 
-    public void setStyleGroupId(int styleGroupId) {
+    public void setStyleGroupId(Integer styleGroupId) {
         this.styleGroupId = styleGroupId;
     }
 
@@ -93,11 +94,11 @@ public class StyleResponse {
         this.styleGroupName = styleGroupName;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
@@ -109,11 +110,11 @@ public class StyleResponse {
         this.customerName = customerName;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
@@ -125,11 +126,11 @@ public class StyleResponse {
         this.brandName = brandName;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 
@@ -141,11 +142,11 @@ public class StyleResponse {
         this.clothingLevelName = clothingLevelName;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 
@@ -173,11 +174,11 @@ public class StyleResponse {
         this.deptName = deptName;
     }
 
-    public int getAddingMode() {
+    public Integer getAddingMode() {
         return addingMode;
     }
 
-    public void setAddingMode(int addingMode) {
+    public void setAddingMode(Integer addingMode) {
         this.addingMode = addingMode;
     }
 
@@ -189,11 +190,11 @@ public class StyleResponse {
         this.addingModeStr = addingModeStr;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

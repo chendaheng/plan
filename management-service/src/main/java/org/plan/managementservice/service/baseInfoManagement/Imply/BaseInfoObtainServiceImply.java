@@ -19,7 +19,7 @@ public class BaseInfoObtainServiceImply {
     @Autowired
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
-    public List<Product> getProduct (String name) {
+    public List <Product> getProduct (String name) {
         if (name == null) {
             return baseInfoObtainMapper.getAllProduct();
         } else {
@@ -48,9 +48,14 @@ public class BaseInfoObtainServiceImply {
         }
     }
 
-    public List<BrandName> getBrandName(int customerId) {
+    public List<BrandName> getBrandName(Integer customerId) {
         // 获取品牌名称
-        return baseInfoObtainMapper.getBrandName(customerId);
+        if (customerId != null){
+            return baseInfoObtainMapper.getBrandName(customerId);
+        }
+        else {
+            return baseInfoObtainMapper.getAllBrandName();
+        }
     }
 
     public List<ClothingLevel> getClothingLevel (String name) {
