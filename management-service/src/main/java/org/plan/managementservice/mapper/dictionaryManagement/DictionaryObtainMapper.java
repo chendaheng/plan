@@ -10,12 +10,12 @@ import java.util.List;
 
 @Mapper
 public interface DictionaryObtainMapper {
-    @Select("SELECT * FROM dictionaryCategory;")
+    @Select("SELECT * FROM dictionarycategory;")
     List<DictionaryCategory> getAllDictionaryCategory();
 
-    @Select("SELECT * FROM CategoryProperty WHERE categoryId=#{categoryId};")
+    @Select("SELECT * FROM categoryproperty WHERE categoryId=#{categoryId};")
     List<CategoryProperty> getCategoryPropertyByCategory(@Param("categoryId") int categoryId);
 
-    @Select("SELECT * FROM CategoryProperty WHERE categoryId=#{categoryId} AND name=#{name};")
+    @Select("SELECT * FROM categoryproperty WHERE categoryId=#{categoryId} AND name=#{name};")
     List<CategoryProperty> getCategoryPropertyByCategoryAndName(@Param("categoryId") int categoryId, @Param("name") String name);
 }
