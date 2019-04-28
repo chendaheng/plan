@@ -5,25 +5,25 @@ import java.sql.Timestamp;
 
 @ApiModel("款式信息模型")
 public class Style {
-    private int id;
+    private Integer id;
     private String number;
-    private int rangeId;
-    private int styleGroupId;
+    private Integer rangeId;
+    private Integer styleGroupId;
     private String styleGroupNumber;
     private String styleGroupName;
-    private int addingMode;
-    private int state;
-    private int createrId;
+    private Integer addingMode;
+    private Integer state;
+    private Integer createrId;
     private String createrName;
     private String deptName;
     private Timestamp createTime;
     private Boolean havePlan;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,19 +35,19 @@ public class Style {
         this.number = number;
     }
 
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
-    public int getStyleGroupId() {
+    public Integer getStyleGroupId() {
         return styleGroupId;
     }
 
-    public void setStyleGroupId(int styleGroupId) {
+    public void setStyleGroupId(Integer styleGroupId) {
         this.styleGroupId = styleGroupId;
     }
 
@@ -67,27 +67,27 @@ public class Style {
         this.styleGroupName = styleGroupName;
     }
 
-    public int getAddingMode() {
+    public Integer getAddingMode() {
         return addingMode;
     }
 
-    public void setAddingMode(int addingMode) {
+    public void setAddingMode(Integer addingMode) {
         this.addingMode = addingMode;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 

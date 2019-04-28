@@ -6,60 +6,60 @@ import java.sql.Timestamp;
 
 @ApiModel("获取款式组条件参数模型")
 public class StyleGroupSearchRequest {
-    private int userId = -1;
-    private int id = -1;
-    private int customerId = -1;
-    private int brandId = -1;
-    private int rangeId = -1;
-    private int clothingLevelId = -1;
-    private Timestamp startDate = null;
-    private Timestamp endDate = null;
+    private Integer userId;
+    private Integer id;
+    private Integer customerId;
+    private Integer brandId;
+    private Integer rangeId;
+    private Integer clothingLevelId;
+    private Timestamp startDate;
+    private Timestamp endDate;
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 

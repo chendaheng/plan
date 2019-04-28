@@ -29,7 +29,7 @@ public interface BaseInfoObtainMapper {
 
     @Select("SELECT distinct customer.id, customer.name FROM customer LEFT JOIN user_customer_brand " +
             "ON customer.id=user_customer_brand.customerId WHERE user_customer_brand.userId=#{userId};")
-    List<CustomerName> getCustomerName(@Param("userId") int userId);
+    List <CustomerName> getCustomerName(@Param("userId") int userId);
 
     @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON brand.customerId=customer.id;")
     List<BrandResp> getAllBrand();
@@ -43,6 +43,9 @@ public interface BaseInfoObtainMapper {
 
     @Select("SELECT id, name FROM brand WHERE customerId=#{customerId};")
     List<BrandName> getBrandName(@Param("customerId") int customerId);
+
+    @Select("SELECT id, name FROM brand;")
+    List<BrandName> getAllBrandName();
 
     @Select("SELECT COUNT(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     int countBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);

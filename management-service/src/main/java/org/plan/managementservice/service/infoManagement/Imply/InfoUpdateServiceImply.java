@@ -2,7 +2,7 @@ package org.plan.managementservice.service.infoManagement.Imply;
 
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
-import org.plan.managementfacade.service.infoService.InfoUpdateService;
+import org.plan.managementfacade.service.infoService.*;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.slf4j.Logger;
@@ -154,6 +154,9 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
                     logger.error("更新款式信息失败，当前款式id为"+ id);
                 }
             }
+            else if (styleResult.size() == 0){
+                logger.error("对应的款式数据不存在,更新失败，请检查数据库");
+            }
             else if (styleResult.size() > 1){
                 logger.error("数据不唯一,更新失败，请检查数据库");
             }
@@ -183,7 +186,7 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
                     StyleUpdateRequest styleUpdateRequest = new StyleUpdateRequest();
                     int styleId = style.getId();
                     styleUpdateRequest.setId(styleId);
-                    styleUpdateRequest.setStyleGroupId(0);
+                    styleUpdateRequest.setStyleGroupId(null);
                     styleUpdateRequest.setStyleGroupName("");
                     styleUpdateRequest.setStyleGroupNumber("");
                     styleUpdateRequest.setState(1);

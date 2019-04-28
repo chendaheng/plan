@@ -7,8 +7,8 @@ public class StyleGroupAddRequest {
 
     private String number; // 暂缺自动生成方法 假数据填充
     private String name;
-    private int rangeId;
-    private int createrId; //  用户服务传 假数据填充
+    private Integer rangeId;
+    private Integer createrId; //  用户服务传 假数据填充
     private String createrName; //  用户服务传 假数据填充
     private String deptName; //  用户服务传 假数据填充
     private String note;
@@ -29,19 +29,19 @@ public class StyleGroupAddRequest {
         this.name = name;
     }
 
-    public int getCreaterId() {
-        return createrId;
-    }
-
-    public int getRangeId() {
+    public Integer getRangeId() {
         return rangeId;
     }
 
-    public void setRangeId(int rangeId) {
+    public void setRangeId(Integer rangeId) {
         this.rangeId = rangeId;
     }
 
-    public void setCreaterId(int createrId) {
+    public Integer getCreaterId() {
+        return createrId;
+    }
+
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 

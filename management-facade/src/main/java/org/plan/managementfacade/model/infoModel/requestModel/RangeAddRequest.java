@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModel;
 public class RangeAddRequest {
     private String number; // 暂缺自动生成方法 假数据填充
     private String name;
-    private int brandId;
-    private int clothingLevelId;
-    private int addingMode; // 自动添加
-    private int createrId; //  用户服务传 假数据填充
+    private Integer brandId;
+    private Integer clothingLevelId;
+    private Integer addingMode; // 自动添加
+    private Integer createrId; //  用户服务传 假数据填充
     private String createrName; //  用户服务传 假数据填充
     private String deptName; //  用户服务传 假数据填充
     private String note;
@@ -30,35 +30,35 @@ public class RangeAddRequest {
         this.name = name;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 
-    public int getClothingLevelId() {
+    public Integer getClothingLevelId() {
         return clothingLevelId;
     }
 
-    public void setClothingLevelId(int clothingLevelId) {
+    public void setClothingLevelId(Integer clothingLevelId) {
         this.clothingLevelId = clothingLevelId;
     }
 
-    public int getAddingMode() {
+    public Integer getAddingMode() {
         return addingMode;
     }
 
-    public void setAddingMode(int addingMode) {
+    public void setAddingMode(Integer addingMode) {
         this.addingMode = addingMode;
     }
 
-    public int getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(int createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 
