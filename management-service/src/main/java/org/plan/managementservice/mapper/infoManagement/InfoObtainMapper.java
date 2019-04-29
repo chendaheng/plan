@@ -34,6 +34,10 @@ public interface InfoObtainMapper {
     @SelectProvider(type = InfoObtainProvider.class, method = "getRangeResponseByCondition")
     List <RangeResponse> getRangeResponseByCondition(@Param("rangeSearchRequest") RangeSearchRequest rangeSearchRequest);
 
+    // 获取最后一条range
+    @Select("SELECT * FROM `range` order by id desc limit 1;")
+    Range getLastRange();
+
     // 根据rangeId获取款式组名称
     @Select("SELECT id, name FROM stylegroup WHERE rangeId=#{rangeId};")
     List <StyleGroupName> getStyleGroupNameByRangeId(int rangeId);
@@ -53,6 +57,10 @@ public interface InfoObtainMapper {
     // 根据id获取款式组
     @Select("SELECT * FROM stylegroup WHERE id=#{id};")
     List <StyleGroup> getStyleGroupById(int id);
+
+    // 获取最后一条款式组
+    @Select("SELECT * FROM stylegroup order by id desc limit 1;")
+    StyleGroup getLastStyleGroup();
 
     // 根据rangeId获取款号
     @Select("SELECT id, number FROM style WHERE rangeId=#{rangeId};")
