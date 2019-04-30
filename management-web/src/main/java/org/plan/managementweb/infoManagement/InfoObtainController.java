@@ -23,7 +23,7 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getRangeName", method = RequestMethod.GET)
     @ApiOperation(value = "获取系列名称")
-    public List <RangeName> getRangeName(@RequestParam Integer brandId){
+    public List <RangeName> getRangeName(@RequestParam(value = "brandId", required = false) Integer brandId){
         return infoObtainServiceImply.getRangeName(brandId);
     }
 
@@ -37,7 +37,7 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getStyleGroupName", method = RequestMethod.GET)
     @ApiOperation(value = "获取款式组名称")
-    public List <StyleGroupName> getStyleGroupName(@RequestParam Integer rangeId){
+    public List <StyleGroupName> getStyleGroupName(@RequestParam(value = "rangeId", required = false) Integer rangeId){
         return infoObtainServiceImply.getStyleGroupName(rangeId);
     }
 
@@ -51,7 +51,7 @@ public class InfoObtainController {
 
     @RequestMapping (value = "/getStyleNumber", method = RequestMethod.GET)
     @ApiOperation(value = "获取订单款号")
-    public List <StyleNumber> getStyleNumber(@RequestParam Integer rangeId){
+    public List <StyleNumber> getStyleNumber(@RequestParam(value = "rangeId", required = false) Integer rangeId){
         return infoObtainServiceImply.getStyleNumber(rangeId);
     }
 
