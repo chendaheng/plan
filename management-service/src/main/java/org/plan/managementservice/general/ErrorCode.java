@@ -35,5 +35,22 @@ public class ErrorCode {
 
 /*------------------------------------------计划管理错误码----------------------------------------------*/
     //
-    public static Integer illegalOperation = -1;
+    public static Integer requiredFieldMiss = 0;
+    // 计划名称重复
+    public static Integer planNameDuplication = -1;
+    // 父计划未下发
+    public static Integer parentNotDistributed = -2;
+    // 系列根计划不存在
+    public static Integer rangeRootPlanNotExist = -3;
+    // 款式组根计划不存在
+    public static Integer styleGroupRootPlanNotExist = -4;
+    // 计划开始结束时间超额
+    public static Integer dateOutOfRange = -5;
+    //
+    public static Integer quantityExceed = -6;
+    // 不允许的计划状态更新
+    public static Integer illegalStateUpdate = -1;
+    // 与已有计划冲突
+    public static Integer conflictWithExistPlan = -2;
+
 }

@@ -24,7 +24,7 @@ public class CheckObject {
             try {
                 for (Field field : fields) {
                     field.setAccessible(true);
-                    if (field.get(object) == null) {
+                    if (field.get(object) == null && !field.getName().equals("note")) {
                         result = true;
                         break;
                     }

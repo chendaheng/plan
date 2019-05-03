@@ -2,6 +2,7 @@ package org.plan.managementservice.mapper.baseInfoManagement;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 
@@ -41,11 +42,14 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT * FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     List<Brand> getBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
 
-    @Select("SELECT id, name FROM brand WHERE customerId=#{customerId};")
-    List<BrandName> getBrandName(@Param("customerId") int customerId);
+    @SelectProvider(type = BaseInfoObtainProvider.class, method = "getBrandName")
+    List<BrandName> getBrandName(@Param("customerId") Integer customerId, @Param("userId") Integer userId);
 
-    @Select("SELECT id, name FROM brand;")
-    List<BrandName> getAllBrandName();
+//    @Select("SELECT id, name FROM brand WHERE customerId=#{customerId};")
+//    List<BrandName> getBrandName(@Param("customerId") int customerId);
+//
+//    @Select("SELECT id, name FROM brand;")
+//    List<BrandName> getAllBrandName();
 
     @Select("SELECT COUNT(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     int countBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);

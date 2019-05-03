@@ -1,44 +1,63 @@
 package org.plan.managementfacade.model.enumModel;
 
-public enum PlanType {
-    PREDICT( "预测计划", 1),
-    RANGE("系列计划", 2),
-    STYLEGROUP("款式组计划", 3),
-    STYLE("款式计划", 4);
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-    private String type;
-    private int index;
-    private static final int ERROR = -1;
+@JsonSerialize(using = EnumSerializer.class)
+public enum PlanType implements IEnum{
+    PREDICT(1, "预测计划"),
+    RANGE(2, "系列计划"),
+    STYLEGROUP(3, "款式组计划"),
+    STYLE(4, "款式计划");
 
-    // 构造方法
-    private PlanType(String type, int index) {
-        this.type = type;
+    private Integer index;
+    private String name;
+
+    private PlanType(Integer index, String name) {
+        this.name = name;
         this.index = index;
     }
 
-    public static String getType(int index) {
-        for (PlanType planType : PlanType.values()) {
-            if (planType.getIndex() == index) {
-                return planType.type;
+    public static PlanType getPlanType (int index) {
+        for (PlanType planType : values()) {
+            if (planType.index == index) {
+                return planType;
             }
         }
         return null;
     }
 
-    public static int getIndex(String type) {
-        for (PlanType planType : PlanType.values()) {
-            if (planType.getType().equals(type)) {
+    public static PlanType getPlanType (String name) {
+        for (PlanType planType : values()) {
+            if (planType.name.equals(name)) {
+                return planType;
+            }
+        }
+        return null;
+    }
+
+    public static String getName (Integer index) {
+        for (PlanType planType : values()) {
+            if (planType.index.equals(index)) {
+                return planType.name;
+            }
+        }
+        return null;
+    }
+
+    public String getName () {
+        return name;
+    }
+
+    public static Integer getIndex (String name) {
+        for (PlanType planType : values()) {
+            if (planType.name.equals(name)) {
                 return planType.index;
             }
         }
-        return ERROR;
+        return null;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public int getIndex() {
+    public Integer getIndex () {
         return index;
     }
 }
