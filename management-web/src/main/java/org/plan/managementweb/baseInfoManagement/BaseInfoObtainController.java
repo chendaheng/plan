@@ -2,6 +2,7 @@ package org.plan.managementweb.baseInfoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandResp;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
@@ -26,6 +27,8 @@ import java.util.List;
         origins = "*")
 public class BaseInfoObtainController {
 
+    /*-------------------userId为临时参数--------------------------*/
+    private final static Integer userId = 3;
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     @Autowired
@@ -46,7 +49,6 @@ public class BaseInfoObtainController {
     @GetMapping (value = "/getCustomerName")
     @ApiOperation(value = "获取客户名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List <CustomerName> getCustomerName () {
-        int userId = 3;
         return baseInfoObtainService.getCustomerName(userId);
     }
 
@@ -59,7 +61,7 @@ public class BaseInfoObtainController {
     @GetMapping (value = "/getBrandName")
     @ApiOperation(value = "获取品牌名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List <BrandName> getBrandName(@RequestParam(value = "customerId", required = false) Integer customerId){
-        return baseInfoObtainService.getBrandName(customerId);
+        return baseInfoObtainService.getBrandName(customerId, userId);
     }
 
     @GetMapping(value = "/getClothingLevel")

@@ -1,43 +1,63 @@
 package org.plan.managementfacade.model.enumModel;
 
-public enum ProjectType {
-    HEADER( "头样", 1),
-    SALE("销样", 2),
-    CARGO("大货", 3);
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-    private String type;
-    private int index;
-    private static final int ERROR = -1;
+@JsonSerialize(using = EnumSerializer.class)
+public enum ProjectType implements IEnum{
+    HEADER(1, "头样"),
+    SALE(2, "销样"),
+    CARGO(3, "大货");
+
+    private Integer index;
+    private String name;
 
     // 构造方法
-    private ProjectType(String type, int index) {
-        this.type = type;
+    private ProjectType(Integer index, String name) {
         this.index = index;
+        this.name = name;
     }
 
-    public static String getType(int index) {
+    public static ProjectType getProjectType (int index) {
         for (ProjectType projectType : ProjectType.values()) {
-            if (projectType.getIndex() == index) {
-                return projectType.type;
+            if (projectType.index == index) {
+                return projectType;
             }
         }
         return null;
     }
 
-    public static int getIndex(String type) {
+    public static ProjectType getProjectType (String name) {
         for (ProjectType projectType : ProjectType.values()) {
-            if (projectType.getType().equals(type)) {
+            if (projectType.name.equals(name)) {
+                return projectType;
+            }
+        }
+        return null;
+    }
+
+    public static String getName (Integer index) {
+        for (ProjectType projectType : ProjectType.values()) {
+            if (projectType.index.equals(index)) {
+                return projectType.name;
+            }
+        }
+        return null;
+    }
+
+    public String getName () {
+        return name;
+    }
+
+    public static Integer getIndex(String name) {
+        for (ProjectType projectType : ProjectType.values()) {
+            if (projectType.name.equals(name)) {
                 return projectType.index;
             }
         }
-        return ERROR;
+        return null;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public int getIndex() {
+    public Integer getIndex() {
         return index;
     }
 }

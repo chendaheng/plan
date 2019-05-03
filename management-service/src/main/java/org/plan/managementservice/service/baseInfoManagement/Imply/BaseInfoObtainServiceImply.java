@@ -48,14 +48,15 @@ public class BaseInfoObtainServiceImply {
         }
     }
 
-    public List<BrandName> getBrandName(Integer customerId) {
+    public List<BrandName> getBrandName(Integer customerId, Integer userId) {
         // 获取品牌名称
-        if (customerId != null){
-            return baseInfoObtainMapper.getBrandName(customerId);
-        }
-        else {
-            return baseInfoObtainMapper.getAllBrandName();
-        }
+        return baseInfoObtainMapper.getBrandName(customerId, userId);
+//        if (customerId != null){
+//            return baseInfoObtainMapper.getBrandName(customerId);
+//        }
+//        else {
+//            return baseInfoObtainMapper.getAllBrandName();
+//        }
     }
 
     public List<ClothingLevel> getClothingLevel (String name) {
