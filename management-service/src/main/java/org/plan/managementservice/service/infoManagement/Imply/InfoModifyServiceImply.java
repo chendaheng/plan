@@ -4,6 +4,7 @@ import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
 import org.plan.managementfacade.service.infoService.*;
 import org.plan.managementservice.general.ErrorCode;
+import org.plan.managementservice.general.SerialNumberGenerate;
 import org.plan.managementservice.mapper.baseInfoManagement.*;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.slf4j.Logger;
@@ -35,7 +36,9 @@ public class InfoModifyServiceImply implements InfoModifyService {
             logger.error("数据库中已存在该系列的名称");
             return ErrorCode.dataExist;
         }else {
-            rangeAddRequest.setNumber("XL_new");
+            Range lastRange = infoObtainMapper.getLastRange();
+            String number = lastRange.getNumber();
+            rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",number));
             rangeAddRequest.setAddingMode(1);
             rangeAddRequest.setCreaterId(3);
             rangeAddRequest.setCreaterName("张三");
@@ -55,7 +58,9 @@ public class InfoModifyServiceImply implements InfoModifyService {
                 logger.info("数据库中已存在该系列的名称,当前系列的名称为:" + rangeAddRequest.getName());
             }
             else {
-                rangeAddRequest.setNumber("XL_new");
+                Range lastRange = infoObtainMapper.getLastRange();
+                String number = lastRange.getNumber();
+                rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",number));
                 rangeAddRequest.setAddingMode(2);
                 rangeAddRequest.setCreaterId(3);
                 rangeAddRequest.setCreaterName("张三");
@@ -88,7 +93,9 @@ public class InfoModifyServiceImply implements InfoModifyService {
             return ErrorCode.dataExist;
         }
         else {
-            styleGroupAddRequest.setNumber("KSZ_new");
+            StyleGroup lastStyleGroup = infoObtainMapper.getLastStyleGroup();
+            String number = lastStyleGroup.getNumber();
+            styleGroupAddRequest.setNumber(SerialNumberGenerate.generateNumber("KSZ",number));
             styleGroupAddRequest.setCreaterId(3);
             styleGroupAddRequest.setCreaterName("张三");
             styleGroupAddRequest.setDeptName("信息管理");
