@@ -53,7 +53,7 @@ public class PlanAddReq {
         return isRoot;
     }
 
-    public void setIsRoot(boolean root) {
+    public void setRoot(boolean root) {
         isRoot = root;
     }
 

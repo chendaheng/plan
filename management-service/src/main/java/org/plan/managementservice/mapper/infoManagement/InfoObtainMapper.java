@@ -26,6 +26,10 @@ public interface InfoObtainMapper {
     @Select("SELECT id, name FROM `range`;")
     List <RangeName> getAllRangeName();
 
+    // 依据系列id获取相应名称
+    @Select("SELECT name FROM `range` WHERE id=#{id};")
+    String getRangeNameById(int id);
+
     // 获取系列response信息
     @Select("SELECT `range`.*, customer.name as customerName, brand.name as brandName, clothingLevel.name as clothingLevelName FROM `range`, customer, brand, clothingLevel WHERE range.customerId = customer.id and range.brandId = brand.id and range.clothingLevelId = clothingLevel.id;")
     List <RangeResponse> getRangeResponse();
@@ -45,6 +49,10 @@ public interface InfoObtainMapper {
     // 获取所有的款式组名称
     @Select("SELECT id, name FROM stylegroup;")
     List <StyleGroupName> getAllStyleGroupName();
+
+    // 依据款式组id获取对应名称
+    @Select("SELECT name FROM stylegroup WHERE id=#{id};")
+    String getStyleGroupNameById(int id);
 
     // 根据搜索条件获取款式组response信息
     @SelectProvider(type = InfoObtainProvider.class, method = "getStyleGroupResponseByCondition")
@@ -69,6 +77,9 @@ public interface InfoObtainMapper {
     // 获取所有款号
     @Select("SELECT id, number FROM style;")
     List <StyleNumber> getAllStyleNumber();
+
+    @Select("SELECT number FROM style WHERE id=#{id};")
+    String getStyleNumberById(int id);
 
     // 根据搜索条件获取款式response信息
     @SelectProvider(type = InfoObtainProvider.class, method = "getStyleResponseByCondition")

@@ -216,4 +216,9 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
         }
         return updateStyleCount;
     }
+
+    public int completeRangeById (int id) {
+        logger.info("将系列id为" + id + "的系列完成");
+        return infoUpdateMapper.completeRangeById(id);
+    }
 }

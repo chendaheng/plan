@@ -67,12 +67,9 @@ public class PlanModifyProvider {
                 if (plan.getState() != null) {
                     VALUES("state", plan.getState().getIndex() + "");
                 }
-                if (plan.getCreaterId() != null) {
-                    VALUES("createrId", plan.getCreaterId() + "");
-                }
-                if (plan.getCreaterName() != null) {
-                    VALUES("createrName", "'" + plan.getCreaterName() + "'");
-                }
+                VALUES("createrId", plan.getCreaterId() + "");
+                VALUES("createrName", "'" + plan.getCreaterName() + "'");
+                VALUES("deptName", "'" + plan.getDeptName() + "'");
                 if (plan.getCreateTime() != null) {
                     VALUES("createTime", "'" + plan.getCreateTime() + "'");
                 }

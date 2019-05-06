@@ -57,4 +57,10 @@ public class InfoUpdateController {
     public int unbindStyleGroup (@RequestParam int id){
         return infoUpdateServiceImply.unbindStyleGroup(id);
     }
+
+    @RequestMapping (value = "/completeRange", method = RequestMethod.GET)
+    @ApiOperation(value = "解绑款式组")
+    public int completeRangeById (@RequestParam("id") int id) {
+        return infoUpdateServiceImply.completeRangeById(id);
+    }
 }

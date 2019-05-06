@@ -34,7 +34,7 @@ public class ErrorCode {
     public static Integer nullError = -1;  
 
 /*------------------------------------------计划管理错误码----------------------------------------------*/
-    //
+    // 所需属性值缺失
     public static Integer requiredFieldMiss = 0;
     // 计划名称重复
     public static Integer planNameDuplication = -1;
@@ -46,9 +46,9 @@ public class ErrorCode {
     public static Integer styleGroupRootPlanNotExist = -4;
     // 计划开始结束时间超额
     public static Integer dateOutOfRange = -5;
-    //
+    // 计划款数超额
     public static Integer quantityExceed = -6;
-    // 不允许的计划状态更新
+    // 当前计划状态不允许执行此操作
     public static Integer illegalStateUpdate = -1;
     // 与已有计划冲突
     public static Integer conflictWithExistPlan = -2;

@@ -14,9 +14,12 @@ public interface PlanUpdateMapper {
             "proposal=#{proposal}, description=#{description}, note={note} WHERE id=#{id};")
     int updatePlan(PlanUpdateReq planUpdateReq);
 
-    @Update("UPDATE plan SET state = #{state} WHERE id=#{id};")
+    @Update("UPDATE plan SET state=#{state} WHERE id=#{id};")
     int updatePlanStateById(@Param("id") int id, @Param("state") PlanState state);
 
+    @Update("UPDATE plan SET rejectReason=#{reason}, state=#{state} WHERE id=#{id};")
+    int failPlanById(@Param("id") int id, @Param("reason") String reason, @Param("state") PlanState state);
+
     @Update("UPDATE plan SET state=#{state}, deleteTime=CURRENT_TIMESTAMP WHERE id=#{id};")
-    int updatePlanStateAndDeleteTimeById(@Param("id") int id, @Param("state") PlanState state);
+    int deletePlanById(@Param("id") int id, @Param("state") PlanState state);
 }

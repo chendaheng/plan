@@ -2,19 +2,21 @@ package org.plan.managementservice.mapper.planManagement;
 
 import org.apache.ibatis.annotations.*;
 import org.plan.managementfacade.model.planModel.Plan;
+import org.plan.managementfacade.model.planModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 
 import java.util.List;
 
 @Mapper
 public interface PlanModifyMapper {
-//    @Insert("INSERT INTO plan(number, name, rangeId, type, level, parentLevel, planObjectId, projectType, quantity, productId, " +
-//            "productDate, productDateType, startDate, endDate, proposal, description, state, createrId, createrName, note) " +
-//            "VALUES(#{number}, #{name}, #{rangeId}, #{type}, 1, 0, #{planObjectId}, #{projectType}, #{quantity}, #{productId}, " +
-//            "#{productDate}, #{productDateType}, #{startDate}, #{endDate}, #{proposal}, #{description}, #{state}, #{createrId}, " +
-//            "#{createrName}, #{note})")
     @InsertProvider(type = PlanModifyProvider.class, method = "addPlan")
     int addPlan(Plan plan);
+
+    @Insert("INSERT INTO planexception(number, planId, cause, userName, createTime) VALUES(#{number}, #{planId}, #{cause}, #{userName}, #{createTime});")
+    int addExceptionForPlan(PlanException planException);
+
+    @Insert("INSERT INTO plan_user VALUES(#{planId}, #{executerId});")
+    int distributePlanToUser(int planId, int executerId);
 
     @Delete("DELETE FROM plan WHERE id=#{id};")
     int deletePlanById(int id);
