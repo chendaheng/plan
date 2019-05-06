@@ -4,7 +4,7 @@ import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.enumModel.ProjectType;
 
-public class Plan {
+public class PlanSearchResp {
     private Integer id;
     private String number;
     private String name;
@@ -12,9 +12,10 @@ public class Plan {
     private PlanType type;
     private boolean isRoot;
     private Integer parentId;
+    private String parentName; // 待取
     private Integer planObjectId;
+    private String planObject; // 待取
     private ProjectType projectType;
-    private Integer order;
     private Integer quantity;
     private Integer productId;
     private String productDate;
@@ -24,33 +25,23 @@ public class Plan {
     private String proposal;
     private String description;
     private PlanState state;
-    private Integer createrId;
     private String createrName;
     private String deptName;
     private String createTime;
     private String rejectReason;
+    private String deleterName;
     private String deleteTime;
     private boolean haveException;
     private String note;
-
-    public Plan (PlanAddReq planAddReq) {
-        name = planAddReq.getName();
-        rangeId = planAddReq.getRangeId();
-        type = planAddReq.getType();
-        isRoot = planAddReq.isRoot();
-        parentId = planAddReq.getParentId();
-        planObjectId = planAddReq.getPlanObjectId();
-        projectType = planAddReq.getProjectType();
-        quantity = planAddReq.getQuantity();
-        productId = planAddReq.getProductId();
-        productDate = planAddReq.getProductDate();
-        productDateType = planAddReq.getProductDateType();
-        startDate = planAddReq.getStartDate();
-        endDate = planAddReq.getEndDate();
-        proposal = planAddReq.getProposal();
-        description = planAddReq.getDescription();
-        note = planAddReq.getNote();
-    }
+    private String rangeNumber;
+    private String rangeName;
+    private Integer brandId;
+    private String brandName;
+    private Integer customerId;
+    private String customerName;
+    private boolean isCompleted;
+    private Integer clothingLevelId;
+    private String clothingLevelName;
 
     public Integer getId() {
         return id;
@@ -92,16 +83,12 @@ public class Plan {
         this.type = type;
     }
 
-    public void setType(String name) {
-        this.type = PlanType.getPlanType(name);
-    }
-
     public boolean isRoot() {
         return isRoot;
     }
 
-    public void setIsRoot(boolean isRoot) {
-        isRoot = isRoot;
+    public void setRoot(boolean root) {
+        isRoot = root;
     }
 
     public Integer getParentId() {
@@ -112,6 +99,14 @@ public class Plan {
         this.parentId = parentId;
     }
 
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
     public Integer getPlanObjectId() {
         return planObjectId;
     }
@@ -120,24 +115,20 @@ public class Plan {
         this.planObjectId = planObjectId;
     }
 
+    public String getPlanObject() {
+        return planObject;
+    }
+
+    public void setPlanObject(String planObject) {
+        this.planObject = planObject;
+    }
+
     public ProjectType getProjectType() {
         return projectType;
     }
 
     public void setProjectType(ProjectType projectType) {
         this.projectType = projectType;
-    }
-
-    public void setProjectType(String name) {
-        this.projectType = ProjectType.getProjectType(name);
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public Integer getQuantity() {
@@ -212,18 +203,6 @@ public class Plan {
         this.state = state;
     }
 
-    public void setState(String name) {
-        this.state = PlanState.getPlanState(name);
-    }
-
-    public Integer getCreaterId() {
-        return createrId;
-    }
-
-    public void setCreaterId(Integer createrId) {
-        this.createrId = createrId;
-    }
-
     public String getCreaterName() {
         return createrName;
     }
@@ -256,6 +235,14 @@ public class Plan {
         this.rejectReason = rejectReason;
     }
 
+    public String getDeleterName() {
+        return deleterName;
+    }
+
+    public void setDeleterName(String deleterName) {
+        this.deleterName = deleterName;
+    }
+
     public String getDeleteTime() {
         return deleteTime;
     }
@@ -278,5 +265,77 @@ public class Plan {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getRangeNumber() {
+        return rangeNumber;
+    }
+
+    public void setRangeNumber(String rangeNumber) {
+        this.rangeNumber = rangeNumber;
+    }
+
+    public String getRangeName() {
+        return rangeName;
+    }
+
+    public void setRangeName(String rangeName) {
+        this.rangeName = rangeName;
+    }
+
+    public Integer getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public Integer getClothingLevelId() {
+        return clothingLevelId;
+    }
+
+    public void setClothingLevelId(Integer clothingLevelId) {
+        this.clothingLevelId = clothingLevelId;
+    }
+
+    public String getClothingLevelName() {
+        return clothingLevelName;
+    }
+
+    public void setClothingLevelName(String clothingLevelName) {
+        this.clothingLevelName = clothingLevelName;
     }
 }

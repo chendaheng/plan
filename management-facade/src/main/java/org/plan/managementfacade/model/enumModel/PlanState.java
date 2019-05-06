@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = EnumSerializer.class)
 public enum PlanState implements IEnum{
     MADE(1, "已制定"),
-    SUBMIT(2, "已提交"),
-    REFUSED(3, "被驳回"),
+    REFUSED(2, "被驳回"),
+    SUBMIT(3, "已提交"),
     PASS(4, "已审核"),
     DISTRIBUTED(5, "已下发"),
     DELETED(6, "已删除");
