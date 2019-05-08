@@ -9,6 +9,8 @@ import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.planManagement.PlanModifyMapper;
 import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
 import org.plan.managementservice.mapper.planManagement.PlanUpdateMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,9 @@ import java.util.List;
 
 @Component
 public class PlanUpdateServiceImply {
+
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
+
     @Autowired
     private PlanObtainMapper planObtainMapper;
     @Autowired
@@ -77,6 +82,7 @@ public class PlanUpdateServiceImply {
         // 仅允许已制定和被驳回状态的计划提交
         PlanState planState = planObtainMapper.getPlanStateById(id);
         if (planState != PlanState.MADE && planState != PlanState.REFUSED) {
+            logger.error("id为" + id + "的计划状态不是已制定也不是被驳回,无法进行提交操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
             return planUpdateMapper.updatePlanStateById(id, PlanState.SUBMIT);
@@ -87,6 +93,7 @@ public class PlanUpdateServiceImply {
         // 仅允许已提交的计划审核通过
         PlanState planState = planObtainMapper.getPlanStateById(id);
         if (planState != PlanState.SUBMIT) {
+            logger.error("id为" + id + "的计划状态不是已提交,无法进行审核操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
             return planUpdateMapper.updatePlanStateById(id, PlanState.PASS);
@@ -97,6 +104,7 @@ public class PlanUpdateServiceImply {
         // 仅允许已提交的计划被驳回
         PlanState planState = planObtainMapper.getPlanStateById(id);
         if (planState != PlanState.SUBMIT) {
+            logger.error("id为" + id + "的计划状态不是已提交,无法进行驳回操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
             return planUpdateMapper.failPlanById(id, reason, PlanState.PASS);

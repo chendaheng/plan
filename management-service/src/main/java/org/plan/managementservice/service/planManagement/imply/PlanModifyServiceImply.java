@@ -13,6 +13,8 @@ import org.plan.managementservice.mapper.infoManagement.InfoUpdateMapper;
 import org.plan.managementservice.mapper.planManagement.PlanModifyMapper;
 import org.plan.managementservice.mapper.planManagement.PlanUpdateMapper;
 import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ import java.util.List;
 
 @Component
 public class PlanModifyServiceImply {
+
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
+
     @Autowired
     private PlanModifyMapper planModifyMapper;
     @Autowired
@@ -40,12 +45,14 @@ public class PlanModifyServiceImply {
         boolean isRoot = planAddReq.isRoot();
         int count = planObtainMapper.countPlanByNameRangeIdType(name, rangeId, type, PlanState.DELETED);
         if (count > 0) {
+            logger.error("计划名称重复,新增计划失败。当前新增计划的名称为:" + name);
             return ErrorCode.planNameDuplication;
         }
         // 将款式组根计划的父id设为系列根计划的id
         if (type == PlanType.STYLEGROUP && isRoot) {
             int parentIdOfRange = planObtainMapper.getRangeRootPlanId(rangeId, PlanType.RANGE);
             if (parentIdOfRange == 0) {
+                logger.error("系列根计划不存在,新增系列计划失败。");
                 return ErrorCode.rangeRootPlanNotExist;
             } else {
                 planAddReq.setParentId(parentIdOfRange);
@@ -56,6 +63,7 @@ public class PlanModifyServiceImply {
             int styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
             int parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP);
             if (parentIdOfStyleGroup == 0) {
+                logger.error("款式组根计划不存在,新增款式组计划失败");
                 return ErrorCode.styleGroupRootPlanNotExist;
             } else {
                 planAddReq.setParentId(parentIdOfStyleGroup);
@@ -66,6 +74,7 @@ public class PlanModifyServiceImply {
         if (parentId != 0) {
             PlanState parentPlanState = planObtainMapper.getPlanStateById(parentId);
             if (parentPlanState != PlanState.DISTRIBUTED) {
+                logger.error("父计划未下发,新增计划失败。当前计划的父计划的id为:" + parentId);
                 return ErrorCode.parentNotDistributed;
             }
             String startDate = planAddReq.getStartDate();
@@ -73,6 +82,7 @@ public class PlanModifyServiceImply {
             String parentStartDate = planObtainMapper.getPlanStartDateById(parentId);
             String parentEndDate = planObtainMapper.getPlanEndDateById(parentId);
             if (startDate.compareTo(parentStartDate) < 0 || endDate.compareTo(parentEndDate) > 0) {
+                logger.error("计划开始结束时间超额,新增计划失败。");
                 return ErrorCode.dateOutOfRange;
             }
         }
@@ -85,6 +95,7 @@ public class PlanModifyServiceImply {
                 sumOfQuantity += i;
             }
             if (sumOfQuantity > parentQuantity) {
+                logger.error("计划款数超额,新增计划失败。父计划的款数为:" + parentQuantity);
                 return ErrorCode.quantityExceed;
             }
         }
