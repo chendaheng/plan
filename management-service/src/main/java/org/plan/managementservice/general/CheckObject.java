@@ -25,6 +25,7 @@ public class CheckObject {
                 for (Field field : fields) {
                     field.setAccessible(true);
                     if (field.get(object) == null && !field.getName().equals("note")) {
+                        System.out.println("缺失的属性名称为" + field.getName());
                         result = true;
                         break;
                     }

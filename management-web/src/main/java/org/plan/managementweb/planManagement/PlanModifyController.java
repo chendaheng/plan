@@ -8,6 +8,8 @@ import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.service.planManagement.imply.PlanModifyServiceImply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ import java.util.List;
         methods = {RequestMethod.POST, RequestMethod.DELETE},
         origins = "*")
 public class PlanModifyController {
+
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
+
     /*--------------------此处为临时设定，userId与userName应从网关获取-------------------------------------*/
     private static final int userId = 3;
     private static final String userName = "张三";
@@ -46,6 +51,7 @@ public class PlanModifyController {
     @ApiOperation(value = "新增计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addPlan (@RequestBody @NotNull PlanAddReq planAddReq) {
         if (CheckObject.isContainsEmpty(planAddReq)) {
+            logger.error("所需属性值缺失");
             return ErrorCode.requiredFieldMiss;
         } else {
             return planModifyService.addPlan(planAddReq, userId, userName, deptName);

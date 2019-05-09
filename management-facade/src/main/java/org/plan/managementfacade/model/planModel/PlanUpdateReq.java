@@ -1,11 +1,9 @@
 package org.plan.managementfacade.model.planModel;
 
-import org.plan.managementfacade.model.enumModel.ProjectType;
-
 public class PlanUpdateReq {
     private Integer id;
     private String name;
-    private ProjectType projectType;
+    private String projectType;
     private Integer quantity;
     private Integer productId;
     private String productDate;
@@ -32,11 +30,11 @@ public class PlanUpdateReq {
         this.name = name;
     }
 
-    public ProjectType getProjectType() {
+    public String getProjectType() {
         return projectType;
     }
 
-    public void setProjectType(ProjectType projectType) {
+    public void setProjectType(String projectType) {
         this.projectType = projectType;
     }
 
