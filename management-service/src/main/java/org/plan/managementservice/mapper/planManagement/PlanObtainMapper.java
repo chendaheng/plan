@@ -46,7 +46,7 @@ public interface PlanObtainMapper {
     @Select("SELECT state FROM plan WHERE id=#{id};")
     PlanState getPlanStateById(int id);
 
-    @Select("SELECT number FROM exception order by id desc limit 1;")
+    @Select("SELECT number FROM planexception order by id desc limit 1;")
     String getLastExceptionNumber();
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanListInPredictByParams")

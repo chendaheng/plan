@@ -35,7 +35,7 @@ public class PlanModifyProvider {
                     VALUES("planObjectId", plan.getPlanObjectId() + "");
                 }
                 if (plan.getProjectType() != null) {
-                    VALUES("projectType", plan.getProjectType().getIndex() + "");
+                    VALUES("projectType", "'" + plan.getProjectType()+ "'");
                 }
                 if (plan.getOrder() != null) {
                     VALUES("order", plan.getOrder() + "");
@@ -67,7 +67,6 @@ public class PlanModifyProvider {
                 if (plan.getState() != null) {
                     VALUES("state", plan.getState().getIndex() + "");
                 }
-                VALUES("createrId", plan.getCreaterId() + "");
                 VALUES("createrName", "'" + plan.getCreaterName() + "'");
                 VALUES("deptName", "'" + plan.getDeptName() + "'");
                 if (plan.getCreateTime() != null) {

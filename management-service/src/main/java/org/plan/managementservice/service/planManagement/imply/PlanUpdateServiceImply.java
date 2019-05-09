@@ -1,14 +1,10 @@
 package org.plan.managementservice.service.planManagement.imply;
 
-import org.plan.managementfacade.model.enumModel.PlanState;
-import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.DistributePlanReq;
-import org.plan.managementfacade.model.planModel.Plan;
-import org.plan.managementfacade.model.planModel.PlanUpdateReq;
+import org.plan.managementfacade.model.enumModel.*;
+import org.plan.managementfacade.model.planModel.*;
 import org.plan.managementservice.general.ErrorCode;
-import org.plan.managementservice.mapper.planManagement.PlanModifyMapper;
-import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
-import org.plan.managementservice.mapper.planManagement.PlanUpdateMapper;
+import org.plan.managementservice.mapper.infoManagement.*;
+import org.plan.managementservice.mapper.planManagement.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +23,15 @@ public class PlanUpdateServiceImply {
     private PlanUpdateMapper planUpdateMapper;
     @Autowired
     private PlanModifyMapper planModifyMapper;
+    @Autowired
+    private InfoUpdateMapper infoUpdateMapper;
+
 
     public int updatePlan (PlanUpdateReq planUpdateReq) {
         Plan oldPlan = planObtainMapper.getPlanById(planUpdateReq.getId());
         // 仅有已制定和被驳回两种状态下的计划可以修改
         if (oldPlan.getState() != PlanState.MADE && oldPlan.getState() != PlanState.REFUSED) {
+            logger.error("id为" + oldPlan.getId() + "的计划状态不是已制定也不是被驳回,无法进行修改操作。");
             return ErrorCode.illegalStateUpdate;
         }
         String name = planUpdateReq.getName();
@@ -43,6 +43,7 @@ public class PlanUpdateServiceImply {
         if (!name.equals(oldPlan.getName())) {
             int count = planObtainMapper.countPlanByNameRangeIdType(name, oldPlan.getRangeId(), oldPlan.getType(), PlanState.DELETED);
             if (count > 1) {
+                logger.error("计划名称重复,更新计划失败。当前更新计划的名称为:" + name);
                 return ErrorCode.planNameDuplication;
             }
         }
@@ -50,12 +51,14 @@ public class PlanUpdateServiceImply {
         if (!startDate.equals(oldPlan.getStartDate()) && parentId != 0) {
             String parentStartDate = planObtainMapper.getPlanStartDateById(parentId);
             if (startDate.compareTo(parentStartDate) < 0) {
+                logger.error("计划开始时间早于父计划,更新计划失败。父计划的开始时间为:" + parentStartDate);
                 return ErrorCode.dateOutOfRange;
             }
         }
         if (!endDate.equals(oldPlan.getEndDate()) && parentId != 0) {
             String parentEndDate = planObtainMapper.getPlanEndDateById(parentId);
             if (endDate.compareTo(parentEndDate) > 0) {
+                logger.error("计划结束时间晚于父计划,更新计划失败。父计划的结束时间为:" + parentEndDate);
                 return ErrorCode.dateOutOfRange;
             }
         }
@@ -71,6 +74,7 @@ public class PlanUpdateServiceImply {
                 }
                 sumOfQuantity -= oldPlan.getQuantity();
                 if (sumOfQuantity > parentQuantity) {
+                    logger.error("子计划的Quantity总和大于父计划,更新计划失败。");
                     return ErrorCode.quantityExceed;
                 }
             }
@@ -107,7 +111,7 @@ public class PlanUpdateServiceImply {
             logger.error("id为" + id + "的计划状态不是已提交,无法进行驳回操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
-            return planUpdateMapper.failPlanById(id, reason, PlanState.PASS);
+            return planUpdateMapper.failPlanById(id, reason, PlanState.REFUSED);
         }
     }
 
@@ -115,6 +119,7 @@ public class PlanUpdateServiceImply {
         // 仅允许已通过的计划取消审核
         PlanState planState = planObtainMapper.getPlanStateById(id);
         if (planState != PlanState.PASS) {
+            logger.error("id为" + id + "的计划状态不是已审核,无法进行取消审核操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
             return planUpdateMapper.updatePlanStateById(id, PlanState.SUBMIT);
@@ -127,6 +132,7 @@ public class PlanUpdateServiceImply {
         List<Integer> executerIdList = planReq.getExecuterIdList();
         PlanState planState = planObtainMapper.getPlanStateById(planId);
         if (planState != PlanState.PASS) {
+            logger.error("id为" + planId + "的计划状态不是已审核,无法进行下发操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
             // 将更新的记录数返回
@@ -147,13 +153,16 @@ public class PlanUpdateServiceImply {
 
     public int restorePlan (int id) {
         // 确保恢复的计划为已删除计划
+        int result = 0;
         PlanState planState = planObtainMapper.getPlanStateById(id);
         if (planState != PlanState.DELETED) {
+            logger.error("id为" + id + "的计划状态不是已删除,无法进行恢复操作。");
             return ErrorCode.illegalStateUpdate;
         }
         // 获取待恢复计划信息
         Plan deletedPlan = planObtainMapper.getPlanById(id);
         String name = deletedPlan.getName();
+        boolean isRoot = deletedPlan.isRoot();
         int rangeId = deletedPlan.getRangeId();
         PlanType type = deletedPlan.getType();
         int quantity = deletedPlan.getQuantity();
@@ -161,6 +170,7 @@ public class PlanUpdateServiceImply {
         // 恢复的计划名称不得与已有计划重复
         int count = planObtainMapper.countPlanByNameRangeIdType(name, rangeId, type, PlanState.DELETED);
         if (count > 0) {
+            logger.error("计划名称重复,无法进行恢复操作。");
             return ErrorCode.planNameDuplication;
         }
         // 待恢复计划存在父计划时，确保其计划款数与其他兄弟计划的款数之和不大于父计划
@@ -172,14 +182,32 @@ public class PlanUpdateServiceImply {
                 sumOfQuantity += i;
             }
             if (sumOfQuantity > parentQuantity) {
+                logger.error("计划款数超额,新增计划失败。父计划的款数为:" + parentQuantity);
                 return ErrorCode.quantityExceed;
             }
         }
         // 以上条件均满足时，恢复计划
         if (deletedPlan.getRejectReason() != null) {
-            return planUpdateMapper.updatePlanStateById(id, PlanState.REFUSED);
+            result = planUpdateMapper.updatePlanStateById(id, PlanState.REFUSED);
         } else {
-            return planUpdateMapper.updatePlanStateById(id, PlanState.MADE);
+            result = planUpdateMapper.updatePlanStateById(id, PlanState.MADE);
         }
+        if (isRoot) {
+            switch (type) {
+                case PREDICT:
+                    infoUpdateMapper.updateRangeHavePredictPlanById(deletedPlan.getPlanObjectId(), true);
+                    break;
+                case RANGE:
+                    infoUpdateMapper.updateRangeHavePlanById(deletedPlan.getPlanObjectId(), true);
+                    break;
+                case STYLEGROUP:
+                    infoUpdateMapper.updateStyleGroupHavePlanById(deletedPlan.getPlanObjectId(), true);
+                    break;
+                case STYLE:
+                    infoUpdateMapper.updateStyleHavePlanById(deletedPlan.getPlanObjectId(), true);
+                    break;
+            }
+        }
+        return result;
     }
 }

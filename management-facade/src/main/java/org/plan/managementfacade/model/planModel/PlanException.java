@@ -6,7 +6,6 @@ public class PlanException {
     private Integer planId;
     private String cause;
     private String userName;
-    private String createTime;
 
     public Integer getId() {
         return id;
@@ -48,11 +47,4 @@ public class PlanException {
         this.userName = userName;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
 }

@@ -2,7 +2,6 @@ package org.plan.managementfacade.model.planModel;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.enumModel.ProjectType;
 
 public class Plan {
     private Integer id;
@@ -13,7 +12,7 @@ public class Plan {
     private boolean isRoot;
     private Integer parentId;
     private Integer planObjectId;
-    private ProjectType projectType;
+    private String projectType;
     private Integer order;
     private Integer quantity;
     private Integer productId;
@@ -24,14 +23,17 @@ public class Plan {
     private String proposal;
     private String description;
     private PlanState state;
-    private Integer createrId;
     private String createrName;
     private String deptName;
     private String createTime;
     private String rejectReason;
+    private String deleterName;
     private String deleteTime;
     private boolean haveException;
     private String note;
+
+    public Plan() {
+    }
 
     public Plan (PlanAddReq planAddReq) {
         name = planAddReq.getName();
@@ -100,8 +102,8 @@ public class Plan {
         return isRoot;
     }
 
-    public void setIsRoot(boolean isRoot) {
-        isRoot = isRoot;
+    public void setIsRoot(boolean root) {
+        isRoot = root;
     }
 
     public Integer getParentId() {
@@ -120,16 +122,12 @@ public class Plan {
         this.planObjectId = planObjectId;
     }
 
-    public ProjectType getProjectType() {
+    public String getProjectType() {
         return projectType;
     }
 
-    public void setProjectType(ProjectType projectType) {
+    public void setProjectType(String projectType) {
         this.projectType = projectType;
-    }
-
-    public void setProjectType(String name) {
-        this.projectType = ProjectType.getProjectType(name);
     }
 
     public Integer getOrder() {
@@ -216,14 +214,6 @@ public class Plan {
         this.state = PlanState.getPlanState(name);
     }
 
-    public Integer getCreaterId() {
-        return createrId;
-    }
-
-    public void setCreaterId(Integer createrId) {
-        this.createrId = createrId;
-    }
-
     public String getCreaterName() {
         return createrName;
     }
@@ -254,6 +244,14 @@ public class Plan {
 
     public void setRejectReason(String rejectReason) {
         this.rejectReason = rejectReason;
+    }
+
+    public String getDeleterName() {
+        return deleterName;
+    }
+
+    public void setDeleterName(String deleterName) {
+        this.deleterName = deleterName;
     }
 
     public String getDeleteTime() {

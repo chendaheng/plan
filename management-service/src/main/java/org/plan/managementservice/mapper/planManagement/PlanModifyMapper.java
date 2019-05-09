@@ -12,7 +12,7 @@ public interface PlanModifyMapper {
     @InsertProvider(type = PlanModifyProvider.class, method = "addPlan")
     int addPlan(Plan plan);
 
-    @Insert("INSERT INTO planexception(number, planId, cause, userName, createTime) VALUES(#{number}, #{planId}, #{cause}, #{userName}, #{createTime});")
+    @Insert("INSERT INTO planexception (number, planId, cause, userName) VALUES(#{number}, #{planId}, #{cause}, #{userName});")
     int addExceptionForPlan(PlanException planException);
 
     @Insert("INSERT INTO plan_user VALUES(#{planId}, #{executerId});")

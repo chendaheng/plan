@@ -2,7 +2,6 @@ package org.plan.managementfacade.model.planModel;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.enumModel.ProjectType;
 
 public class PlanSearchResp {
     private Integer id;
@@ -15,7 +14,7 @@ public class PlanSearchResp {
     private String parentName; // 待取
     private Integer planObjectId;
     private String planObject; // 待取
-    private ProjectType projectType;
+    private String projectType;
     private Integer quantity;
     private Integer productId;
     private String productDate;
@@ -87,7 +86,7 @@ public class PlanSearchResp {
         return isRoot;
     }
 
-    public void setRoot(boolean root) {
+    public void setIsRoot(boolean root) {
         isRoot = root;
     }
 
@@ -123,11 +122,11 @@ public class PlanSearchResp {
         this.planObject = planObject;
     }
 
-    public ProjectType getProjectType() {
+    public String getProjectType() {
         return projectType;
     }
 
-    public void setProjectType(ProjectType projectType) {
+    public void setProjectType(String projectType) {
         this.projectType = projectType;
     }
 
@@ -319,7 +318,7 @@ public class PlanSearchResp {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
     }
 

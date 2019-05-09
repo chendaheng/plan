@@ -1,7 +1,6 @@
 package org.plan.managementfacade.model.planModel;
 
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.enumModel.ProjectType;
 
 public class PlanAddReq {
     private String name;
@@ -10,7 +9,7 @@ public class PlanAddReq {
     private boolean isRoot;
     private Integer parentId;
     private Integer planObjectId;
-    private ProjectType projectType;
+    private String projectType;
     private Integer quantity;
     private Integer productId;
     private String productDate;
@@ -53,7 +52,7 @@ public class PlanAddReq {
         return isRoot;
     }
 
-    public void setRoot(boolean root) {
+    public void setIsRoot(boolean root) {
         isRoot = root;
     }
 
@@ -73,16 +72,12 @@ public class PlanAddReq {
         this.planObjectId = planObjectId;
     }
 
-    public ProjectType getProjectType() {
+    public String getProjectType() {
         return projectType;
     }
 
-    public void setProjectType(ProjectType projectType) {
+    public void setProjectType(String projectType) {
         this.projectType = projectType;
-    }
-
-    public void setProjectType(String name) {
-        this.projectType = ProjectType.getProjectType(name);
     }
 
     public Integer getQuantity() {

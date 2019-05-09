@@ -21,10 +21,10 @@ public interface InfoUpdateMapper {
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyle")
     int updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest);
 
-    @Update("UPDATE range SET havePredictPlan=#{bool} WHERE id=#{id};")
+    @Update("UPDATE `range` SET havePredictPlan=#{bool} WHERE id=#{id};")
     void updateRangeHavePredictPlanById(@Param("id") int id, @Param("bool") boolean bool);
 
-    @Update("UPDATE range SET havePlan=#{bool} WHERE id=#{id};")
+    @Update("UPDATE `range` SET havePlan=#{bool} WHERE id=#{id};")
     void updateRangeHavePlanById(@Param("id") int id, @Param("bool") boolean bool);
 
     @Update("UPDATE styleGroup SET havePlan=#{bool} WHERE id=#{id};")

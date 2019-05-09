@@ -104,9 +104,8 @@ public class PlanModifyServiceImply {
         plan.setNumber("JX" + Calendar.YEAR + Calendar.MONTH + Calendar.DAY_OF_MONTH + "001");
         System.out.println(plan.getNumber());
         plan.setState(PlanState.MADE);
-        plan.setCreaterId(userId);
         plan.setCreaterName(userName);
-        plan.setDeleteTime(deptName);
+        plan.setDeptName(deptName);
         int result = planModifyMapper.addPlan(plan);
         // 对于根计划，添加时需同时将系列/款式组/款数的havePlan状态更新
         if (isRoot) {
@@ -140,25 +139,27 @@ public class PlanModifyServiceImply {
         Plan plan = planObtainMapper.getPlanById(id);
         PlanState planState = plan.getState();
         if (planState != PlanState.MADE && planState != PlanState.REFUSED) {
+            logger.error("id为" + id + "的计划状态不是已制定也不是已驳回,无法进行删除操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
             int result = planUpdateMapper.deletePlanById(id, PlanState.DELETED);
             boolean isRoot = plan.isRoot();
             PlanType type = plan.getType();
+            int planObjectId = plan.getPlanObjectId();
             // 删除计划为根计划时，需同步更新系列/款式组/款式中的havePlan状态信息
             if (isRoot) {
                 switch (type) {
                     case PREDICT:
-                        infoUpdateMapper.updateRangeHavePredictPlanById(id, false);
+                        infoUpdateMapper.updateRangeHavePredictPlanById(planObjectId, false);
                         break;
                     case RANGE:
-                        infoUpdateMapper.updateRangeHavePlanById(id, false);
+                        infoUpdateMapper.updateRangeHavePlanById(planObjectId, false);
                         break;
                     case STYLEGROUP:
-                        infoUpdateMapper.updateStyleGroupHavePlanById(id, false);
+                        infoUpdateMapper.updateStyleGroupHavePlanById(planObjectId, false);
                         break;
                     case STYLE:
-                        infoUpdateMapper.updateStyleHavePlanById(id, false);
+                        infoUpdateMapper.updateStyleHavePlanById(planObjectId, false);
                         break;
                 }
             }
