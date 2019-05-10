@@ -103,8 +103,6 @@ public class PlanModifyServiceImply {
         Plan plan = new Plan(planAddReq);
         String lastNumber = planObtainMapper.getLastPlanNumber();
         String number = SerialNumberGenerate.generateNumber("JX", lastNumber);
-//        plan.setNumber(number);
-//        plan.setNumber("JX" + Calendar.YEAR + Calendar.MONTH + Calendar.DAY_OF_MONTH + "001");
         System.out.println(plan.getNumber());
         plan.setState(PlanState.MADE);
         plan.setCreaterName(userName);
