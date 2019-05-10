@@ -22,6 +22,9 @@ public interface PlanObtainMapper {
     @Select("SELECT name FROM plan WHERE id=#{id};")
     String getPlanNameById(int id);
 
+    @Select("SELECT number FROM plan order by id desc limit 1;")
+    String getLastPlanNumber();
+
     @Select("SELECT COUNT(*) FROM plan WHERE name=#{name} AND rangeId=#{rangeId} AND type=#{type} AND state!=#{state};")
     int countPlanByNameRangeIdType(@Param("name") String name, @Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
