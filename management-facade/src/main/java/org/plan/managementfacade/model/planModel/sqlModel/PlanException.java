@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.planModel;
+package org.plan.managementfacade.model.planModel.sqlModel;
 
 public class PlanException {
     private Integer id;

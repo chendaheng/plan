@@ -1,14 +1,8 @@
-package org.plan.managementfacade.model.planModel;
+package org.plan.managementfacade.model.planModel.requestModel;
 
-import org.plan.managementfacade.model.enumModel.PlanType;
-
-public class PlanAddReq {
+public class PlanUpdateReq {
+    private Integer id;
     private String name;
-    private Integer rangeId;
-    private PlanType type;
-    private boolean isRoot;
-    private Integer parentId;
-    private Integer planObjectId;
     private String projectType;
     private Integer quantity;
     private Integer productId;
@@ -20,56 +14,20 @@ public class PlanAddReq {
     private String description;
     private String note = "";
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getRangeId() {
-        return rangeId;
-    }
-
-    public void setRangeId(Integer rangeId) {
-        this.rangeId = rangeId;
-    }
-
-    public PlanType getType() {
-        return type;
-    }
-
-    public void setType(PlanType type) {
-        this.type = type;
-    }
-
-    public void setType(String name) {
-        this.type = PlanType.getPlanType(name);
-    }
-
-    public boolean isRoot() {
-        return isRoot;
-    }
-
-    public void setIsRoot(boolean root) {
-        isRoot = root;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public Integer getPlanObjectId() {
-        return planObjectId;
-    }
-
-    public void setPlanObjectId(Integer planObjectId) {
-        this.planObjectId = planObjectId;
     }
 
     public String getProjectType() {

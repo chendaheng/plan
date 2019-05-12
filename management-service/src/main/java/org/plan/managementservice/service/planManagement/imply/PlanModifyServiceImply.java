@@ -2,9 +2,9 @@ package org.plan.managementservice.service.planManagement.imply;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.Plan;
-import org.plan.managementfacade.model.planModel.PlanAddReq;
-import org.plan.managementfacade.model.planModel.PlanException;
+import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.SerialNumberGenerate;
@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
 import java.util.List;
 
 @Component
@@ -42,31 +41,40 @@ public class PlanModifyServiceImply {
         String name = planAddReq.getName();
         int rangeId = planAddReq.getRangeId();
         PlanType type = planAddReq.getType();
+        int planObjectId = planAddReq.getPlanObjectId();
         boolean isRoot = planAddReq.isRoot();
         int count = planObtainMapper.countPlanByNameRangeIdType(name, rangeId, type, PlanState.DELETED);
         if (count > 0) {
             logger.error("计划名称重复,新增计划失败。当前新增计划的名称为:" + name);
             return ErrorCode.planNameDuplication;
         }
-        // 将款式组根计划的父id设为系列根计划的id
-        if (type == PlanType.STYLEGROUP && isRoot) {
-            int parentIdOfRange = planObtainMapper.getRangeRootPlanId(rangeId, PlanType.RANGE);
-            if (parentIdOfRange == 0) {
-                logger.error("系列根计划不存在,新增款式组根计划失败。");
-                return ErrorCode.rangeRootPlanNotExist;
-            } else {
-                planAddReq.setParentId(parentIdOfRange);
+        if (isRoot) {
+            // 对于根计划，应确保仅有一个
+            count = planObtainMapper.countRootPlanByTypeAndPlanObject(type, planObjectId, true, PlanState.DISTRIBUTED);
+            if (count > 0) {
+                logger.error("当前计划对象根计划已存在，无法新增根计划！");
+                return ErrorCode.rootPlanExist;
             }
-        }
-        // 将款式根计划的父id设为款式组根计划的id
-        if (type == PlanType.STYLE && isRoot) {
-            int styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
-            int parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP);
-            if (parentIdOfStyleGroup == 0) {
-                logger.error("款式组根计划不存在,新增款式根计划失败");
-                return ErrorCode.styleGroupRootPlanNotExist;
-            } else {
-                planAddReq.setParentId(parentIdOfStyleGroup);
+            // 将款式组根计划的父id设为系列根计划的id
+            if (type == PlanType.STYLEGROUP) {
+                int parentIdOfRange = planObtainMapper.getRangeRootPlanId(rangeId, PlanType.RANGE, PlanState.DELETED);
+                if (parentIdOfRange == 0) {
+                    logger.error("系列根计划不存在,新增款式组根计划失败。");
+                    return ErrorCode.rangeRootPlanNotExist;
+                } else {
+                    planAddReq.setParentId(parentIdOfRange);
+                }
+            }
+            // 将款式根计划的父id设为款式组根计划的id
+            if (type == PlanType.STYLE) {
+                int styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
+                int parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP, PlanState.DELETED);
+                if (parentIdOfStyleGroup == 0) {
+                    logger.error("款式组根计划不存在,新增款式根计划失败");
+                    return ErrorCode.styleGroupRootPlanNotExist;
+                } else {
+                    planAddReq.setParentId(parentIdOfStyleGroup);
+                }
             }
         }
         int parentId = planAddReq.getParentId();
@@ -103,7 +111,7 @@ public class PlanModifyServiceImply {
         Plan plan = new Plan(planAddReq);
         String lastNumber = planObtainMapper.getLastPlanNumber();
         String number = SerialNumberGenerate.generateNumber("JX", lastNumber);
-        System.out.println(plan.getNumber());
+        plan.setNumber(number);
         plan.setState(PlanState.MADE);
         plan.setCreaterName(userName);
         plan.setDeptName(deptName);
@@ -130,20 +138,45 @@ public class PlanModifyServiceImply {
 
     public int quotePredictPlan (int rangeId, String userName, String deptName) {
         // 获取系列对应的预测计划
-        List<Plan> predictPlanList = planObtainMapper.getPredictPlanByRangeId(rangeId, PlanType.PREDICT, PlanState.DELETED);
+        List<Plan> predictPlanList = planObtainMapper.getRootPlanByPlanObjectIdAndType(rangeId, PlanType.PREDICT, PlanState.DELETED);
         // 若一个系列有一个以上的预测计划，返回数据库错误信息
         if (predictPlanList.size() > 1) {
+            logger.error("id为" + rangeId + "的系列存在两个及以上的预测计划，不符合系统规范，请检查数据库");
             return ErrorCode.databaseError;
         }
         // 若相应预测计划不存在，返回预测计划不存在错误信息
         if (predictPlanList.size() == 0) {
+            logger.error("id为" + rangeId + "的系列目前无预测计划，无法引用");
             return ErrorCode.predictPlanNotExist;
         }
-        // 将预测计划的id
+        // 将预测计划信息取出，生成新的系列根计划
         Plan predictPlan = predictPlanList.get(0);
-        predictPlan.setId(null);
-        predictPlan.setNumber();
+        PlanAddReq planAddReq = new PlanAddReq(predictPlan);
+        planAddReq.setType(PlanType.RANGE);
+        return addPlan(planAddReq, userName, deptName);
     }
+
+    public int quoteRangePlan (int styleGroupId, int rangeId, String userName, String deptName) {
+        // 获取系列根计划
+        List<Plan> rangePlanList = planObtainMapper.getRootPlanByPlanObjectIdAndType(rangeId, PlanType.RANGE, PlanState.DELETED);
+        // 若一个系列有一个以上的根计划，返回数据库错误信息
+        if (rangePlanList.size() > 1) {
+            logger.error("id为" + rangeId + "的系列存在两个及以上的系列根计划，不符合系统规范，请检查数据库");
+            return ErrorCode.databaseError;
+        }
+        // 若相应系列根计划不存在，返回系列根计划不存在错误信息
+        if (rangePlanList.size() == 0) {
+            logger.error("id为" + rangeId + "的系列目前无预测计划，无法引用");
+            return ErrorCode.rangeRootPlanNotExist;
+        }
+        // 取出系列根计划信息，生成新的款式组根计划
+        Plan rangePlan = rangePlanList.get(0);
+        PlanAddReq planAddReq = new PlanAddReq(rangePlan);
+        planAddReq.setType(PlanType.STYLEGROUP);
+        planAddReq.setPlanObjectId(styleGroupId);
+        return addPlan(planAddReq, userName, deptName);
+    }
+
 
     public int addExceptionForPlan(PlanException planException) {
         String lastNumber = planObtainMapper.getLastExceptionNumber();

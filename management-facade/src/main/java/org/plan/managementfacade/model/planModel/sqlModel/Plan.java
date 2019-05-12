@@ -1,7 +1,8 @@
-package org.plan.managementfacade.model.planModel;
+package org.plan.managementfacade.model.planModel.sqlModel;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
+import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 
 public class Plan {
     private Integer id;

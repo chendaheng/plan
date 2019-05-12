@@ -2,8 +2,9 @@ package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.planModel.DistributePlanReq;
-import org.plan.managementfacade.model.planModel.PlanUpdateReq;
+import org.plan.managementfacade.model.planModel.requestModel.ChildrenPlanReq;
+import org.plan.managementfacade.model.planModel.requestModel.DistributePlanReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanUpdateReq;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.service.planManagement.imply.PlanUpdateServiceImply;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/planManagement")
@@ -31,6 +33,17 @@ public class PlanUpdateController {
         } else {
             return planUpdateService.updatePlan(planUpdateReq);
         }
+    }
+
+    @PostMapping (value = "/adjustPlanOrder")
+    @ApiOperation(value = "调整计划顺序", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int adjustPlanOrder(@RequestBody @NotNull List<ChildrenPlanReq> childrenPlan) {
+        for (ChildrenPlanReq childPlan : childrenPlan) {
+            if (CheckObject.isContainsEmpty(childPlan)) {
+                return ErrorCode.requiredFieldMiss;
+            }
+        }
+        return planUpdateService.updatePlanOrder(childrenPlan);
     }
 
     @GetMapping (value = "/submitPlan")

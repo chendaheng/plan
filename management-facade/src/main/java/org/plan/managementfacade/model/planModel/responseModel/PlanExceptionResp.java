@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.planModel;
+package org.plan.managementfacade.model.planModel.responseModel;
 
 import org.plan.managementfacade.model.enumModel.PlanType;
 

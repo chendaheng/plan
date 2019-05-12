@@ -35,19 +35,21 @@ public class ErrorCode {
 
 /*------------------------------------------计划管理错误码----------------------------------------------*/
     // 所需属性值缺失
-    public static Integer requiredFieldMiss = 0;
+    public static Integer requiredFieldMiss = -1;
     // 计划名称重复
-    public static Integer planNameDuplication = -1;
+    public static Integer planNameDuplication = -2;
     // 父计划未下发
-    public static Integer parentNotDistributed = -2;
+    public static Integer parentNotDistributed = -3;
     // 系列根计划不存在
-    public static Integer rangeRootPlanNotExist = -3;
+    public static Integer rangeRootPlanNotExist = -4;
     // 款式组根计划不存在
-    public static Integer styleGroupRootPlanNotExist = -4;
+    public static Integer styleGroupRootPlanNotExist = -5;
+    // 根计划已存在
+    public static Integer rootPlanExist;
     // 计划开始结束时间超额
-    public static Integer dateOutOfRange = -5;
+    public static Integer dateOutOfRange = -7;
     // 计划款数超额
-    public static Integer quantityExceed = -6;
+    public static Integer quantityExceed = -8;
     // 引用预测计划时预测计划不存在
     public static Integer predictPlanNotExist = -1;
     // 当前计划状态不允许执行此操作

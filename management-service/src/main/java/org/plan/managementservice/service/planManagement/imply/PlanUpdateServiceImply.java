@@ -1,7 +1,10 @@
 package org.plan.managementservice.service.planManagement.imply;
 
 import org.plan.managementfacade.model.enumModel.*;
-import org.plan.managementfacade.model.planModel.*;
+import org.plan.managementfacade.model.planModel.requestModel.ChildrenPlanReq;
+import org.plan.managementfacade.model.planModel.requestModel.DistributePlanReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanUpdateReq;
+import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.plan.managementservice.mapper.planManagement.*;
@@ -80,6 +83,17 @@ public class PlanUpdateServiceImply {
             }
         }
         return planUpdateMapper.updatePlan(planUpdateReq);
+    }
+
+    public int updatePlanOrder (List<ChildrenPlanReq> childrenPlan) {
+        // 将更新的记录数返回
+        int result = 0;
+        for (ChildrenPlanReq childPlan : childrenPlan) {
+            int planId = childPlan.getId();
+            int order = childPlan.getOrder();
+            result += planUpdateMapper.updatePlanOrderById(planId, order);
+        }
+        return result;
     }
 
     public int submitPlan (int id) {
