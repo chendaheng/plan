@@ -101,7 +101,8 @@ public class PlanModifyServiceImply {
         }
         // 以上条件都满足时，添加计划
         Plan plan = new Plan(planAddReq);
-        plan.setNumber("JX" + Calendar.YEAR + Calendar.MONTH + Calendar.DAY_OF_MONTH + "001");
+        String lastNumber = planObtainMapper.getLastPlanNumber();
+        String number = SerialNumberGenerate.generateNumber("JX", lastNumber);
         System.out.println(plan.getNumber());
         plan.setState(PlanState.MADE);
         plan.setCreaterName(userName);
