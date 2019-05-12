@@ -30,7 +30,7 @@ mybatis:
 
 logging:
   level:
-    org.material.managementservice.mapper.*: trace
+    org.plan.managementservice.mapper.*: trace
 
 eureka:
   client:
