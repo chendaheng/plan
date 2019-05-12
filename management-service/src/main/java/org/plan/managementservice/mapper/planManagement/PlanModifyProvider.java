@@ -1,11 +1,7 @@
 package org.plan.managementservice.mapper.planManagement;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.plan.managementfacade.model.planModel.Plan;
-import org.plan.managementfacade.model.planModel.Test;
-
-import java.time.temporal.ValueRange;
+import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 
 public class PlanModifyProvider {
     public String addPlan (Plan plan) {

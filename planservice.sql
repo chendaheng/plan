@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2019-04-27 16:36:43
+Date: 2019-05-12 11:37:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -90,7 +90,7 @@ CREATE TABLE `customer` (
   `groupName` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of customer
@@ -98,6 +98,9 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` VALUES ('1', '江苏A客户', 'A客户', '钻石VIP', '客户服务部');
 INSERT INTO `customer` VALUES ('2', '浙江B客户', 'B客户', '黄金VIP', '客户服务部');
 INSERT INTO `customer` VALUES ('3', '上海C客户', 'C客户', '普通VIP', '客户服务部');
+INSERT INTO `customer` VALUES ('4', '零一', '01', 'what', '财务审计部');
+INSERT INTO `customer` VALUES ('5', '一零', '10', 'the', '规划发展部');
+INSERT INTO `customer` VALUES ('6', '一一', '11', 'fuck', '设计管理部');
 
 -- ----------------------------
 -- Table structure for dictionarycategory
@@ -118,26 +121,6 @@ INSERT INTO `dictionarycategory` VALUES ('1', '性别', 'SEX');
 INSERT INTO `dictionarycategory` VALUES ('2', '项目类型', 'projectType');
 
 -- ----------------------------
--- Table structure for exception
--- ----------------------------
-DROP TABLE IF EXISTS `exception`;
-CREATE TABLE `exception` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` varchar(20) NOT NULL,
-  `planId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `reason` varchar(255) NOT NULL,
-  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `planId` (`planId`),
-  CONSTRAINT `exception_ibfk_1` FOREIGN KEY (`planId`) REFERENCES `plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of exception
--- ----------------------------
-
--- ----------------------------
 -- Table structure for plan
 -- ----------------------------
 DROP TABLE IF EXISTS `plan`;
@@ -147,24 +130,25 @@ CREATE TABLE `plan` (
   `name` varchar(100) NOT NULL,
   `rangeId` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL COMMENT '1代表预测计划，2代表系列计划，3代表款式组计划，4代表款式计划',
-  `level` int(11) NOT NULL COMMENT 'level为1表示根计划，其子计划level为2，依次递增',
-  `parentLevel` int(11) NOT NULL COMMENT '根计划的parentLevel为0',
+  `isRoot` bit(1) NOT NULL,
+  `parentId` int(11) NOT NULL,
   `planObjectId` int(11) NOT NULL,
   `projectType` varchar(100) NOT NULL COMMENT '属性值来自数据字典',
   `order` tinyint(11) NOT NULL DEFAULT '0',
   `quantity` int(11) NOT NULL,
   `productId` int(11) NOT NULL,
   `productDate` date NOT NULL,
-  `porductDateType` varchar(100) NOT NULL COMMENT '属性值来自数据字典',
+  `productDateType` varchar(100) NOT NULL COMMENT '属性值来自数据字典',
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `proposal` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `state` tinyint(4) NOT NULL COMMENT '1为已制定，2为已提交，3为被驳回，4为已审核，5为已下发，6为已删除',
-  `createrId` int(11) NOT NULL,
   `createrName` varchar(100) NOT NULL,
+  `deptName` varchar(100) NOT NULL,
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `rejectReason` varchar(255) DEFAULT NULL,
+  `deleterName` varchar(100) DEFAULT NULL,
   `deleteTime` datetime DEFAULT NULL COMMENT '额外属性',
   `haveException` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
   `note` varchar(255) DEFAULT '',
@@ -173,10 +157,31 @@ CREATE TABLE `plan` (
   KEY `plan_ibfk_2` (`productId`),
   CONSTRAINT `plan_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `plan_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of plan
+-- ----------------------------
+INSERT INTO `plan` VALUES ('1', 'JX125001', '系列A计划', '1', '2', '', '0', '1', '头样', '0', '20', '1', '2020-04-30', '交货日期', '2019-05-01', '2020-06-10', '爱丽丝的', '啥问你', '5', '张三', '设计管理部', '2019-05-03 15:26:31', null, null, null, '\0', '');
+
+-- ----------------------------
+-- Table structure for planexception
+-- ----------------------------
+DROP TABLE IF EXISTS `planexception`;
+CREATE TABLE `planexception` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` varchar(20) NOT NULL,
+  `planId` int(11) NOT NULL,
+  `cause` varchar(255) NOT NULL,
+  `userName` varchar(100) NOT NULL,
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `planId` (`planId`),
+  CONSTRAINT `planexception_ibfk_1` FOREIGN KEY (`planId`) REFERENCES `plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of planexception
 -- ----------------------------
 
 -- ----------------------------
@@ -204,10 +209,9 @@ CREATE TABLE `plantemplate` (
 -- ----------------------------
 DROP TABLE IF EXISTS `plan_user`;
 CREATE TABLE `plan_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `planId` int(11) NOT NULL,
   `executerId` int(11) NOT NULL COMMENT '计划被下发人员的id',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`planId`,`executerId`),
   KEY `planId` (`planId`),
   CONSTRAINT `plan_user_ibfk_1` FOREIGN KEY (`planId`) REFERENCES `plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -301,7 +305,7 @@ CREATE TABLE `style` (
 -- ----------------------------
 -- Records of style
 -- ----------------------------
-INSERT INTO `style` VALUES ('1', '10190114(CX1901)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-20 12:00:00', '\0');
+INSERT INTO `style` VALUES ('1', '10190114(CX1901)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2019-05-03 15:02:54', '');
 INSERT INTO `style` VALUES ('2', '10190114(CX1902)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-21 12:00:00', '\0');
 INSERT INTO `style` VALUES ('3', '10190114(CX1903)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-23 12:00:00', '\0');
 INSERT INTO `style` VALUES ('4', '10190114(CX1904)', '1', '2', 'KSZ20190101002', '款式2组', '1', '2', '3', '张三', '信息管理', '2018-08-24 12:00:00', '\0');
@@ -337,6 +341,22 @@ INSERT INTO `stylegroup` VALUES ('1', 'KSZ20190101001', '款式1组', '1', '2', 
 INSERT INTO `stylegroup` VALUES ('2', 'KSZ20190101002', '款式2组', '1', '2', '3', '张三', '信息管理', '2018-07-22 12:00:00', '\0');
 INSERT INTO `stylegroup` VALUES ('3', 'KSZ20190101003', '款式3组', '2', '2', '3', '张三', '信息管理', '2018-07-24 12:00:01', '\0');
 INSERT INTO `stylegroup` VALUES ('4', 'KSZ20190101004', '款式4组', '3', '2', '3', '张三', '信息管理', '2018-07-26 12:00:01', '\0');
+
+-- ----------------------------
+-- Table structure for test
+-- ----------------------------
+DROP TABLE IF EXISTS `test`;
+CREATE TABLE `test` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `createTime` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of test
+-- ----------------------------
+INSERT INTO `test` VALUES ('1', '2019-06-12');
+INSERT INTO `test` VALUES ('5', '2019-05-12');
 
 -- ----------------------------
 -- Table structure for user_brand
@@ -385,7 +405,7 @@ CREATE TABLE `user_customer_brand` (
   KEY `brandId` (`brandId`),
   CONSTRAINT `user_customer_brand_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_customer_brand_ibfk_2` FOREIGN KEY (`brandId`) REFERENCES `brand` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_customer_brand
@@ -397,6 +417,19 @@ INSERT INTO `user_customer_brand` VALUES ('4', '4', '李四', '2', '3');
 INSERT INTO `user_customer_brand` VALUES ('5', '4', '李四', '3', '4');
 INSERT INTO `user_customer_brand` VALUES ('6', '3', '张三', '2', '3');
 INSERT INTO `user_customer_brand` VALUES ('7', '3', '张三', '3', '4');
+INSERT INTO `user_customer_brand` VALUES ('8', '5', '王五', '1', '1');
+
+-- ----------------------------
+-- View structure for planexceptionsearch
+-- ----------------------------
+DROP VIEW IF EXISTS `planexceptionsearch`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `planexceptionsearch` AS select `planexception`.`id` AS `id`,`planexception`.`number` AS `number`,`planexception`.`planId` AS `planId`,`plan`.`number` AS `planNumber`,`plan`.`name` AS `planName`,`customer`.`name` AS `customerName`,`brand`.`name` AS `brandName`,`range`.`name` AS `rangeName`,`planexception`.`cause` AS `cause`,`planexception`.`userName` AS `userName`,`planexception`.`createTime` AS `createTime`,`user_customer_brand`.`userId` AS `userId`,`plan`.`planObjectId` AS `planObjectId`,`plan`.`type` AS `type` from (((((`planexception` join `plan` on((`planexception`.`planId` = `plan`.`id`))) join `range` on((`plan`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
+
+-- ----------------------------
+-- View structure for plansearch
+-- ----------------------------
+DROP VIEW IF EXISTS `plansearch`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `plansearch` AS select `plan`.`id` AS `id`,`plan`.`number` AS `number`,`plan`.`name` AS `name`,`plan`.`rangeId` AS `rangeId`,`plan`.`type` AS `type`,`plan`.`isRoot` AS `isRoot`,`plan`.`parentId` AS `parentId`,`plan`.`planObjectId` AS `planObjectId`,`plan`.`projectType` AS `projectType`,`plan`.`quantity` AS `quantity`,`plan`.`productId` AS `productId`,`plan`.`productDate` AS `productDate`,`plan`.`productDateType` AS `productDateType`,`plan`.`startDate` AS `startDate`,`plan`.`endDate` AS `endDate`,`plan`.`proposal` AS `proposal`,`plan`.`description` AS `description`,`plan`.`state` AS `state`,`plan`.`createrName` AS `createrName`,`plan`.`deptName` AS `deptName`,`plan`.`createTime` AS `createTime`,`plan`.`rejectReason` AS `rejectReason`,`plan`.`deleterName` AS `deleterName`,`plan`.`deleteTime` AS `deleteTime`,`plan`.`haveException` AS `haveException`,`plan`.`note` AS `note`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`id` AS `brandId`,`brand`.`name` AS `brandName`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`range`.`isCompleted` AS `isCompleted`,`user_customer_brand`.`userId` AS `userId`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName` from (((((`plan` join `range` on((`plan`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) ;
 
 -- ----------------------------
 -- View structure for rangesearch
@@ -415,5 +448,3 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `stylesearch`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stylesearch` AS select `style`.`id` AS `id`,`style`.`number` AS `number`,`style`.`rangeId` AS `rangeId`,`style`.`styleGroupId` AS `styleGroupId`,`style`.`styleGroupNumber` AS `styleGroupNumber`,`style`.`styleGroupName` AS `styleGroupName`,`style`.`addingMode` AS `addingMode`,`style`.`state` AS `state`,`style`.`createrId` AS `createrId`,`style`.`createrName` AS `createrName`,`style`.`deptName` AS `deptName`,`style`.`createTime` AS `createTime`,`style`.`havePlan` AS `havePlan`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`name` AS `brandName`,`brand`.`id` AS `brandId`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName`,`user_customer_brand`.`userId` AS `userId` from (((((`style` join `range` on((`style`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
-
-SET FOREIGN_KEY_CHECKS=1;

@@ -2,8 +2,8 @@ package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.planModel.PlanAddReq;
-import org.plan.managementfacade.model.planModel.PlanException;
+import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
@@ -15,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/planManagement")
@@ -54,7 +54,30 @@ public class PlanModifyController {
             logger.error("所需属性值缺失");
             return ErrorCode.requiredFieldMiss;
         } else {
-            return planModifyService.addPlan(planAddReq, userId, userName, deptName);
+            return planModifyService.addPlan(planAddReq, userName, deptName);
+        }
+    }
+
+    @PostMapping(value = "/quotePredictPlan")
+    @ApiOperation(value = "引用预测计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int quotePredictPlan (@RequestBody Map<String, Object> params) {
+        if (params.containsKey("rangeId")) {
+            int rangeId = (int) params.get("rangeId");
+            return planModifyService.quotePredictPlan(rangeId, userName, deptName);
+        } else {
+            return ErrorCode.requiredFieldMiss;
+        }
+    }
+
+    @PostMapping(value = "/quoteRangePlan")
+    @ApiOperation(value = "引用系列计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int quoteRangePlan (@RequestBody Map<String, Object> params) {
+        if (params.containsKey("styleGroupId") && params.containsKey("rangeId")) {
+            int styleGroupId = (int) params.get("styleGroupId");
+            int rangeId = (int) params.get("rangeId");
+            return planModifyService.quoteRangePlan(styleGroupId, rangeId, userName, deptName);
+        } else {
+            return ErrorCode.requiredFieldMiss;
         }
     }
 

@@ -1,7 +1,7 @@
 package org.plan.managementservice.mapper.planManagement;
 
 import org.apache.ibatis.jdbc.SQL;
-import org.plan.managementfacade.model.planModel.PlanUpdateReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanUpdateReq;
 
 public class PlanUpdateProvider {
     public String updatePlan (PlanUpdateReq planUpdateReq) {

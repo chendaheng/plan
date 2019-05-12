@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.Plan;
-import org.plan.managementfacade.model.planModel.PlanExceptionResp;
-import org.plan.managementfacade.model.planModel.PlanSearchResp;
+import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
+import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
+import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
 
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +18,12 @@ import java.util.Map;
 public interface PlanObtainMapper {
     @Select("SELECT * FROM plan WHERE id=#{id};")
     Plan getPlanById(int id);
+
+    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    List<Plan> getRootPlanByPlanObjectIdAndType(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
+
+    @Select("SELECT * FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    List<Plan> getRangeRootPlanByRangeIdAndType(@Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT name FROM plan WHERE id=#{id};")
     String getPlanNameById(int id);
@@ -28,11 +34,14 @@ public interface PlanObtainMapper {
     @Select("SELECT COUNT(*) FROM plan WHERE name=#{name} AND rangeId=#{rangeId} AND type=#{type} AND state!=#{state};")
     int countPlanByNameRangeIdType(@Param("name") String name, @Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
-    @Select("SELECT id FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND isRoot=true;")
-    int getRangeRootPlanId(@Param("rangeId") int rangeId, @Param("type") PlanType type);
+    @Select("SELECT COUNT(*) FROM plan WHERE type=#{type} AND planObjectId=#{planObjectId} AND isRoot=#{isRoot} AND state!=#{state};")
+    int countRootPlanByTypeAndPlanObject(@Param("type") PlanType type, @Param("planObjectId") int planObjectId, @Param("isRoot") boolean isRoot, @Param("state") PlanState state);
 
-    @Select("SELECT id FROM plan WHERE planObjectId=#{styleGroupId} AND type=#{type} AND isRoot=true;")
-    int getStyleGroupRootPlanId(@Param("styleGroupId") int styleGroupId, @Param("type") PlanType type);
+    @Select("SELECT id FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    int getRangeRootPlanId(@Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
+
+    @Select("SELECT id FROM plan WHERE planObjectId=#{styleGroupId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    int getStyleGroupRootPlanId(@Param("styleGroupId") int styleGroupId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT startDate FROM plan WHERE id=#{id};")
     String getPlanStartDateById(int id);
@@ -41,13 +50,22 @@ public interface PlanObtainMapper {
     String getPlanEndDateById(int id);
 
     @Select("SELECT quantity FROM plan WHERE id=#{id}")
-    int getPlanQuantityById(@Param("id") int id);
+    int getPlanQuantityById(int id);
 
     @Select("SELECT quantity FROM plan WHERE parentId=#{parentId} AND type=#{type} AND state!=#{state};")
     List<Integer> getPlanQuantityByParentIdAndType(@Param("parentId") int parentId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT state FROM plan WHERE id=#{id};")
     PlanState getPlanStateById(int id);
+
+    @Select("SELECT type FROM plan WHERE id=#{id};")
+    PlanType getPlanTypeById(int id);
+
+    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND state!=#{state};")
+    List<Plan> getPlanByPlanObjectId(@Param("planObjectId") int planObjectId, @Param("state") PlanState state);
+
+    @Select("SELECT id,number,name,order,startDate,endDate,createrName,deptName,createTime FROM plan WHERE parentId=#{parentId} AND type=#{type} AND state!=#{state};")
+    List<ChildrenPlanResp> getPlanByParentIdAndType(@Param("parentId") int parentId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT number FROM planexception order by id desc limit 1;")
     String getLastExceptionNumber();
@@ -69,4 +87,7 @@ public interface PlanObtainMapper {
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanExceptionListByParams")
     List<PlanExceptionResp> getPlanExceptionList(Map<String, Object> params);
+
+    @SelectProvider(type = PlanObtainProvider.class, method = "getDistributedPlanListByParams")
+    List<PlanSearchResp> getDistributedPlanListByParams(Map<String, Object> params);
 }

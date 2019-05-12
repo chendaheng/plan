@@ -1,8 +1,8 @@
 package org.plan.managementservice.mapper.planManagement;
 
 import org.apache.ibatis.annotations.*;
-import org.plan.managementfacade.model.planModel.Plan;
-import org.plan.managementfacade.model.planModel.PlanException;
+import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 
 import java.util.List;
