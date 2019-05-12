@@ -37,7 +37,7 @@ public class PlanModifyServiceImply {
     @Autowired
     private InfoUpdateMapper infoUpdateMapper;
 
-    public int addPlan (PlanAddReq planAddReq, int userId, String userName, String deptName) {
+    public int addPlan (PlanAddReq planAddReq, String userName, String deptName) {
         // 同一系列下同一类型计划名称不得重复,不包括已删除计划
         String name = planAddReq.getName();
         int rangeId = planAddReq.getRangeId();
@@ -52,7 +52,7 @@ public class PlanModifyServiceImply {
         if (type == PlanType.STYLEGROUP && isRoot) {
             int parentIdOfRange = planObtainMapper.getRangeRootPlanId(rangeId, PlanType.RANGE);
             if (parentIdOfRange == 0) {
-                logger.error("系列根计划不存在,新增系列计划失败。");
+                logger.error("系列根计划不存在,新增款式组根计划失败。");
                 return ErrorCode.rangeRootPlanNotExist;
             } else {
                 planAddReq.setParentId(parentIdOfRange);
@@ -63,7 +63,7 @@ public class PlanModifyServiceImply {
             int styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
             int parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP);
             if (parentIdOfStyleGroup == 0) {
-                logger.error("款式组根计划不存在,新增款式组计划失败");
+                logger.error("款式组根计划不存在,新增款式根计划失败");
                 return ErrorCode.styleGroupRootPlanNotExist;
             } else {
                 planAddReq.setParentId(parentIdOfStyleGroup);
@@ -125,6 +125,23 @@ public class PlanModifyServiceImply {
             }
         }
         return result;
+    }
+
+    public int quotePredictPlan (int rangeId, String userName, String deptName) {
+        // 获取系列对应的预测计划
+        List<Plan> predictPlanList = planObtainMapper.getPredictPlanByRangeId(rangeId, PlanType.PREDICT, PlanState.DELETED);
+        // 若一个系列有一个以上的预测计划，返回数据库错误信息
+        if (predictPlanList.size() > 1) {
+            return ErrorCode.databaseError;
+        }
+        // 若相应预测计划不存在，返回预测计划不存在错误信息
+        if (predictPlanList.size() == 0) {
+            return ErrorCode.predictPlanNotExist;
+        }
+        // 将预测计划的id
+        Plan predictPlan = predictPlanList.get(0);
+        predictPlan.setId(null);
+        predictPlan.setNumber();
     }
 
     public int addExceptionForPlan(PlanException planException) {

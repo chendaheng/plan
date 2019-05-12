@@ -119,6 +119,27 @@ public class PlanObtainProvider {
         }.toString();
     }
 
+    public String getDistributedPlanListByParams (Map<String, Object> params) {
+        String[] keyList = {"customerId", "brandId", "rangeId", "name", "clothingLevelId", "executerId"};
+        return new SQL() {
+            {
+                SELECT("*").FROM("distributedplansearch");
+                for (String key : keyList) {
+                    if (params.containsKey(key)) {
+                        Object value = params.get(key);
+                        WHERE(key + "='" + value + "'");
+                    }
+                }
+                if (params.containsKey("startDate")) {
+                    WHERE("createTime>='" + params.get("startDate").toString() + "'");
+                }
+                if (params.containsKey("endDate")) {
+                    WHERE("createTime<='" + params.get("endDate").toString() + "'");
+                }
+            }
+        }.toString();
+    }
+
     public String getPlanExceptionListByParams(Map<String, Object> params) {
         String[] keyList = {"customerId", "brandId", "rangeId", "userId"};
         return new SQL() {

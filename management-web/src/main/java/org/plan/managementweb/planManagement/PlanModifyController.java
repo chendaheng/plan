@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -54,8 +53,14 @@ public class PlanModifyController {
             logger.error("所需属性值缺失");
             return ErrorCode.requiredFieldMiss;
         } else {
-            return planModifyService.addPlan(planAddReq, userId, userName, deptName);
+            return planModifyService.addPlan(planAddReq, userName, deptName);
         }
+    }
+
+    @GetMapping(value = "/quotePredictPlan")
+    @ApiOperation(value = "引用预测计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int quotePredictPlan (@RequestParam("rangeId") int rangeId) {
+        return planModifyService.quotePredictPlan(rangeId, userName, deptName);
     }
 
     @PostMapping(value = "/addException")

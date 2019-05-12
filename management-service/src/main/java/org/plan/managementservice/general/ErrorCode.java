@@ -48,6 +48,8 @@ public class ErrorCode {
     public static Integer dateOutOfRange = -5;
     // 计划款数超额
     public static Integer quantityExceed = -6;
+    // 引用预测计划时预测计划不存在
+    public static Integer predictPlanNotExist = -1;
     // 当前计划状态不允许执行此操作
     public static Integer illegalStateUpdate = -1;
     // 与已有计划冲突

@@ -71,6 +71,34 @@ public class PlanObtainServiceImply {
         return planSearchList;
     }
 
+    public List<PlanSearchResp> getDistributedPlanList (Map<String, Object> params) {
+        List<PlanSearchResp> planSearchList = planObtainMapper.getDistributedPlanListByParams(params);
+        // 依据parentId获取parentName,依据planObjectId和type获取planObject
+        for (PlanSearchResp planSearch : planSearchList) {
+            int parentId = planSearch.getParentId();
+            int planObjectId = planSearch.getPlanObjectId();
+            PlanType type = planSearch.getType();
+            String parentName = planObtainMapper.getPlanNameById(parentId);
+            String planObject;
+            switch (type) {
+                case PREDICT: case RANGE:
+                    planObject = infoObtainMapper.getRangeNameById(planObjectId);
+                    break;
+                case STYLEGROUP:
+                    planObject = infoObtainMapper.getStyleGroupNameById(planObjectId);
+                    break;
+                case STYLE:
+                    planObject = infoObtainMapper.getStyleNumberById(planObjectId);
+                    break;
+                default:
+                    return null;
+            }
+            planSearch.setParentName(parentName);
+            planSearch.setPlanObject(planObject);
+        }
+        return planSearchList;
+    }
+
     public List<PlanExceptionResp> getPlanExceptionList (Map<String, Object> params) {
         List<PlanExceptionResp> planExceptionList = planObtainMapper.getPlanExceptionList(params);;
         // 依据parentId获取parentName,依据planObjectId和type获取planObject

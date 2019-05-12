@@ -19,6 +19,9 @@ public interface PlanObtainMapper {
     @Select("SELECT * FROM plan WHERE id=#{id};")
     Plan getPlanById(int id);
 
+    @Select("SELECT * FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND state!=#{state};")
+    List<Plan> getPredictPlanByRangeId(@Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
+
     @Select("SELECT name FROM plan WHERE id=#{id};")
     String getPlanNameById(int id);
 
@@ -38,7 +41,7 @@ public interface PlanObtainMapper {
     String getPlanEndDateById(int id);
 
     @Select("SELECT quantity FROM plan WHERE id=#{id}")
-    int getPlanQuantityById(@Param("id") int id);
+    int getPlanQuantityById(int id);
 
     @Select("SELECT quantity FROM plan WHERE parentId=#{parentId} AND type=#{type} AND state!=#{state};")
     List<Integer> getPlanQuantityByParentIdAndType(@Param("parentId") int parentId, @Param("type") PlanType type, @Param("state") PlanState state);
@@ -66,4 +69,7 @@ public interface PlanObtainMapper {
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanExceptionListByParams")
     List<PlanExceptionResp> getPlanExceptionList(Map<String, Object> params);
+
+    @SelectProvider(type = PlanObtainProvider.class, method = "getDistributedPlanListByParams")
+    List<PlanSearchResp> getDistributedPlanListByParams(Map<String, Object> params);
 }
