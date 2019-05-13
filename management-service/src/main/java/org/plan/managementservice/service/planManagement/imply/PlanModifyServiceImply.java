@@ -42,7 +42,7 @@ public class PlanModifyServiceImply {
         int rangeId = planAddReq.getRangeId();
         PlanType type = planAddReq.getType();
         int planObjectId = planAddReq.getPlanObjectId();
-        boolean isRoot = planAddReq.isRoot();
+        boolean isRoot = planAddReq.getIsRoot();
         int count = planObtainMapper.countPlanByNameRangeIdType(name, rangeId, type, PlanState.DELETED);
         if (count > 0) {
             logger.error("计划名称重复,新增计划失败。当前新增计划的名称为:" + name);
@@ -185,7 +185,7 @@ public class PlanModifyServiceImply {
         return planModifyMapper.addExceptionForPlan(planException);
     }
 
-    public int deletePlan(int id) {
+    public int deletePlan(int id, String userName) {
         // 只有当计划状态为已制定/被驳回时才能删除
         Plan plan = planObtainMapper.getPlanById(id);
         PlanState planState = plan.getState();
@@ -193,8 +193,8 @@ public class PlanModifyServiceImply {
             logger.error("id为" + id + "的计划状态不是已制定也不是已驳回,无法进行删除操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
-            int result = planUpdateMapper.deletePlanById(id, PlanState.DELETED);
-            boolean isRoot = plan.isRoot();
+            int result = planUpdateMapper.deletePlanById(id, PlanState.DELETED, userName);
+            boolean isRoot = plan.getIsRoot();
             PlanType type = plan.getType();
             int planObjectId = plan.getPlanObjectId();
             // 删除计划为根计划时，需同步更新系列/款式组/款式中的havePlan状态信息

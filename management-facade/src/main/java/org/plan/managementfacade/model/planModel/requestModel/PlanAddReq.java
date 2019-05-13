@@ -28,7 +28,7 @@ public class PlanAddReq {
         name = plan.getName();
         rangeId = plan.getRangeId();
         type = plan.getType();
-        isRoot = plan.isRoot();
+        isRoot = plan.getIsRoot();
         parentId = plan.getParentId();
         planObjectId = plan.getPlanObjectId();
         projectType = plan.getProjectType();
@@ -71,7 +71,7 @@ public class PlanAddReq {
         this.type = PlanType.getPlanType(name);
     }
 
-    public boolean isRoot() {
+    public boolean getIsRoot() {
         return isRoot;
     }
 

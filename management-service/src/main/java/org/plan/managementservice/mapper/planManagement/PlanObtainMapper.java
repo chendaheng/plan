@@ -19,10 +19,10 @@ public interface PlanObtainMapper {
     @Select("SELECT * FROM plan WHERE id=#{id};")
     Plan getPlanById(int id);
 
-    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND type=#{type} AND getIsRoot=true AND state!=#{state};")
     List<Plan> getRootPlanByPlanObjectIdAndType(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
 
-    @Select("SELECT * FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    @Select("SELECT * FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND getIsRoot=true AND state!=#{state};")
     List<Plan> getRangeRootPlanByRangeIdAndType(@Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT name FROM plan WHERE id=#{id};")
@@ -34,13 +34,13 @@ public interface PlanObtainMapper {
     @Select("SELECT COUNT(*) FROM plan WHERE name=#{name} AND rangeId=#{rangeId} AND type=#{type} AND state!=#{state};")
     int countPlanByNameRangeIdType(@Param("name") String name, @Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
-    @Select("SELECT COUNT(*) FROM plan WHERE type=#{type} AND planObjectId=#{planObjectId} AND isRoot=#{isRoot} AND state!=#{state};")
-    int countRootPlanByTypeAndPlanObject(@Param("type") PlanType type, @Param("planObjectId") int planObjectId, @Param("isRoot") boolean isRoot, @Param("state") PlanState state);
+    @Select("SELECT COUNT(*) FROM plan WHERE type=#{type} AND planObjectId=#{planObjectId} AND getIsRoot=#{getIsRoot} AND state!=#{state};")
+    int countRootPlanByTypeAndPlanObject(@Param("type") PlanType type, @Param("planObjectId") int planObjectId, @Param("getIsRoot") boolean isRoot, @Param("state") PlanState state);
 
-    @Select("SELECT id FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    @Select("SELECT id FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND getIsRoot=true AND state!=#{state};")
     int getRangeRootPlanId(@Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
-    @Select("SELECT id FROM plan WHERE planObjectId=#{styleGroupId} AND type=#{type} AND isRoot=true AND state!=#{state};")
+    @Select("SELECT id FROM plan WHERE planObjectId=#{styleGroupId} AND type=#{type} AND getIsRoot=true AND state!=#{state};")
     int getStyleGroupRootPlanId(@Param("styleGroupId") int styleGroupId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT startDate FROM plan WHERE id=#{id};")

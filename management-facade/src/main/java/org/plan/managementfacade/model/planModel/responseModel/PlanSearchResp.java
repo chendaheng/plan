@@ -82,7 +82,7 @@ public class PlanSearchResp {
         this.type = type;
     }
 
-    public boolean isRoot() {
+    public boolean getIsRoot() {
         return isRoot;
     }
 
@@ -314,7 +314,7 @@ public class PlanSearchResp {
         this.customerName = customerName;
     }
 
-    public boolean isCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 

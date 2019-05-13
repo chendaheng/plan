@@ -7,7 +7,6 @@ import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
-import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.infoManagement.InfoObtainMapper;
 import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
 import org.slf4j.Logger;
@@ -164,7 +163,7 @@ public class PlanObtainServiceImply {
         // 依据planObjectId获取该计划树上全部计划
         List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, PlanState.DELETED);
         for (Plan plan : planList) {
-            if (plan.isRoot()) {
+            if (plan.getIsRoot()) {
                 continue;
             }
             // 除根计划外每个计划都做成一个节点

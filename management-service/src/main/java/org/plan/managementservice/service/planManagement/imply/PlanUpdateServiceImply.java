@@ -176,7 +176,7 @@ public class PlanUpdateServiceImply {
         // 获取待恢复计划信息
         Plan deletedPlan = planObtainMapper.getPlanById(id);
         String name = deletedPlan.getName();
-        boolean isRoot = deletedPlan.isRoot();
+        boolean isRoot = deletedPlan.getIsRoot();
         int rangeId = deletedPlan.getRangeId();
         PlanType type = deletedPlan.getType();
         int quantity = deletedPlan.getQuantity();
