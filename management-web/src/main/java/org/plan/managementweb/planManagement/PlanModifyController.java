@@ -96,6 +96,6 @@ public class PlanModifyController {
     @DeleteMapping (value = "/deletePlan")
     @ApiOperation(value = "依据计划id删除计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deletePlanById(@RequestParam("id") int id) {
-        return planModifyService.deletePlan(id);
+        return planModifyService.deletePlan(id, userName);
     }
 }
