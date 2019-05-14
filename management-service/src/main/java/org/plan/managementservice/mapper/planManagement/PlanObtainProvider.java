@@ -70,7 +70,7 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
-                WHERE("state=" + PlanState.SUBMIT.getIndex()).OR().WHERE("state=" + PlanState.PASS.getIndex());
+                WHERE("(state=" + PlanState.SUBMIT.getIndex() + " or " + "state=" + PlanState.PASS.getIndex() + ")");
             }
         }.toString();
     }

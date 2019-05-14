@@ -23,7 +23,7 @@ public class PlanModifyProvider {
                 if (plan.getType() != null) {
                     VALUES("type",  plan.getType().getIndex() + "");
                 }
-                VALUES("getIsRoot", plan.getIsRoot() + "");
+                VALUES("isRoot", plan.getIsRoot() + "");
                 if (plan.getParentId() != null) {
                     VALUES("parentId", plan.getParentId() + "");
                 }

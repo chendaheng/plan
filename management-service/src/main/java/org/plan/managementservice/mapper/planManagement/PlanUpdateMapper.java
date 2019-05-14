@@ -21,6 +21,6 @@ public interface PlanUpdateMapper {
     @Update("UPDATE plan SET state=#{state}, deleterName=#{userName}, deleteTime=CURRENT_TIMESTAMP WHERE id=#{id};")
     int deletePlanById(@Param("id") int id, @Param("state") PlanState state, @Param("userName") String userName);
 
-    @Update("UPDATE plan SET order=#{order} WHERE id=#{id};")
+    @Update("UPDATE plan SET `order`=#{order} WHERE id=#{id};")
     int updatePlanOrderById(int id, int order);
 }
