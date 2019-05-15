@@ -26,7 +26,7 @@ server:
 
 mybatis:
   mapper-locations: classpath*:org/plan/managementservice/mapper/**/*Mapper.xml
-  type-handlers-package: org.plan.managementfacade.model.enumModel
+  type-handlers-package: org.plan.managementweb
 
 logging:
   level:
@@ -36,3 +36,12 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: 123
+      id: openid

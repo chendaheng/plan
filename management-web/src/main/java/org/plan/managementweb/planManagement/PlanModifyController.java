@@ -7,6 +7,7 @@ import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.planManagement.imply.PlanModifyServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +22,17 @@ import java.util.Map;
 @RestController
 @RequestMapping("/planManagement")
 @Api(value = "计划信息增删接口", tags = {"计划信息增删接口"})
-@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.POST, RequestMethod.DELETE},
-        origins = "*")
+//@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+//        methods = {RequestMethod.POST, RequestMethod.DELETE},
+//        origins = "*")
 public class PlanModifyController {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     /*--------------------此处为临时设定，userId与userName应从网关获取-------------------------------------*/
-    private static final int userId = 3;
-    private static final String userName = "张三";
-    private static final String deptName = "设计管理部";
+//    private static final int userId = 3;
+//    private static final String userName = "张三";
+//    private static final String deptName = "设计管理部";
 
     @Autowired
     private PlanModifyServiceImply planModifyService;
@@ -44,6 +45,8 @@ public class PlanModifyController {
 
     @PostMapping(value = "/test")
     public int test(@RequestBody Test t) {
+        String userName = GatewayInfo.getUserName();
+        String deptName = GatewayInfo.getDeptName();
         return planModifyService.addTest(t);
     }
 
@@ -54,6 +57,8 @@ public class PlanModifyController {
             logger.error("所需属性值缺失");
             return ErrorCode.requiredFieldMiss;
         } else {
+            String userName = GatewayInfo.getUserName();
+            String deptName = GatewayInfo.getDeptName();
             return planModifyService.addPlan(planAddReq, userName, deptName);
         }
     }
@@ -63,6 +68,8 @@ public class PlanModifyController {
     public int quotePredictPlan (@RequestBody Map<String, Object> params) {
         if (params.containsKey("rangeId")) {
             int rangeId = (int) params.get("rangeId");
+            String userName = GatewayInfo.getUserName();
+            String deptName = GatewayInfo.getDeptName();
             return planModifyService.quotePredictPlan(rangeId, userName, deptName);
         } else {
             return ErrorCode.requiredFieldMiss;
@@ -75,6 +82,8 @@ public class PlanModifyController {
         if (params.containsKey("styleGroupId") && params.containsKey("rangeId")) {
             int styleGroupId = (int) params.get("styleGroupId");
             int rangeId = (int) params.get("rangeId");
+            String userName = GatewayInfo.getUserName();
+            String deptName = GatewayInfo.getDeptName();
             return planModifyService.quoteRangePlan(styleGroupId, rangeId, userName, deptName);
         } else {
             return ErrorCode.requiredFieldMiss;
@@ -88,6 +97,7 @@ public class PlanModifyController {
         if (planException.getPlanId() == null || planException.getCause() == null) {
             return ErrorCode.requiredFieldMiss;
         } else {
+            String userName = GatewayInfo.getUserName();
             planException.setUserName(userName);
             return planModifyService.addExceptionForPlan(planException);
         }
@@ -96,6 +106,7 @@ public class PlanModifyController {
     @DeleteMapping (value = "/deletePlan")
     @ApiOperation(value = "依据计划id删除计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deletePlanById(@RequestParam("id") int id) {
+        String userName = GatewayInfo.getUserName();
         return planModifyService.deletePlan(id, userName);
     }
 }

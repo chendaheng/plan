@@ -6,6 +6,7 @@ import org.plan.managementfacade.model.planModel.PlanTree;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.planManagement.imply.PlanObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,9 +23,9 @@ import java.util.Map;
         origins = "*")
 public class PlanObtainController {
     /*--------------------此处为临时设定，userId与userName应从网关获取-------------------------------------*/
-    private static final int userId = 3;
-    private static final String userName = "张三";
-    private static final String deptName = "设计管理部";
+//    private static final int userId = 3;
+//    private static final String userName = "张三";
+//    private static final String deptName = "设计管理部";
 
     @Autowired
     private PlanObtainServiceImply planObtainService;
@@ -36,6 +37,8 @@ public class PlanObtainController {
         if (params.get("stage") == null) {
             return null;
         } else {
+            int userId = GatewayInfo.getUserId();
+            String userName = GatewayInfo.getUserName();
             params.put("userId", userId);
             return planObtainService.getPlanList(params);
         }
@@ -44,6 +47,7 @@ public class PlanObtainController {
     @GetMapping(value = "/getDistributedPlanList")
     @ApiOperation(value = "获取被下发计划列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<PlanSearchResp> getDistributedPlanList (@RequestParam Map<String, Object> params) {
+        int userId = GatewayInfo.getUserId();
         params.put("executerId", userId);
         return planObtainService.getDistributedPlanList(params);
     }
@@ -57,6 +61,7 @@ public class PlanObtainController {
     @GetMapping(value = "/getExceptionList")
     @ApiOperation(value = "按权限获取计划异常列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<PlanExceptionResp> getPlanExceptionList (@RequestParam Map<String, Object> params) {
+        int userId = GatewayInfo.getUserId();
         params.put("userId", userId);
         return planObtainService.getPlanExceptionList(params);
     }
