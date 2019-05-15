@@ -13,13 +13,13 @@ import java.sql.SQLException;
 @MappedTypes(PlanState.class)
 @MappedJdbcTypes(JdbcType.INTEGER)
 public class PlanStateHandler extends BaseTypeHandler<PlanState> {
-    private Class<PlanState> type;
+    private Class<PlanState> state;
 
-    public PlanStateHandler (Class<PlanState> type) {
-        if (type == null) {
+    public PlanStateHandler (Class<PlanState> state) {
+        if (state == null) {
             throw new IllegalArgumentException("Type argument cannot be null");
         }
-        this.type = type;
+        this.state = state;
     }
 
 
