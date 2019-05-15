@@ -28,25 +28,17 @@ import java.util.Map;
 public class PlanModifyController {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
-    /*--------------------此处为临时设定，userId与userName应从网关获取-------------------------------------*/
-//    private static final int userId = 3;
-//    private static final String userName = "张三";
-//    private static final String deptName = "设计管理部";
-
     @Autowired
     private PlanModifyServiceImply planModifyService;
 
     @GetMapping(value = "/test")
     @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Test> test () {
-        return planModifyService.getTest();
+        return null;
     }
 
     @PostMapping(value = "/test")
     public int test(@RequestBody Test t) {
-        String userName = GatewayInfo.getUserName();
-        String deptName = GatewayInfo.getDeptName();
         return planModifyService.addTest(t);
     }
 

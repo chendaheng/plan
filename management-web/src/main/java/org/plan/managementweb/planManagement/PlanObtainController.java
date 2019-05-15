@@ -22,10 +22,6 @@ import java.util.Map;
         methods = {RequestMethod.GET},
         origins = "*")
 public class PlanObtainController {
-    /*--------------------此处为临时设定，userId与userName应从网关获取-------------------------------------*/
-//    private static final int userId = 3;
-//    private static final String userName = "张三";
-//    private static final String deptName = "设计管理部";
 
     @Autowired
     private PlanObtainServiceImply planObtainService;
@@ -38,7 +34,6 @@ public class PlanObtainController {
             return null;
         } else {
             int userId = GatewayInfo.getUserId();
-            String userName = GatewayInfo.getUserName();
             params.put("userId", userId);
             return planObtainService.getPlanList(params);
         }

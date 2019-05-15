@@ -26,7 +26,7 @@ server:
 
 mybatis:
   mapper-locations: classpath*:org/plan/managementservice/mapper/**/*Mapper.xml
-  type-handlers-package: org.plan.managementweb
+  type-handlers-package: org.plan.managementfacade.model.enumModel
 
 logging:
   level:
