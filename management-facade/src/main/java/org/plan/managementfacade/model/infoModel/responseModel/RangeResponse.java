@@ -20,6 +20,7 @@ public class RangeResponse {
     private Integer addingMode;
     private String addingModeStr;
     private Integer state;
+    private String stateStr;
     private Integer createrId;
     private String createrName; // 待取
     private Timestamp createTime;
@@ -138,6 +139,14 @@ public class RangeResponse {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getStateStr() {
+        return stateStr;
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
     }
 
     public Integer getCreaterId() {

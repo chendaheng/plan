@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.service.infoManagement.Imply.InfoModifyServiceImply;
+import org.plan.managementservice.service.infoManagement.Imply.InfoUpdateServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class InfoModifyController {
 
     @Autowired
     private InfoModifyServiceImply infoModifyServiceImply;
+
+    @Autowired
+    private InfoUpdateServiceImply infoUpdateServiceImply;
 
     @RequestMapping (value = "/addRange", method = RequestMethod.POST)
     @ApiOperation(value = "新增单条系列")

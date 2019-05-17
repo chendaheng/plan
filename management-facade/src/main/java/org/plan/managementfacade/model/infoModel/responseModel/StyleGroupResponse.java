@@ -24,6 +24,7 @@ public class StyleGroupResponse {
     private String deptName; // 待取
     private Timestamp createTime;
     private Integer state;
+    private String stateStr;
     private Boolean havePlan;
 
     public Integer getId() {
@@ -160,6 +161,14 @@ public class StyleGroupResponse {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getStateStr() {
+        return stateStr;
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
     }
 
     public Boolean getHavePlan() {
