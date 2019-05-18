@@ -2,7 +2,6 @@ package org.plan.managementservice.service.infoManagement.Imply;
 
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
-import org.plan.managementfacade.service.infoService.*;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.slf4j.Logger;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class InfoUpdateServiceImply implements InfoUpdateService {
+public class InfoUpdateServiceImply{
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
@@ -23,7 +22,6 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
     @Autowired
     private InfoObtainMapper infoObtainMapper;
 
-    @Override
     public int updateRange(RangeUpdateRequest rangeUpdateRequest) {
         // 更新系列信息
         String name = rangeUpdateRequest.getName();
@@ -54,7 +52,6 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
         }
     }
 
-    @Override
     public int updateStyleGroup(StyleGroupUpdateRequest styleGroupUpdateRequest) {
         // 更新款式组信息
         String name = styleGroupUpdateRequest.getName();
@@ -85,7 +82,6 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
         }
     }
 
-    @Override
     public int updateStyle(StyleUpdateRequest styleUpdateRequest) {
         // 更新款式信息
         String number = styleUpdateRequest.getNumber();
@@ -116,7 +112,6 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
         }
     }
 
-    @Override
     public int bindStyleGroup(List <BindStyleGroupRequest> bindStyleGroupRequestList) {
         // 绑定款式组
         int updateStyleCount = 0; // 记录被更新style的数量
@@ -167,7 +162,6 @@ public class InfoUpdateServiceImply implements InfoUpdateService {
         return updateStyleCount;
     }
 
-    @Override
     public int unbindStyleGroup(int id) {
         // 解绑款式组
         int updateStyleCount = 0; // 记录被更新style的数量
