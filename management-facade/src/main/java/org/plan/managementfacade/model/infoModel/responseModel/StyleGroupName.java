@@ -1,7 +1,6 @@
 package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.models.auth.In;
 
 @ApiModel("款式组名称模型")
 public class StyleGroupName {

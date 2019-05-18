@@ -1,7 +1,6 @@
 package org.plan.managementfacade.model.infoModel.sqlModel;
 
 import io.swagger.annotations.ApiModel;
-import java.sql.Timestamp;
 
 @ApiModel("系列信息模型")
 public class Range {
@@ -17,7 +16,7 @@ public class Range {
     private Integer createrId;
     private String createrName;
     private String deptName;
-    private Timestamp createTime;
+    private String createTime;
     private String note;
     private Boolean havePredictPlan;
     private Boolean havePlan;
@@ -119,11 +118,11 @@ public class Range {
         this.deptName = deptName;
     }
 
-    public Timestamp getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

@@ -3,8 +3,6 @@ package org.plan.managementfacade.model.infoModel.responseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.models.auth.In;
 
-import java.sql.Timestamp;
-
 @ApiModel("款式返回模型")
 public class StyleResponse {
     private Integer id;
@@ -23,7 +21,7 @@ public class StyleResponse {
     private String clothingLevelName; // 待取
     private Integer createrId;
     private String createrName;
-    private Timestamp createTime;
+    private String createTime;
     private String deptName;
     private Integer addingMode;
     private String addingModeStr;
@@ -158,11 +156,11 @@ public class StyleResponse {
         this.createrName = createrName;
     }
 
-    public Timestamp getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

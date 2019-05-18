@@ -13,6 +13,14 @@ public interface InfoUpdateMapper {
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateRange")
     int updateRange (@Param("rangeUpdateRequest") RangeUpdateRequest rangeUpdateRequest);
 
+    // 系列中款式数量加1
+    @Update("UPDATE `range` SET styleQuantity = styleQuantity + 1 WHERE id=#{id};")
+    int addStyleQuantityInRange (@Param("id") int id);
+
+    // 系列中款式数量减1
+    @Update("UPDATE `range` SET styleQuantity = styleQuantity - 1 WHERE id=#{id};")
+    int minusStyleQuantityInRange (@Param("id") int id);
+
     // 更新款式组信息
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyleGroup")
     int updateStyleGroup (@Param("styleGroupUpdateRequest") StyleGroupUpdateRequest styleGroupUpdateRequest);
@@ -33,6 +41,6 @@ public interface InfoUpdateMapper {
     @Update("UPDATE style SET havePlan=#{bool} WHERE id=#{id};")
     void updateStyleHavePlanById(@Param("id") int id, @Param("bool") boolean bool);
 
-    @Update("UPDATE `range` SET getIsCompleted=true WHERE id=#{id};")
+    @Update("UPDATE `range` SET isCompleted=true WHERE id=#{id};")
     int completeRangeById(@Param("id") int id);
 }
