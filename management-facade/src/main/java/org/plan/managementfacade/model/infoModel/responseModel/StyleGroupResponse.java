@@ -1,9 +1,6 @@
 package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.models.auth.In;
-
-import java.sql.Timestamp;
 
 @ApiModel("款式组返回模型")
 public class StyleGroupResponse {
@@ -22,8 +19,9 @@ public class StyleGroupResponse {
     private Integer createrId;
     private String createrName;
     private String deptName; // 待取
-    private Timestamp createTime;
+    private String createTime;
     private Integer state;
+    private String stateStr;
     private Boolean havePlan;
 
     public Integer getId() {
@@ -146,11 +144,11 @@ public class StyleGroupResponse {
         this.deptName = deptName;
     }
 
-    public Timestamp getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -160,6 +158,14 @@ public class StyleGroupResponse {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getStateStr() {
+        return stateStr;
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
     }
 
     public Boolean getHavePlan() {

@@ -2,8 +2,6 @@ package org.plan.managementfacade.model.infoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
-import java.sql.Timestamp;
-
 @ApiModel("系列返回模型")
 public class RangeResponse {
     private Integer id;
@@ -20,9 +18,10 @@ public class RangeResponse {
     private Integer addingMode;
     private String addingModeStr;
     private Integer state;
+    private String stateStr;
     private Integer createrId;
     private String createrName; // 待取
-    private Timestamp createTime;
+    private String createTime;
     private String note;
     private Boolean havePredictPlan;
     private Boolean havePlan;
@@ -140,6 +139,14 @@ public class RangeResponse {
         this.state = state;
     }
 
+    public String getStateStr() {
+        return stateStr;
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
+    }
+
     public Integer getCreaterId() {
         return createrId;
     }
@@ -156,11 +163,11 @@ public class RangeResponse {
         this.createrName = createrName;
     }
 
-    public Timestamp getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

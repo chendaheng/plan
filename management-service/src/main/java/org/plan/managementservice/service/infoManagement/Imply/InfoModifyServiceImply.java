@@ -25,6 +25,9 @@ public class InfoModifyServiceImply implements InfoModifyService {
     private InfoObtainMapper infoObtainMapper;
 
     @Autowired
+    private InfoUpdateMapper infoUpdateMapper;
+
+    @Autowired
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
     @Override
@@ -131,7 +134,15 @@ public class InfoModifyServiceImply implements InfoModifyService {
             styleAddRequest.setCreaterId(3);
             styleAddRequest.setCreaterName("张三");
             styleAddRequest.setDeptName("信息管理");
-            return infoModifyMapper.addStyle(styleAddRequest);
+            int addResult = infoModifyMapper.addStyle(styleAddRequest);
+            if (addResult == 1){
+                int rangeId = styleAddRequest.getRangeId();
+                int updateResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
+                if (updateResult != 1){
+                    logger.warn("款号为" + number + "的款式信息新增成功,但系列信息的款式数量更新失败,请检查数据库");
+                }
+            }
+            return addResult;
         }
     }
 
@@ -153,6 +164,11 @@ public class InfoModifyServiceImply implements InfoModifyService {
                 int addResult = infoModifyMapper.addStyle(styleAddRequest);
                 if (addResult == 1){
                     addRangeCount += addResult;
+                    int rangeId = styleAddRequest.getRangeId();
+                    int updateResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
+                    if (updateResult != 1){
+                        logger.warn("款号为" + number + "的款式信息新增成功,但系列信息的款式数量更新失败,请检查数据库");
+                    }
                 }
                 else {
                     logger.info("新增信息出错,当前款式的款号为:" + styleAddRequest.getNumber());
@@ -166,13 +182,27 @@ public class InfoModifyServiceImply implements InfoModifyService {
     public int deleteStyle(int id) {
         // 删除款式
         List <Style> styleResult = infoObtainMapper.getStyleById(id);
-        int state = styleResult.get(0).getState();
-        if (state == 2){
-            logger.error("该款式已经与款式组绑定，无法删除");
-            return ErrorCode.sqlError;
+        if (styleResult.size() != 1){
+            logger.error("id为" + id + "款式信息不存在,删除失败");
+            return ErrorCode.nullError;
         }
         else {
-            return infoModifyMapper.deleteStyle(id);
+            int state = styleResult.get(0).getState();
+            if (state == 2){
+                logger.error("该款式已经与款式组绑定,无法删除");
+                return ErrorCode.sqlError;
+            }
+            else {
+                int deleteResult = infoModifyMapper.deleteStyle(id);
+                if (deleteResult == 1){
+                    int rangeId = styleResult.get(0).getRangeId();
+                    int updateResult = infoUpdateMapper.minusStyleQuantityInRange(rangeId);
+                    if (updateResult !=1 ){
+                        logger.warn("id为" + id + "的款式信息删除成功,但系列信息的款式数量更新失败,请检查数据库");
+                    }
+                }
+                return deleteResult;
+            }
         }
     }
 }

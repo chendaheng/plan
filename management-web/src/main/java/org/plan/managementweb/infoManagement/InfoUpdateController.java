@@ -59,7 +59,7 @@ public class InfoUpdateController {
     }
 
     @RequestMapping (value = "/completeRange", method = RequestMethod.GET)
-    @ApiOperation(value = "解绑款式组")
+    @ApiOperation(value = "完成系列")
     public int completeRangeById (@RequestParam("id") int id) {
         return infoUpdateServiceImply.completeRangeById(id);
     }

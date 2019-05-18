@@ -35,6 +35,10 @@ public class InfoObtainServiceImply implements InfoObtainService {
             int addingMode = rangeResponse.getAddingMode();
             String addingModeStr = AddingMode.getType(addingMode);
             rangeResponse.setAddingModeStr(addingModeStr);
+            int state = rangeResponse.getState();
+            String stateStr = InfoState.getName(state);
+            rangeResponse.setStateStr(stateStr);
+
         }
         return rangeResponseResult;
     }
@@ -53,7 +57,13 @@ public class InfoObtainServiceImply implements InfoObtainService {
     @Override
     public List<StyleGroupResponse> getStyleGroupResponse(StyleGroupSearchRequest styleGroupSearchRequest) {
         // 获取款式组response信息
-        return infoObtainMapper.getStyleGroupResponseByCondition(styleGroupSearchRequest);
+        List <StyleGroupResponse> styleGroupResponsesResult = infoObtainMapper.getStyleGroupResponseByCondition(styleGroupSearchRequest);
+        for (StyleGroupResponse styleGroupResponse : styleGroupResponsesResult){
+            int state = styleGroupResponse.getState();
+            String stateStr = InfoState.getName(state);
+            styleGroupResponse.setStateStr(stateStr);
+        }
+        return styleGroupResponsesResult;
     }
 
     @Override
