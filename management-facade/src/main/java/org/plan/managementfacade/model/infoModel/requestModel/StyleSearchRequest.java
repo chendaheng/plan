@@ -2,7 +2,6 @@ package org.plan.managementfacade.model.infoModel.requestModel;
 
 import io.swagger.annotations.ApiModel;
 
-import java.sql.Timestamp;
 
 @ApiModel("获取款式条件参数模型")
 public class StyleSearchRequest {
@@ -14,8 +13,8 @@ public class StyleSearchRequest {
     private Integer brandId;
     private Integer rangeId;
     private Integer clothingLevelId;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private String startDate;
+    private String endDate;
 
     public Integer getUserId() {
         return userId;
@@ -73,19 +72,19 @@ public class StyleSearchRequest {
         this.clothingLevelId = clothingLevelId;
     }
 
-    public Timestamp getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }

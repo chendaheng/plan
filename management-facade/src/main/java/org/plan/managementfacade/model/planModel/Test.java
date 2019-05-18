@@ -2,8 +2,6 @@ package org.plan.managementfacade.model.planModel;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 
-import java.sql.Timestamp;
-
 public class Test {
     private Integer id;
     private PlanState state;

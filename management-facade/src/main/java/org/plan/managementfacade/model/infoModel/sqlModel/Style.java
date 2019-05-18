@@ -1,7 +1,6 @@
 package org.plan.managementfacade.model.infoModel.sqlModel;
 
 import io.swagger.annotations.ApiModel;
-import java.sql.Timestamp;
 
 @ApiModel("款式信息模型")
 public class Style {
@@ -16,7 +15,7 @@ public class Style {
     private Integer createrId;
     private String createrName;
     private String deptName;
-    private Timestamp createTime;
+    private String createTime;
     private Boolean havePlan;
 
     public Integer getId() {
@@ -107,11 +106,11 @@ public class Style {
         this.deptName = deptName;
     }
 
-    public Timestamp getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
