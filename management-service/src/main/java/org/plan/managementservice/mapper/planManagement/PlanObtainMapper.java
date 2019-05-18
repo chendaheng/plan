@@ -90,4 +90,7 @@ public interface PlanObtainMapper {
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getDistributedPlanListByParams")
     List<PlanSearchResp> getDistributedPlanListByParams(Map<String, Object> params);
+
+    @SelectProvider(type = PlanObtainProvider.class, method = "getCompletedPlanListByParams")
+    List<PlanSearchResp> getCompletedPlanListByParams(Map<String, Object> params);
 }

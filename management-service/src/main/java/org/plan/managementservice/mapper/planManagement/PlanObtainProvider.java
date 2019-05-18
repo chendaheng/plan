@@ -26,6 +26,7 @@ public class PlanObtainProvider {
                 }
                 WHERE("type=" + PlanType.PREDICT.getIndex());
                 WHERE("state!=" + PlanState.DELETED.getIndex());
+                WHERE("isCompleted=false");
             }
         }.toString();
     }
@@ -49,6 +50,7 @@ public class PlanObtainProvider {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
                 WHERE("state!=" + PlanState.DELETED.getIndex());
+                WHERE("isCompleted=false");
             }
         }.toString();
     }
@@ -71,6 +73,7 @@ public class PlanObtainProvider {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
                 WHERE("(state=" + PlanState.SUBMIT.getIndex() + " OR state=" + PlanState.PASS.getIndex() + ")");
+                WHERE("isCompleted=false");
             }
         }.toString();
     }
@@ -93,6 +96,7 @@ public class PlanObtainProvider {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
                 WHERE("state=" + PlanState.PASS.getIndex() + "OR state=" + PlanState.DISTRIBUTED.getIndex());
+                WHERE("isCompleted=false");
             }
         }.toString();
     }
@@ -115,6 +119,7 @@ public class PlanObtainProvider {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
                 WHERE("state=" + PlanState.DELETED.getIndex());
+                WHERE("isCompleted=false");
             }
         }.toString();
     }
@@ -136,6 +141,7 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
+                WHERE("isCompleted=false");
             }
         }.toString();
     }
@@ -157,6 +163,28 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
+            }
+        }.toString();
+    }
+
+    public String getCompletedPlanListByParams(Map<String, Object> params) {
+        String[] keyList = {"customerId", "brandId", "rangeId", "name", "clothingLevelId", "userId"};
+        return new SQL() {
+            {
+                SELECT("*").FROM("plansearch");
+                for (String key : keyList) {
+                    if (params.containsKey(key)) {
+                        Object value = params.get(key);
+                        WHERE(key + "='" + value + "'");
+                    }
+                }
+                if (params.containsKey("startDate")) {
+                    WHERE("createTime>='" + params.get("startDate").toString() + "'");
+                }
+                if (params.containsKey("endDate")) {
+                    WHERE("createTime<='" + params.get("endDate").toString() + "'");
+                }
+                WHERE("isCompleted=true");
             }
         }.toString();
     }

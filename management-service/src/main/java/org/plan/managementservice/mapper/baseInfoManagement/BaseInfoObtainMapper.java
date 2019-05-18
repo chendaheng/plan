@@ -45,12 +45,6 @@ public interface BaseInfoObtainMapper {
     @SelectProvider(type = BaseInfoObtainProvider.class, method = "getBrandName")
     List<BrandName> getBrandName(@Param("customerId") Integer customerId, @Param("userId") Integer userId);
 
-//    @Select("SELECT id, name FROM brand WHERE customerId=#{customerId};")
-//    List<BrandName> getBrandName(@Param("customerId") int customerId);
-//
-//    @Select("SELECT id, name FROM brand;")
-//    List<BrandName> getAllBrandName();
-
     @Select("SELECT COUNT(*) FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     int countBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
 

@@ -27,6 +27,12 @@ public class DictionaryObtainController {
         return dictionaryObtainService.getAllDictionaryCategory();
     }
 
+    @GetMapping(value = "/getDictionaryCategoryIdByName")
+    @ApiOperation(value = "依据字典类别名称获取字典类别id", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int getDictionaryCategoryIdByName (@RequestParam("name") String name) {
+        return dictionaryObtainService.getDictionaryCategoryIdByName(name);
+    }
+
     @GetMapping(value = "/getCategoryProperty")
     @ApiOperation(value = "根据类别获取属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<CategoryProperty> getCategoryPropertyByCategoryId (@RequestParam("categoryId") int categoryId) {
