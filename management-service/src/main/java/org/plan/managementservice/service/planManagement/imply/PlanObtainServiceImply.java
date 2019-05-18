@@ -113,6 +113,10 @@ public class PlanObtainServiceImply {
         return planSearchList;
     }
 
+    public List<PlanSearchResp> getCompletedPlanList (Map<String, Object> params) {
+        return planObtainMapper.getCompletedPlanListByParams(params);
+    }
+
     public List<PlanExceptionResp> getPlanExceptionList (Map<String, Object> params) {
         List<PlanExceptionResp> planExceptionList = planObtainMapper.getPlanExceptionList(params);;
         // 依据parentId获取parentName,依据planObjectId和type获取planObject

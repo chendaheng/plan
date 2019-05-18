@@ -15,6 +15,9 @@ public interface PlanUpdateMapper {
     @Update("UPDATE plan SET state=#{state} WHERE id=#{id};")
     int updatePlanStateById(@Param("id") int id, @Param("state") PlanState state);
 
+    @Update("UPDATE plan SET haveException=true WHERE id=#{id};")
+    int updatePlanHaveExceptionById(@Param("id") int planId);
+
     @Update("UPDATE plan SET rejectReason=#{reason}, state=#{state} WHERE id=#{id};")
     int failPlanById(@Param("id") int id, @Param("reason") String reason, @Param("state") PlanState state);
 

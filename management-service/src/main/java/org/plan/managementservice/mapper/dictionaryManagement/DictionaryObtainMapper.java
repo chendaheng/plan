@@ -13,6 +13,9 @@ public interface DictionaryObtainMapper {
     @Select("SELECT * FROM dictionarycategory;")
     List<DictionaryCategory> getAllDictionaryCategory();
 
+    @Select("SELECT id FROM dictionarycategory WHERE name=#{name};")
+    List<Integer> getDictionaryCategoryIdByName(@Param("name") String name);
+
     @Select("SELECT * FROM categoryproperty WHERE categoryId=#{categoryId};")
     List<CategoryProperty> getCategoryPropertyByCategory(@Param("categoryId") int categoryId);
 

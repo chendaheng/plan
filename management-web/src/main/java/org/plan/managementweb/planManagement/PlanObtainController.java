@@ -47,6 +47,14 @@ public class PlanObtainController {
         return planObtainService.getDistributedPlanList(params);
     }
 
+    @GetMapping(value = "/getCompletedPlanList")
+    @ApiOperation(value = "按权限获取已完成计划列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<PlanSearchResp> getCompletedPlanList (@RequestParam Map<String, Object> params) {
+        int userId = GatewayInfo.getUserId();
+        params.put("userId", userId);
+        return planObtainService.getCompletedPlanList(params);
+    }
+
     @GetMapping(value = "/getChildrenPlanList")
     @ApiOperation(value = "获取子计划列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<ChildrenPlanResp> getChildrenPlanList (@RequestParam("id") int parentId) {

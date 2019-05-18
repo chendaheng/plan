@@ -2,7 +2,6 @@ package org.plan.managementweb.baseInfoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandResp;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
@@ -10,6 +9,7 @@ import org.plan.managementfacade.model.baseInfoModel.responseModel.CustomerName;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.baseInfoManagement.Imply.BaseInfoObtainServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +26,6 @@ import java.util.List;
         methods = {RequestMethod.GET},
         origins = "*")
 public class BaseInfoObtainController {
-
-    /*-------------------userId为临时参数--------------------------*/
-    private final static Integer userId = 3;
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
     @Autowired
     private BaseInfoObtainServiceImply baseInfoObtainService;
 
@@ -49,6 +44,7 @@ public class BaseInfoObtainController {
     @GetMapping (value = "/getCustomerName")
     @ApiOperation(value = "获取客户名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List <CustomerName> getCustomerName () {
+        int userId = GatewayInfo.getUserId();
         return baseInfoObtainService.getCustomerName(userId);
     }
 
@@ -61,6 +57,7 @@ public class BaseInfoObtainController {
     @GetMapping (value = "/getBrandName")
     @ApiOperation(value = "获取品牌名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List <BrandName> getBrandName(@RequestParam(value = "customerId", required = false) Integer customerId){
+        int userId = GatewayInfo.getUserId();
         return baseInfoObtainService.getBrandName(customerId, userId);
     }
 

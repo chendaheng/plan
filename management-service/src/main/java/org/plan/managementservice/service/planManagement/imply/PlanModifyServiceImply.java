@@ -187,7 +187,12 @@ public class PlanModifyServiceImply {
         String lastNumber = planObtainMapper.getLastExceptionNumber();
         String number = SerialNumberGenerate.generateNumber("YC", lastNumber);
         planException.setNumber(number);
-        return planModifyMapper.addExceptionForPlan(planException);
+        int result = planModifyMapper.addExceptionForPlan(planException);
+        // 添加异常信息成功时,将对应计划的haveException修改为true
+        if (result == 1) {
+            planUpdateMapper.updatePlanHaveExceptionById(planException.getPlanId());
+        }
+        return result;
     }
 
     public int deletePlan(int id, String userName) {

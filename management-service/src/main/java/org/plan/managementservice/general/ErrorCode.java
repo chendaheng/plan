@@ -17,6 +17,8 @@ public class ErrorCode {
     public static Integer dataInconsistency = -3;
     // 当前数据库记录不符合逻辑要求！
     public static Integer databaseError = -4;
+    // 所要查询的数据在数据库中不存在
+    public static Integer dataNotExist = -5;
 
 /*-----------------------------------------------信息管理错误码-------------------------------------------*/
 
