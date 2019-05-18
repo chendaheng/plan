@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.infoManagement.Imply.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class InfoObtainController {
     @RequestMapping (value = "/getRangeList", method = RequestMethod.POST)
     @ApiOperation(value = "获取系列response信息")
     public List <RangeResponse> getRangeList(@RequestBody RangeSearchRequest rangeSearchRequest){
-        int userId = 3;
+        int userId = GatewayInfo.getUserId();
         rangeSearchRequest.setUserId(userId);
         return infoObtainServiceImply.getRangeResponse(rangeSearchRequest);
     }
@@ -44,7 +45,7 @@ public class InfoObtainController {
     @RequestMapping (value = "/getStyleGroupList", method = RequestMethod.POST)
     @ApiOperation(value = "获取款式组response信息")
     public List <StyleGroupResponse> getStyleGroupList(@RequestBody StyleGroupSearchRequest styleGroupSearchRequest){
-        int userId = 3;
+        int userId = GatewayInfo.getUserId();
         styleGroupSearchRequest.setUserId(userId);
         return infoObtainServiceImply.getStyleGroupResponse(styleGroupSearchRequest);
     }
@@ -58,7 +59,7 @@ public class InfoObtainController {
     @RequestMapping (value = "/getStyleList", method = RequestMethod.POST)
     @ApiOperation(value = "获取款式response信息")
     public List <StyleResponse> getStyleList(@RequestBody StyleSearchRequest styleSearchRequest){
-        int userId = 3;
+        int userId = GatewayInfo.getUserId();
         styleSearchRequest.setUserId(userId);
         return infoObtainServiceImply.getStyleResponse(styleSearchRequest);
     }

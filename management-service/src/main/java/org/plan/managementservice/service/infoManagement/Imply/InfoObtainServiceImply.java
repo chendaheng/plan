@@ -3,7 +3,6 @@ package org.plan.managementservice.service.infoManagement.Imply;
 import org.plan.managementfacade.model.enumModel.*;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
-import org.plan.managementfacade.service.infoService.*;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,12 +10,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class InfoObtainServiceImply implements InfoObtainService {
+public class InfoObtainServiceImply{
 
     @Autowired
     private InfoObtainMapper infoObtainMapper;
 
-    @Override
     public List <RangeName> getRangeName(Integer brandId) {
         // 获取系列名称
         if (brandId != null){
@@ -27,7 +25,6 @@ public class InfoObtainServiceImply implements InfoObtainService {
         }
     }
 
-    @Override
     public List <RangeResponse> getRangeResponse(RangeSearchRequest rangeSearchRequest) {
         // 获取系列response信息
         List <RangeResponse> rangeResponseResult = infoObtainMapper.getRangeResponseByCondition(rangeSearchRequest);
@@ -43,7 +40,6 @@ public class InfoObtainServiceImply implements InfoObtainService {
         return rangeResponseResult;
     }
 
-    @Override
     public List <StyleGroupName> getStyleGroupName(Integer rangeId) {
         // 获取款式组名称
         if (rangeId != null){
@@ -54,7 +50,6 @@ public class InfoObtainServiceImply implements InfoObtainService {
         }
     }
 
-    @Override
     public List<StyleGroupResponse> getStyleGroupResponse(StyleGroupSearchRequest styleGroupSearchRequest) {
         // 获取款式组response信息
         List <StyleGroupResponse> styleGroupResponsesResult = infoObtainMapper.getStyleGroupResponseByCondition(styleGroupSearchRequest);
@@ -66,7 +61,6 @@ public class InfoObtainServiceImply implements InfoObtainService {
         return styleGroupResponsesResult;
     }
 
-    @Override
     public List <StyleNumber> getStyleNumber(Integer rangeId) {
         // 根据rangeId获取款号
         if (rangeId != null){
@@ -77,7 +71,6 @@ public class InfoObtainServiceImply implements InfoObtainService {
         }
     }
 
-    @Override
     public List <StyleResponse> getStyleResponse(StyleSearchRequest styleSearchRequest) {
         // 获取款式response信息
         List <StyleResponse> styleResponseResult = infoObtainMapper.getStyleResponseByCondition(styleSearchRequest);

@@ -2,7 +2,6 @@ package org.plan.managementservice.service.infoManagement.Imply;
 
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
-import org.plan.managementfacade.service.infoService.*;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.SerialNumberGenerate;
 import org.plan.managementservice.mapper.baseInfoManagement.*;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class InfoModifyServiceImply implements InfoModifyService {
+public class InfoModifyServiceImply{
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
@@ -30,7 +29,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
     @Autowired
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
-    @Override
     public int addRange(RangeAddRequest rangeAddRequest) {
         // 新增系列
         String name = rangeAddRequest.getName();
@@ -50,7 +48,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
         }
     }
 
-    @Override
     public int addRangeList(List <RangeAddRequest> rangeAddRequestList) {
         // 批量新增系列
         int addRangeCount = 0;
@@ -80,13 +77,11 @@ public class InfoModifyServiceImply implements InfoModifyService {
         return addRangeCount;
     }
 
-    @Override
     public int deleteRange(int id) {
         // 删除系列
         return infoModifyMapper.deleteRange(id);
     }
 
-    @Override
     public int addStyleGroup(StyleGroupAddRequest styleGroupAddRequest) {
         // 新增款式组
         String name = styleGroupAddRequest.getName();
@@ -106,7 +101,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
         }
     }
 
-    @Override
     public int deleteStyleGroup(int id) {
         // 删除款式组
         List <StyleGroup> styleGroupResult = infoObtainMapper.getStyleGroupById(id);
@@ -120,7 +114,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
         }
     }
 
-    @Override
     public int addStyle(StyleAddRequest styleAddRequest) {
         // 新增款式
         String number = styleAddRequest.getNumber();
@@ -146,7 +139,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
         }
     }
 
-    @Override
     public int addStyleList(List<StyleAddRequest> styleAddRequestList) {
         // 批量新增款式
         int addRangeCount = 0;
@@ -178,7 +170,6 @@ public class InfoModifyServiceImply implements InfoModifyService {
         return addRangeCount;
     }
 
-    @Override
     public int deleteStyle(int id) {
         // 删除款式
         List <Style> styleResult = infoObtainMapper.getStyleById(id);
