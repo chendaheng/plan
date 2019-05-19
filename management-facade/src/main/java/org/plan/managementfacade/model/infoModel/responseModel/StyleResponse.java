@@ -26,6 +26,7 @@ public class StyleResponse {
     private Integer addingMode;
     private String addingModeStr;
     private Integer state;
+    private String stateStr;
     private Boolean havePlan;
 
     public Integer getId() {
@@ -194,6 +195,14 @@ public class StyleResponse {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getStateStr() {
+        return stateStr;
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
     }
 
     public Boolean getHavePlan() {

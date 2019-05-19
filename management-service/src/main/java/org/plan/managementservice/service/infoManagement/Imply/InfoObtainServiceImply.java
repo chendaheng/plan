@@ -78,6 +78,9 @@ public class InfoObtainServiceImply{
             int addingMode = styleResponse.getAddingMode();
             String addingModeStr = AddingMode.getType(addingMode);
             styleResponse.setAddingModeStr(addingModeStr);
+            int state = styleResponse.getState();
+            String stateStr = InfoState.getName(state);
+            styleResponse.setStateStr(stateStr);
         }
         return styleResponseResult;
     }

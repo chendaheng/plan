@@ -9,6 +9,7 @@ import org.plan.managementfacade.model.authorityModel.AuthorityResp;
 import org.plan.managementfacade.model.authorityModel.UserAuthority;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AuthorityObtainMapper {
@@ -16,5 +17,5 @@ public interface AuthorityObtainMapper {
     List<UserAuthority> getUserAuthorityCountByUserIdAndBrandId (@Param("userId") int userId, @Param("brandId") int brandId);
 
     @SelectProvider(type = AuthorityObtainProvider.class, method = "getUserDataAuthorityByParams")
-    List<AuthorityResp> getUserDataAuthorityByParams (@Param("authorityReq")AuthorityReq authorityReq);
+    List<AuthorityResp> getUserDataAuthorityByParams (Map<String, Object> params);
 }

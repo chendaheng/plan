@@ -2,15 +2,14 @@ package org.plan.managementweb.authorityManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.authorityModel.AuthorityReq;
 import org.plan.managementfacade.model.authorityModel.AuthorityResp;
 import org.plan.managementservice.service.authorityManagement.Imply.AuthorityObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/authorityManagement")
@@ -24,8 +23,8 @@ public class AuthorityObtainController {
 
     @GetMapping(value = "/getUserDataAuthority")
     @ApiOperation(value = "获取全部数据字典类别", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<AuthorityResp> getUserDataAuthorityByParams (@RequestBody @NotNull AuthorityReq authorityReq) {
-        return authorityObtainService.getUserDataAuthorityByParams(authorityReq);
+    public List<AuthorityResp> getUserDataAuthorityByParams (@RequestParam Map<String, Object> params) {
+        return authorityObtainService.getUserDataAuthorityByParams(params);
     }
 
 }
