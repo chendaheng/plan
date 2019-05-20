@@ -3,6 +3,7 @@ package org.plan.managementservice.service.infoManagement.Imply;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
 import org.plan.managementservice.general.ErrorCode;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.general.SerialNumberGenerate;
 import org.plan.managementservice.mapper.baseInfoManagement.*;
 import org.plan.managementservice.mapper.infoManagement.*;
@@ -37,9 +38,8 @@ public class InfoModifyServiceImply{
             logger.error("数据库中已存在该系列的名称");
             return ErrorCode.dataExist;
         }else {
-            Range lastRange = infoObtainMapper.getLastRange();
-            String number = lastRange.getNumber();
-            rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",number));
+            String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
+            rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
             rangeAddRequest.setAddingMode(1);
             rangeAddRequest.setCreaterId(3);
             rangeAddRequest.setCreaterName("张三");
@@ -58,9 +58,8 @@ public class InfoModifyServiceImply{
                 logger.info("数据库中已存在该系列的名称,当前系列的名称为:" + rangeAddRequest.getName());
             }
             else {
-                Range lastRange = infoObtainMapper.getLastRange();
-                String number = lastRange.getNumber();
-                rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",number));
+                String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
+                rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
                 rangeAddRequest.setAddingMode(2);
                 rangeAddRequest.setCreaterId(3);
                 rangeAddRequest.setCreaterName("张三");
@@ -91,12 +90,11 @@ public class InfoModifyServiceImply{
             return ErrorCode.dataExist;
         }
         else {
-            StyleGroup lastStyleGroup = infoObtainMapper.getLastStyleGroup();
-            String number = lastStyleGroup.getNumber();
-            styleGroupAddRequest.setNumber(SerialNumberGenerate.generateNumber("KSZ",number));
+            String lastStyleGroupNumber = infoObtainMapper.getLastStyleGroupNumber();
+            styleGroupAddRequest.setNumber(SerialNumberGenerate.generateNumber("KSZ",lastStyleGroupNumber));
             styleGroupAddRequest.setCreaterId(3);
-            styleGroupAddRequest.setCreaterName("张三");
-            styleGroupAddRequest.setDeptName("信息管理");
+            styleGroupAddRequest.setCreaterName(GatewayInfo.getUserName());
+            styleGroupAddRequest.setDeptName(GatewayInfo.getDeptName());
             return infoModifyMapper.addStyleGroup(styleGroupAddRequest);
         }
     }
@@ -124,9 +122,9 @@ public class InfoModifyServiceImply{
         }
         else {
             styleAddRequest.setAddingMode(1);
-            styleAddRequest.setCreaterId(3);
-            styleAddRequest.setCreaterName("张三");
-            styleAddRequest.setDeptName("信息管理");
+            styleAddRequest.setCreaterId(GatewayInfo.getUserId());
+            styleAddRequest.setCreaterName(GatewayInfo.getUserName());
+            styleAddRequest.setDeptName(GatewayInfo.getDeptName());
             int addResult = infoModifyMapper.addStyle(styleAddRequest);
             if (addResult == 1){
                 int rangeId = styleAddRequest.getRangeId();
@@ -150,9 +148,9 @@ public class InfoModifyServiceImply{
             }
             else {
                 styleAddRequest.setAddingMode(2);
-                styleAddRequest.setCreaterId(3);
-                styleAddRequest.setCreaterName("张三");
-                styleAddRequest.setDeptName("信息管理");
+                styleAddRequest.setCreaterId(GatewayInfo.getUserId());
+                styleAddRequest.setCreaterName(GatewayInfo.getUserName());
+                styleAddRequest.setDeptName(GatewayInfo.getDeptName());
                 int addResult = infoModifyMapper.addStyle(styleAddRequest);
                 if (addResult == 1){
                     addRangeCount += addResult;

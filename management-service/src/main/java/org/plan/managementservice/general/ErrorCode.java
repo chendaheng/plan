@@ -47,7 +47,7 @@ public class ErrorCode {
     // 款式组根计划不存在
     public static Integer styleGroupRootPlanNotExist = -5;
     // 根计划已存在
-    public static Integer rootPlanExist;
+    public static Integer rootPlanExist = -6;
     // 计划开始结束时间超额
     public static Integer dateOutOfRange = -7;
     // 计划款数超额

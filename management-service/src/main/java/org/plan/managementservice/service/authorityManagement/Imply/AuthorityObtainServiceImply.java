@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class AuthorityObtainServiceImply {
     @Autowired
     private AuthorityObtainMapper authorityObtainMapper;
 
-    public List<AuthorityResp> getUserDataAuthorityByParams (AuthorityReq authorityReq) {
-        return authorityObtainMapper.getUserDataAuthorityByParams(authorityReq);
+    public List<AuthorityResp> getUserDataAuthorityByParams (Map<String, Object> params) {
+        return authorityObtainMapper.getUserDataAuthorityByParams(params);
     }
 }

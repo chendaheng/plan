@@ -22,7 +22,7 @@ public interface BaseInfoUpdateMapper {
             "customerId=#{brand.customerId} WHERE id=#{brand.id};")
     int updateBrand(@Param("brand") Brand brand);
 
-    @Update("UPDATE clothingLevel SET name=#{clothingLevel.name}, description=#{clothingLevel.description} " +
+    @Update("UPDATE clothinglevel SET name=#{clothingLevel.name}, description=#{clothingLevel.description} " +
             "WHERE id=#{clothingLevel.id};")
-    int updateClothingLevel(@Param("clothingLevel")ClothingLevel clothingLevel);
+    int updateClothingLevel(@Param("clothingLevel") ClothingLevel clothingLevel);
 }

@@ -57,8 +57,8 @@ public class PlanModifyServiceImply {
             }
             // 将款式组根计划的父id设为系列根计划的id
             if (type == PlanType.STYLEGROUP) {
-                int parentIdOfRange = planObtainMapper.getRangeRootPlanId(rangeId, PlanType.RANGE, PlanState.DELETED);
-                if (parentIdOfRange == 0) {
+                Integer parentIdOfRange = planObtainMapper.getRangeRootPlanId(rangeId, PlanType.RANGE, PlanState.DELETED);
+                if (parentIdOfRange == null) {
                     logger.error("系列根计划不存在,新增款式组根计划失败。");
                     return ErrorCode.rangeRootPlanNotExist;
                 } else {
@@ -68,8 +68,8 @@ public class PlanModifyServiceImply {
             // 将款式根计划的父id设为款式组根计划的id
             if (type == PlanType.STYLE) {
                 int styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
-                int parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP, PlanState.DELETED);
-                if (parentIdOfStyleGroup == 0) {
+                Integer parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP, PlanState.DELETED);
+                if (parentIdOfStyleGroup == null) {
                     logger.error("款式组根计划不存在,新增款式根计划失败");
                     return ErrorCode.styleGroupRootPlanNotExist;
                 } else {
