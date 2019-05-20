@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
-import org.springframework.web.servlet.view.script.ScriptTemplateConfig;
 
 import java.util.List;
 
@@ -39,8 +38,8 @@ public interface InfoObtainMapper {
     List <RangeResponse> getRangeResponseByCondition(@Param("rangeSearchRequest") RangeSearchRequest rangeSearchRequest);
 
     // 获取最后一条range
-    @Select("SELECT * FROM `range` order by id desc limit 1;")
-    Range getLastRange();
+    @Select("SELECT number FROM `range` order by id desc limit 1;")
+    String getLastRangeNumber();
 
     // 根据rangeId获取款式组名称
     @Select("SELECT id, name FROM stylegroup WHERE rangeId=#{rangeId};")
@@ -67,8 +66,8 @@ public interface InfoObtainMapper {
     List <StyleGroup> getStyleGroupById(int id);
 
     // 获取最后一条款式组
-    @Select("SELECT * FROM stylegroup order by id desc limit 1;")
-    StyleGroup getLastStyleGroup();
+    @Select("SELECT number FROM stylegroup order by id desc limit 1;")
+    String getLastStyleGroupNumber();
 
     // 根据rangeId获取款号
     @Select("SELECT id, number FROM style WHERE rangeId=#{rangeId};")
