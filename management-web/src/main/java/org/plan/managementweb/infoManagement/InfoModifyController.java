@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementservice.general.ErrorCode;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.infoManagement.Imply.InfoModifyServiceImply;
 import org.plan.managementservice.service.infoManagement.Imply.InfoUpdateServiceImply;
 import org.slf4j.Logger;
@@ -31,12 +32,20 @@ public class InfoModifyController {
     @RequestMapping (value = "/addRange", method = RequestMethod.POST)
     @ApiOperation(value = "新增单条系列")
     public int addRange(@RequestBody RangeAddRequest rangeAddRequest){
+        rangeAddRequest.setCreaterId(GatewayInfo.getUserId());
+        rangeAddRequest.setCreaterName(GatewayInfo.getUserName());
+        rangeAddRequest.setDeptName(GatewayInfo.getDeptName());
         return infoModifyServiceImply.addRange(rangeAddRequest);
     }
 
     @RequestMapping (value = "/addRangeList", method = RequestMethod.POST)
     @ApiOperation(value = "批量新增系列")
     public int addRangeList(@RequestBody List <RangeAddRequest> rangeAddRequestList){
+        for (RangeAddRequest rangeAddRequest : rangeAddRequestList){
+            rangeAddRequest.setCreaterId(GatewayInfo.getUserId());
+            rangeAddRequest.setCreaterName(GatewayInfo.getUserName());
+            rangeAddRequest.setDeptName(GatewayInfo.getDeptName());
+        }
         int listSize = rangeAddRequestList.size();
         int addSize = infoModifyServiceImply.addRangeList(rangeAddRequestList);
         if (listSize != addSize){
@@ -60,6 +69,9 @@ public class InfoModifyController {
     @RequestMapping (value = "/addStyleGroup", method = RequestMethod.POST)
     @ApiOperation(value = "新增款式组")
     public int addStyleGroup(@RequestBody StyleGroupAddRequest styleGroupAddRequest){
+        styleGroupAddRequest.setCreaterId(GatewayInfo.getUserId());
+        styleGroupAddRequest.setCreaterName(GatewayInfo.getUserName());
+        styleGroupAddRequest.setDeptName(GatewayInfo.getDeptName());
         return infoModifyServiceImply.addStyleGroup(styleGroupAddRequest);
     }
 
@@ -72,12 +84,20 @@ public class InfoModifyController {
     @RequestMapping (value = "/addStyle", method = RequestMethod.POST)
     @ApiOperation(value = "新增款式")
     public int addStyle(@RequestBody StyleAddRequest styleAddRequest){
+        styleAddRequest.setCreaterId(GatewayInfo.getUserId());
+        styleAddRequest.setCreaterName(GatewayInfo.getUserName());
+        styleAddRequest.setDeptName(GatewayInfo.getDeptName());
         return infoModifyServiceImply.addStyle(styleAddRequest);
     }
 
     @RequestMapping (value = "/addStyleList", method = RequestMethod.POST)
     @ApiOperation(value = "批量新增款式")
     public int addStyleList(@RequestBody List <StyleAddRequest> styleAddRequestList){
+        for (StyleAddRequest styleAddRequest : styleAddRequestList){
+            styleAddRequest.setCreaterId(GatewayInfo.getUserId());
+            styleAddRequest.setCreaterName(GatewayInfo.getUserName());
+            styleAddRequest.setDeptName(GatewayInfo.getDeptName());
+        }
         int listSize = styleAddRequestList.size();
         int addSize = infoModifyServiceImply.addStyleList(styleAddRequestList);
         if (listSize != addSize){
