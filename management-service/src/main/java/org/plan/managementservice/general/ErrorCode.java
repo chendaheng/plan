@@ -25,15 +25,15 @@ public class ErrorCode {
     // 新增的数据数据库中已经存在
     public static Integer dataExist = -1;
     // 传入信息的字段不匹配
-    public static Integer dataNotMatch = -1;
+    public static Integer dataNotMatch = -2;
     // 数据库操作错误
-    public static Integer sqlError = -1;
+    public static Integer sqlError = -3;
     // 数据不唯一
-    public static Integer notUnique = -1;
+    public static Integer notUnique = -4;
     // 数据库其他错误
-    public static Integer otherError = -1;
+    public static Integer otherError = -5;
     // 数据不存在
-    public static Integer nullError = -1;  
+    public static Integer nullError = -6;
 
 /*------------------------------------------计划管理错误码----------------------------------------------*/
     // 所需属性值缺失

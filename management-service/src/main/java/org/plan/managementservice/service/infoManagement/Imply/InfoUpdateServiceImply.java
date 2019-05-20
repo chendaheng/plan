@@ -84,25 +84,72 @@ public class InfoUpdateServiceImply{
 
     public int updateStyle(StyleUpdateRequest styleUpdateRequest) {
         // 更新款式信息
+        int id = styleUpdateRequest.getId();
+        int rangeId = styleUpdateRequest.getRangeId();
         String number = styleUpdateRequest.getNumber();
-        List <Style> styleResult = infoObtainMapper.getStyleByNumber(number);
-        if (styleResult.size() == 0){
-            logger.info("当前传入的款号不存在，操作将更新款号");
-            return infoUpdateMapper.updateStyle(styleUpdateRequest);
+        List <Style> styleResultById = infoObtainMapper.getStyleById(id);
+        if (styleResultById.size() == 0){
+            logger.info("当前id对于的系列信息不存在,请检查数据库");
+            return ErrorCode.nullError;
         }
-        if (styleResult.size() == 1){
-            int idDatabase = styleResult.get(0).getId();
-            int id = styleUpdateRequest.getId();
-            if (idDatabase == id){
-                logger.info("当前更新款号不变，将更新其他信息");
-                return infoUpdateMapper.updateStyle(styleUpdateRequest);
+        if (styleResultById.size() == 1){
+            int rangeIdDatabase = styleResultById.get(0).getRangeId();
+            String numberDatabase = styleResultById.get(0).getNumber();
+            if (number.equals(numberDatabase)){
+                if (rangeId == rangeIdDatabase){
+                    logger.info("当前更新: 款号不变,系列Id不变");
+                    return infoUpdateMapper.updateStyle(styleUpdateRequest);
+                }
+                else {
+                    logger.info("当前更新: 款号不变,系列Id改变。注意: 当前更新会影响系列款数变化");
+                    int updateStyleResult = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                    if (updateStyleResult == 1){
+                        int addNewStyleQuantityResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
+                        int minusOleStyleQuantityResult = infoUpdateMapper.minusStyleQuantityInRange(rangeIdDatabase);
+                        if (addNewStyleQuantityResult == 1 && minusOleStyleQuantityResult == 1){
+                            logger.info("id为" + rangeId + "的系列款数成功加1," + "id为" + rangeIdDatabase + "的系列款数成功减1");
+                        }
+                        else {
+                            logger.warn("系列款数更新出错,请检查数据库");
+                        }
+                    }
+                    return updateStyleResult;
+                }
             }
             else {
-                logger.error("数据库中已存在相同的款号,更新失败");
-                return ErrorCode.dataExist;
+                List <Style> styleResultByNumber = infoObtainMapper.getStyleByNumber(number);
+                if (styleResultByNumber.size() == 0){
+                    if (rangeId == rangeIdDatabase){
+                        logger.info("当前更新: 款号改变,系列Id不变");
+                        return infoUpdateMapper.updateStyle(styleUpdateRequest);
+                    }
+                    else {
+                        logger.info("当前更新: 款号改变,系列Id改变。注意: 当前更新会影响系列款数变化");
+                        int updateStyleResult = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                        if (updateStyleResult == 1){
+                            int addNewStyleQuantityResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
+                            int minusOleStyleQuantityResult = infoUpdateMapper.minusStyleQuantityInRange(rangeIdDatabase);
+                            if (addNewStyleQuantityResult == 1 && minusOleStyleQuantityResult == 1){
+                                logger.info("id为" + rangeId + "的系列款数成功加1," + "id为" + rangeIdDatabase + "的系列款数成功减1");
+                            }
+                            else {
+                                logger.warn("系列款数更新出错,请检查数据库");
+                            }
+                        }
+                        return updateStyleResult;
+                    }
+                }
+                else if (styleResultByNumber.size() == 1){
+                    logger.error("数据库中已存在相同的款号,更新失败");
+                    return ErrorCode.dataExist;
+                }
+                else {
+                    logger.error("当前传入系列的number在数据库中对应多条记录,请检查数据库");
+                    return ErrorCode.notUnique;
+                }
             }
         }
-        else if (styleResult.size() > 1){
+        else if (styleResultById.size() > 1){
             logger.error("数据不唯一,更新失败，请检查数据库");
             return ErrorCode.notUnique;
         }
