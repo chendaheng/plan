@@ -77,6 +77,7 @@ public interface InfoObtainMapper {
     @Select("SELECT id, number FROM style;")
     List <StyleNumber> getAllStyleNumber();
 
+    // 根据id获取StyleNumber
     @Select("SELECT number FROM style WHERE id=#{id};")
     String getStyleNumberById(int id);
 
