@@ -41,9 +41,6 @@ public class InfoModifyServiceImply{
             String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
             rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
             rangeAddRequest.setAddingMode(1);
-            rangeAddRequest.setCreaterId(3);
-            rangeAddRequest.setCreaterName("张三");
-            rangeAddRequest.setDeptName("信息管理");
             return infoModifyMapper.addRange(rangeAddRequest);
         }
     }
@@ -61,9 +58,6 @@ public class InfoModifyServiceImply{
                 String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
                 rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
                 rangeAddRequest.setAddingMode(2);
-                rangeAddRequest.setCreaterId(3);
-                rangeAddRequest.setCreaterName("张三");
-                rangeAddRequest.setDeptName("信息管理");
                 int addResult = infoModifyMapper.addRange(rangeAddRequest);
                 if (addResult == 1){
                     addRangeCount += addResult;
@@ -92,9 +86,6 @@ public class InfoModifyServiceImply{
         else {
             String lastStyleGroupNumber = infoObtainMapper.getLastStyleGroupNumber();
             styleGroupAddRequest.setNumber(SerialNumberGenerate.generateNumber("KSZ",lastStyleGroupNumber));
-            styleGroupAddRequest.setCreaterId(3);
-            styleGroupAddRequest.setCreaterName(GatewayInfo.getUserName());
-            styleGroupAddRequest.setDeptName(GatewayInfo.getDeptName());
             return infoModifyMapper.addStyleGroup(styleGroupAddRequest);
         }
     }
@@ -122,9 +113,6 @@ public class InfoModifyServiceImply{
         }
         else {
             styleAddRequest.setAddingMode(1);
-            styleAddRequest.setCreaterId(GatewayInfo.getUserId());
-            styleAddRequest.setCreaterName(GatewayInfo.getUserName());
-            styleAddRequest.setDeptName(GatewayInfo.getDeptName());
             int addResult = infoModifyMapper.addStyle(styleAddRequest);
             if (addResult == 1){
                 int rangeId = styleAddRequest.getRangeId();
@@ -148,9 +136,6 @@ public class InfoModifyServiceImply{
             }
             else {
                 styleAddRequest.setAddingMode(2);
-                styleAddRequest.setCreaterId(GatewayInfo.getUserId());
-                styleAddRequest.setCreaterName(GatewayInfo.getUserName());
-                styleAddRequest.setDeptName(GatewayInfo.getDeptName());
                 int addResult = infoModifyMapper.addStyle(styleAddRequest);
                 if (addResult == 1){
                     addRangeCount += addResult;
