@@ -49,8 +49,8 @@ public class PlanModifyController {
             logger.error("所需属性值缺失");
             return ErrorCode.requiredFieldMiss;
         } else {
-            String userName = GatewayInfo.getUserName();
-            String deptName = GatewayInfo.getDeptName();
+            String userName = "孙博士";
+            String deptName = "设计管理部";
             return planModifyService.addPlan(planAddReq, userName, deptName);
         }
     }
@@ -60,8 +60,8 @@ public class PlanModifyController {
     public int quotePredictPlan (@RequestBody Map<String, Object> params) {
         if (params.containsKey("rangeId")) {
             int rangeId = (int) params.get("rangeId");
-            String userName = GatewayInfo.getUserName();
-            String deptName = GatewayInfo.getDeptName();
+            String userName = "孙博士";
+            String deptName = "设计管理部";
             return planModifyService.quotePredictPlan(rangeId, userName, deptName);
         } else {
             return ErrorCode.requiredFieldMiss;
@@ -74,8 +74,8 @@ public class PlanModifyController {
         if (params.containsKey("styleGroupId") && params.containsKey("rangeId")) {
             int styleGroupId = (int) params.get("styleGroupId");
             int rangeId = (int) params.get("rangeId");
-            String userName = GatewayInfo.getUserName();
-            String deptName = GatewayInfo.getDeptName();
+            String userName = "孙博士";
+            String deptName = "设计管理部";
             return planModifyService.quoteRangePlan(styleGroupId, rangeId, userName, deptName);
         } else {
             return ErrorCode.requiredFieldMiss;
@@ -89,7 +89,7 @@ public class PlanModifyController {
         if (planException.getPlanId() == null || planException.getCause() == null) {
             return ErrorCode.requiredFieldMiss;
         } else {
-            String userName = GatewayInfo.getUserName();
+            String userName = "孙博士";
             planException.setUserName(userName);
             return planModifyService.addExceptionForPlan(planException);
         }
@@ -98,7 +98,7 @@ public class PlanModifyController {
     @DeleteMapping (value = "/deletePlan")
     @ApiOperation(value = "依据计划id删除计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deletePlanById(@RequestParam("id") int id) {
-        String userName = GatewayInfo.getUserName();
+        String userName = "孙博士";
         return planModifyService.deletePlan(id, userName);
     }
 }

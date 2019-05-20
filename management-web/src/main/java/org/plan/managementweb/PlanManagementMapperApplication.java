@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
         "org.plan.managementfacade",
         "org.plan.managementweb"})
 @MapperScan({"org.material.managementservice.mapper"})
- @EnableEurekaClient
+//@EnableEurekaClient
 public class PlanManagementMapperApplication {
 
     public static void main (String[] args) {

@@ -33,7 +33,7 @@ public class PlanObtainController {
         if (params.get("stage") == null) {
             return null;
         } else {
-            int userId = GatewayInfo.getUserId();
+            int userId = 10;
             params.put("userId", userId);
             return planObtainService.getPlanList(params);
         }
@@ -42,7 +42,7 @@ public class PlanObtainController {
     @GetMapping(value = "/getDistributedPlanList")
     @ApiOperation(value = "获取被下发计划列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<PlanSearchResp> getDistributedPlanList (@RequestParam Map<String, Object> params) {
-        int userId = GatewayInfo.getUserId();
+        int userId = 10;
         params.put("executerId", userId);
         return planObtainService.getDistributedPlanList(params);
     }
@@ -50,7 +50,7 @@ public class PlanObtainController {
     @GetMapping(value = "/getCompletedPlanList")
     @ApiOperation(value = "按权限获取已完成计划列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<PlanSearchResp> getCompletedPlanList (@RequestParam Map<String, Object> params) {
-        int userId = GatewayInfo.getUserId();
+        int userId = 10;
         params.put("userId", userId);
         return planObtainService.getCompletedPlanList(params);
     }
@@ -64,7 +64,7 @@ public class PlanObtainController {
     @GetMapping(value = "/getExceptionList")
     @ApiOperation(value = "按权限获取计划异常列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<PlanExceptionResp> getPlanExceptionList (@RequestParam Map<String, Object> params) {
-        int userId = GatewayInfo.getUserId();
+        int userId = 10;
         params.put("userId", userId);
         return planObtainService.getPlanExceptionList(params);
     }

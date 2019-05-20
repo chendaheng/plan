@@ -44,7 +44,7 @@ public class BaseInfoObtainController {
     @GetMapping (value = "/getCustomerName")
     @ApiOperation(value = "获取客户名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List <CustomerName> getCustomerName () {
-        int userId = GatewayInfo.getUserId();
+        int userId = 10;
         return baseInfoObtainService.getCustomerName(userId);
     }
 
@@ -57,7 +57,7 @@ public class BaseInfoObtainController {
     @GetMapping (value = "/getBrandName")
     @ApiOperation(value = "获取品牌名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List <BrandName> getBrandName(@RequestParam(value = "customerId", required = false) Integer customerId){
-        int userId = GatewayInfo.getUserId();
+        int userId = 10;
         return baseInfoObtainService.getBrandName(customerId, userId);
     }
 

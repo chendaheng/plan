@@ -13,7 +13,7 @@ spring:
       maxRequestSize: 100
 
 server:
-  port: 8081
+  port: 8080
 
 mybatis:
   mapper-locations: classpath*:org/plan/managementservice/mapper/**/*Mapper.xml
