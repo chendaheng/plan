@@ -12,7 +12,7 @@ public class PlanUpdateProvider {
                     SET("name" + "='" + planUpdateReq.getName() + "'");
                 }
                 if (planUpdateReq.getProjectType() != null){
-                    SET("projectType" + "=" + planUpdateReq.getProjectType());
+                    SET("projectType" + "='" + planUpdateReq.getProjectType() + "'");
                 }
                 if (planUpdateReq.getQuantity() != null){
                     SET("quantity" + "=" + planUpdateReq.getQuantity());

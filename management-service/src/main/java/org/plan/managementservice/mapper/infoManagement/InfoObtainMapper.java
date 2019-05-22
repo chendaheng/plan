@@ -98,5 +98,5 @@ public interface InfoObtainMapper {
     List <Style> getStyleByStyleGroupId(int styleGroupId);
 
     @Select("SELECT styleGroupId FROM style WHERE id=#{id};")
-    int getStyleGroupIdByStyleId(int id);
+    Integer getStyleGroupIdByStyleId(int id);
 }
