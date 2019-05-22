@@ -35,7 +35,7 @@ public interface InfoUpdateMapper {
     @Update("UPDATE `range` SET havePlan=#{bool} WHERE id=#{id};")
     void updateRangeHavePlanById(@Param("id") int id, @Param("bool") boolean bool);
 
-    @Update("UPDATE styleGroup SET havePlan=#{bool} WHERE id=#{id};")
+    @Update("UPDATE stylegroup SET havePlan=#{bool} WHERE id=#{id};")
     void updateStyleGroupHavePlanById(@Param("id") int id, @Param("bool") boolean bool);
 
     @Update("UPDATE style SET havePlan=#{bool} WHERE id=#{id};")

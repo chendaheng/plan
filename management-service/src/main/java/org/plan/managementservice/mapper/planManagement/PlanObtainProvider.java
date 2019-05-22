@@ -95,7 +95,7 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
-                WHERE("state=" + PlanState.PASS.getIndex() + "OR state=" + PlanState.DISTRIBUTED.getIndex());
+                WHERE("state=" + PlanState.PASS.getIndex() + " OR state=" + PlanState.DISTRIBUTED.getIndex());
                 WHERE("isCompleted=false");
             }
         }.toString();

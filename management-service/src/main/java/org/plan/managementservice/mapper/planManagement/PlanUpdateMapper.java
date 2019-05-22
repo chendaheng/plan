@@ -6,9 +6,6 @@ import org.plan.managementfacade.model.planModel.requestModel.PlanUpdateReq;
 
 @Mapper
 public interface PlanUpdateMapper {
-//    @Update("UPDATE plan SET name=#{name}, projectType=#{projectType}, quantity=#{quantity}, productId=#{productId}, " +
-//            "productDate=#{productDate}, productDateType=#{productDateType}, startDate=#{startDate}, endDate=#{endDate}, " +
-//            "proposal=#{proposal}, description=#{description}, note=#{note} WHERE id=#{id};")
     @UpdateProvider(type = PlanUpdateProvider.class, method = "updatePlan")
     int updatePlan(PlanUpdateReq planUpdateReq);
 

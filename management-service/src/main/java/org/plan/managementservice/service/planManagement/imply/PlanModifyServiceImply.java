@@ -50,7 +50,7 @@ public class PlanModifyServiceImply {
         }
         if (isRoot) {
             // 对于根计划，应确保仅有一个
-            count = planObtainMapper.countRootPlanByTypeAndPlanObject(type, planObjectId, true, PlanState.DISTRIBUTED);
+            count = planObtainMapper.countRootPlanByTypeAndPlanObject(type, planObjectId, true, PlanState.DELETED);
             if (count > 0) {
                 logger.error("当前计划对象根计划已存在，无法新增根计划！");
                 return ErrorCode.rootPlanExist;
@@ -67,7 +67,7 @@ public class PlanModifyServiceImply {
             }
             // 将款式根计划的父id设为款式组根计划的id
             if (type == PlanType.STYLE) {
-                int styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
+                Integer styleGroupId = infoObtainMapper.getStyleGroupIdByStyleId(planAddReq.getPlanObjectId());
                 Integer parentIdOfStyleGroup = planObtainMapper.getStyleGroupRootPlanId(styleGroupId, PlanType.STYLEGROUP, PlanState.DELETED);
                 if (parentIdOfStyleGroup == null) {
                     logger.error("款式组根计划不存在,新增款式根计划失败");
