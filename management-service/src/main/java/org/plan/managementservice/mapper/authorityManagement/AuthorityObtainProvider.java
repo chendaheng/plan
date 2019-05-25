@@ -17,7 +17,7 @@ public class AuthorityObtainProvider {
                 for (String key : keyList) {
                     if (params.containsKey(key)) {
                         Object value = params.get(key);
-                        WHERE(key + "='" + value + "'");
+                        WHERE("user_customer_brand." + key + "='" + value + "'");
                     }
                 }
             }

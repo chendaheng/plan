@@ -20,15 +20,15 @@ public class AuthorityModifyServiceImply {
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
     public int addUserDataAuthority (AuthorityReq authorityReq) {
-        int customerId = authorityReq.getCustomerId();
-        int brandId = authorityReq.getBrandId();
-        // 用户对品牌的操作权限必须在客户权限之下
-        if (customerId != baseInfoObtainMapper.getCustomerIdByBrandId(brandId)) {
-            return ErrorCode.dataInconsistency;
-        }
+        Integer customerId = authorityReq.getCustomerId();
+        Integer brandId = authorityReq.getBrandId();
         if (authorityReq.getBrandId() != 0) {
-            //brandId不为0则直接添加该数据权限
-            return addOneUserDataAuthority(authorityReq);
+            // brandId不为0时需确保用户对品牌的操作权限在所拥有的客户权限之下
+            if (!customerId.equals(baseInfoObtainMapper.getCustomerIdByBrandId(brandId))) {
+                return ErrorCode.dataInconsistency;
+            } else {
+                return addOneUserDataAuthority(authorityReq);
+            }
         } else {
             //brandId为0表示用户对该客户下的全部品牌均有操作权限
             int result = 0;//result表示添加记录数

@@ -16,4 +16,19 @@ public class BaseInfoObtainProvider {
             }
         }.toString();
     }
+
+    public String getBrandByParams (@Param("name") String name, @Param("customerId") Integer customerId) {
+        return new SQL() {
+            {
+                SELECT("brand.*, customer.name AS customerName");
+                FROM("brand").LEFT_OUTER_JOIN("customer ON brand.customerId=customer.id");
+                if (name != null) {
+                    WHERE("brand.name='" + name + "'");
+                }
+                if (customerId != null) {
+                    WHERE("brand.customerId=" + customerId);
+                }
+            }
+        }.toString();
+    }
 }
