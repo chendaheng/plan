@@ -32,12 +32,8 @@ public interface BaseInfoObtainMapper {
             "ON customer.id=user_customer_brand.customerId WHERE user_customer_brand.userId=#{userId};")
     List <CustomerName> getCustomerName(@Param("userId") int userId);
 
-    @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON brand.customerId=customer.id;")
-    List<BrandResp> getAllBrand();
-
-    @Select("SELECT brand.*, customer.name AS customerName FROM brand LEFT JOIN customer ON " +
-            "brand.customerId=customer.id WHERE brand.name=#{name};")
-    List<BrandResp> getBrandByName(@Param("name") String name);
+    @SelectProvider(type = BaseInfoObtainProvider.class, method = "getBrandByParams")
+    List<BrandResp> getBrandByParams(String name, Integer customerId);
 
     @Select("SELECT * FROM brand WHERE name=#{name} AND customerId=#{customerId};")
     List<Brand> getBrandByNameAndCustomer(@Param("name") String name, @Param("customerId") int customerId);
@@ -61,5 +57,5 @@ public interface BaseInfoObtainMapper {
     List<Integer> getBrandIdByCustomerId(@Param("customerId") int customerId);
 
     @Select("SELECT customerId FROM brand WHERE id=#{brandId};")
-    int getCustomerIdByBrandId(@Param("brandId") int brandId);
+    Integer getCustomerIdByBrandId(@Param("brandId") int brandId);
 }

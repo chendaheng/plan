@@ -50,8 +50,8 @@ public class BaseInfoObtainController {
 
     @GetMapping(value = "/getBrand")
     @ApiOperation(value = "获取品牌信息列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<BrandResp> getBrand (@RequestParam(value = "name", required = false) String name) {
-        return baseInfoObtainService.getBrand(name);
+    public List<BrandResp> getBrand (@RequestParam(value = "name", required = false) String name, @RequestParam(value = "customerId", required = false) Integer customerId) {
+        return baseInfoObtainService.getBrand(name, customerId);
     }
 
     @GetMapping (value = "/getBrandName")

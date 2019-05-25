@@ -40,12 +40,8 @@ public class BaseInfoObtainServiceImply {
         return baseInfoObtainMapper.getCustomerName(userId);
     }
 
-    public List<BrandResp> getBrand (String name) {
-        if (name == null) {
-            return baseInfoObtainMapper.getAllBrand();
-        } else {
-            return baseInfoObtainMapper.getBrandByName(name);
-        }
+    public List<BrandResp> getBrand (String name, Integer customerId) {
+        return baseInfoObtainMapper.getBrandByParams(name, customerId);
     }
 
     public List<BrandName> getBrandName(Integer customerId, Integer userId) {
