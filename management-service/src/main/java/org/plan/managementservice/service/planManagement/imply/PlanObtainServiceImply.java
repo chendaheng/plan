@@ -2,7 +2,8 @@ package org.plan.managementservice.service.planManagement.imply;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.PlanTree;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTree;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTreeForGantt;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.PreferencesFactory;
 
 @Component
 public class PlanObtainServiceImply {
@@ -209,5 +211,10 @@ public class PlanObtainServiceImply {
             idPlanTreeMap.put(planId, node);
         }
         return root;
+    }
+
+    public List<PlanTreeForGantt> getGanttForRangePlan (Map<String, Object> params) {
+        List<PlanTreeForGantt> result = planObtainMapper.getRootPlanForGantt(params);
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTreeForGantt;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
@@ -93,4 +94,7 @@ public interface PlanObtainMapper {
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getCompletedPlanListByParams")
     List<PlanSearchResp> getCompletedPlanListByParams(Map<String, Object> params);
+
+    @SelectProvider(type = PlanObtainProvider.class, method = "getRootPlanForGantt")
+    List<PlanTreeForGantt> getRootPlanForGantt(Map<String, Object> params);
 }

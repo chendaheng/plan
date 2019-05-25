@@ -1,9 +1,12 @@
 package org.plan.managementservice.mapper.planManagement;
 
+import javafx.beans.binding.When;
 import org.apache.ibatis.jdbc.SQL;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTree;
 
+import javax.naming.SizeLimitExceededException;
 import java.util.Map;
 
 public class PlanObtainProvider {
@@ -49,6 +52,7 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
+                WHERE("type!=" + PlanType.PREDICT.getIndex());
                 WHERE("state!=" + PlanState.DELETED.getIndex());
                 WHERE("isCompleted=false");
             }
@@ -185,6 +189,27 @@ public class PlanObtainProvider {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
                 WHERE("isCompleted=true");
+            }
+        }.toString();
+    }
+
+    public String getRootPlanForGantt(Map<String, Object> params) {
+        return new SQL() {
+            {
+                SELECT("id, name, projectType, order, quantity, startDate, endDate, createrName, haveException").FROM("plan");
+                if (params.containsKey("name")) {
+                    WHERE("name='" + params.get("name") + "'");
+                }
+                if (params.containsKey("startDate")) {
+                    WHERE("startDate>='" + params.get("startDate").toString() + "'");
+                }
+                if (params.containsKey("endDate")) {
+                    WHERE("endDate<='" + params.get("endDate").toString() + "'");
+                }
+                if (params.containsKey("createrName")) {
+                    WHERE("createrName='" + params.get("createrName").toString() + "'");
+                }
+//                WHERE("")
             }
         }.toString();
     }
