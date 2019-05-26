@@ -1,12 +1,9 @@
 package org.plan.managementservice.mapper.planManagement;
 
-import javafx.beans.binding.When;
 import org.apache.ibatis.jdbc.SQL;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.requestModel.PlanTree;
 
-import javax.naming.SizeLimitExceededException;
 import java.util.Map;
 
 public class PlanObtainProvider {
@@ -76,7 +73,8 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
-                WHERE("(state=" + PlanState.SUBMIT.getIndex() + " OR state=" + PlanState.PASS.getIndex() + ")");
+                WHERE("type!=" + PlanType.PREDICT.getIndex());
+                WHERE("(state=" + PlanState.SUBMIT.getIndex() + " OR state=" + PlanState.PASS.getIndex() + " OR state=" + PlanState.DISTRIBUTED.getIndex() + ")");
                 WHERE("isCompleted=false");
             }
         }.toString();
@@ -99,6 +97,7 @@ public class PlanObtainProvider {
                 if (params.containsKey("endDate")) {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
+                WHERE("type!=" + PlanType.PREDICT.getIndex());
                 WHERE("state=" + PlanState.PASS.getIndex() + " OR state=" + PlanState.DISTRIBUTED.getIndex());
                 WHERE("isCompleted=false");
             }
@@ -193,12 +192,12 @@ public class PlanObtainProvider {
         }.toString();
     }
 
-    public String getRootPlanForGantt(Map<String, Object> params) {
+    public String getRootPlanObjectIdByParams(Map<String, Object> params) {
         return new SQL() {
             {
-                SELECT("id, name, projectType, order, quantity, startDate, endDate, createrName, haveException").FROM("plan");
+                SELECT("planObjectId").FROM("plan");
                 if (params.containsKey("name")) {
-                    WHERE("name='" + params.get("name") + "'");
+                    WHERE("name LIKE '%" + params.get("name").toString() + "%'");
                 }
                 if (params.containsKey("startDate")) {
                     WHERE("startDate>='" + params.get("startDate").toString() + "'");
@@ -209,7 +208,13 @@ public class PlanObtainProvider {
                 if (params.containsKey("createrName")) {
                     WHERE("createrName='" + params.get("createrName").toString() + "'");
                 }
-//                WHERE("")
+                if (params.containsKey("id")) {
+                    WHERE("parentId='" + params.get("id").toString() + "'");
+                } else {
+                    WHERE("parentId=0");
+                }
+                WHERE("isRoot=true");
+                WHERE("type!='" + PlanType.PREDICT.getIndex() + "'");
             }
         }.toString();
     }

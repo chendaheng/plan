@@ -1,10 +1,12 @@
 package org.plan.managementfacade.model.authorityModel;
 
+import java.util.List;
+
 public class AuthorityReq {
     private Integer userId;
     private String userName;
     private Integer customerId;
-    private Integer brandId;
+    private List<Integer> brandIdList;
 
     public Integer getUserId() {
         return userId;
@@ -30,11 +32,11 @@ public class AuthorityReq {
         this.customerId = customerId;
     }
 
-    public Integer getBrandId() {
-        return brandId;
+    public List<Integer> getBrandIdList() {
+        return brandIdList;
     }
 
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
+    public void setBrandIdList(List<Integer> brandIdList) {
+        this.brandIdList = brandIdList;
     }
 }

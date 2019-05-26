@@ -62,8 +62,8 @@ public interface PlanObtainMapper {
     @Select("SELECT type FROM plan WHERE id=#{id};")
     PlanType getPlanTypeById(int id);
 
-    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND state!=#{state};")
-    List<Plan> getPlanByPlanObjectId(@Param("planObjectId") int planObjectId, @Param("state") PlanState state);
+    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND type!=#{type} AND state!=#{state};")
+    List<Plan> getPlanByPlanObjectId(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT id,number,name,`order`,startDate,endDate,createrName,deptName,createTime FROM plan WHERE parentId=#{parentId} AND type=#{type} AND state!=#{state};")
     List<ChildrenPlanResp> getPlanByParentIdAndType(@Param("parentId") int parentId, @Param("type") PlanType type, @Param("state") PlanState state);
@@ -95,6 +95,6 @@ public interface PlanObtainMapper {
     @SelectProvider(type = PlanObtainProvider.class, method = "getCompletedPlanListByParams")
     List<PlanSearchResp> getCompletedPlanListByParams(Map<String, Object> params);
 
-    @SelectProvider(type = PlanObtainProvider.class, method = "getRootPlanForGantt")
-    List<PlanTreeForGantt> getRootPlanForGantt(Map<String, Object> params);
+    @SelectProvider(type = PlanObtainProvider.class, method = "getRootPlanObjectIdByParams")
+    List<Integer> getRootPlanObjectIdByParams(Map<String, Object> params);
 }

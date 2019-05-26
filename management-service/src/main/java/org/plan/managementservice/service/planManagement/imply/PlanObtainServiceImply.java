@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.prefs.PreferencesFactory;
 
 @Component
 public class PlanObtainServiceImply {
@@ -190,8 +190,8 @@ public class PlanObtainServiceImply {
         // 构造一个id与tree对应的map用于层序遍历组成计划树
         Map<Integer, PlanTree> idPlanTreeMap = new HashMap<>();
         idPlanTreeMap.put(root.getId(), root);
-        // 依据planObjectId获取该计划树上全部计划
-        List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, PlanState.DELETED);
+        // 依据planObjectId获取该计划树上全部计划,预测计划与已删除计划除外
+        List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, PlanType.PREDICT, PlanState.DELETED);
         for (Plan plan : planList) {
             if (plan.getIsRoot()) {
                 continue;
@@ -213,8 +213,36 @@ public class PlanObtainServiceImply {
         return root;
     }
 
-    public List<PlanTreeForGantt> getGanttForRangePlan (Map<String, Object> params) {
-        List<PlanTreeForGantt> result = planObtainMapper.getRootPlanForGantt(params);
-        return null;
+    public List<PlanTreeForGantt> getGanttForPlan (Map<String, Object> params) {
+        List<PlanTreeForGantt> result = new ArrayList<>();
+        List<Integer> planObjectIdList = planObtainMapper.getRootPlanObjectIdByParams(params);
+        for (Integer planObjectId : planObjectIdList) {
+            // 此map用于将每个甘特图的树上的节点与id相对应
+            Map<Integer, PlanTreeForGantt> idPlanTreeForGanttMap = new HashMap<>();
+            // 依据计划对象id获取除预测计划和已删除计划外所有计划
+            List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, PlanType.PREDICT, PlanState.DELETED);
+            PlanTreeForGantt root = null;
+            for (Plan plan : planList) {
+                // 将每个获得的计划改为一个节点
+                PlanTreeForGantt node = new PlanTreeForGantt(plan);
+                // 当该计划是根节点时,将其设置为根,用于最后传回整棵树,同时直接将其存入map
+                if (plan.getIsRoot()) {
+                    root = node;
+                } else {
+                    Integer parentId = plan.getParentId();
+                    PlanTreeForGantt parent = idPlanTreeForGanttMap.get(parentId);
+                    if (parent.getChildren() == null) {
+                        parent.setChildren(new ArrayList<>());
+                    }
+                    parent.addChildren(node);
+                }
+                idPlanTreeForGanttMap.put(node.getId(), node);
+            }
+            // 根节点不为null时将其加入返回列表
+            if (root != null) {
+                result.add(root);
+            }
+        }
+        return result;
     }
 }

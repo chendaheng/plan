@@ -31,16 +31,16 @@ public class PlanModifyController {
     @Autowired
     private PlanModifyServiceImply planModifyService;
 
-    @GetMapping(value = "/test")
-    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Test> test () {
-        return null;
-    }
-
-    @PostMapping(value = "/test")
-    public int test(@RequestBody Test t) {
-        return planModifyService.addTest(t);
-    }
+//    @GetMapping(value = "/test")
+//    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public List<Test> test () {
+//        return null;
+//    }
+//
+//    @PostMapping(value = "/test")
+//    public int test(@RequestBody Test t) {
+//        return planModifyService.addTest(t);
+//    }
 
     @PostMapping(value = "/addPlan")
     @ApiOperation(value = "新增计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
