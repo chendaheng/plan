@@ -2,7 +2,8 @@ package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.planModel.PlanTree;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTree;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTreeForGantt;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
@@ -73,6 +74,12 @@ public class PlanObtainController {
     @ApiOperation(value = "依据计划id获取相应计划树", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public PlanTree getPlanTree (@RequestParam("id") int id) {
         return planObtainService.getPlanTree(id);
+    }
+
+    @GetMapping(value = "/getGanttForRangePlan")
+    @ApiOperation(value = "获取系列计划甘特图", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<PlanTreeForGantt> getGanttForRangePlan (@RequestParam Map<String, Object> params) {
+        return planObtainService.getGanttForRangePlan(params);
     }
 
 }

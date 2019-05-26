@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.planModel;
+package org.plan.managementfacade.model.planModel.requestModel;
 
 import java.util.List;
 
@@ -48,6 +48,6 @@ public class PlanTree {
     }
 
     public void addChildren(PlanTree child) {
-        children.add(child);
+        this.children.add(child);
     }
 }
