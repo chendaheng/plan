@@ -41,8 +41,8 @@ public class AuthorityModifyServiceImply {
         return result;
     }
 
-    public int deleteUserDataAuthority (int id) {
-        return authorityModifyMapper.deleteUserDataAuthority(id);
+    public int deleteUserDataAuthority (int userId, int brandId) {
+        return authorityModifyMapper.deleteUserDataAuthority(userId, brandId);
     }
 
     // 依据userId,userName,customerId,brandId直接添加权限记录

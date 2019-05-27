@@ -42,7 +42,7 @@ public interface PlanObtainMapper {
     Integer getRangeRootPlanId(@Param("rangeId") int rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT id FROM plan WHERE planObjectId=#{styleGroupId} AND type=#{type} AND isRoot=true AND state!=#{state};")
-    Integer getStyleGroupRootPlanId(@Param("styleGroupId") int styleGroupId, @Param("type") PlanType type, @Param("state") PlanState state);
+    Integer getStyleGroupRootPlanId(@Param("styleGroupId") Integer styleGroupId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT startDate FROM plan WHERE id=#{id};")
     String getPlanStartDateById(int id);

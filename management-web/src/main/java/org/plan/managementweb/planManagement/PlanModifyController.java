@@ -22,9 +22,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/planManagement")
 @Api(value = "计划信息增删接口", tags = {"计划信息增删接口"})
-//@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-//        methods = {RequestMethod.POST, RequestMethod.DELETE},
-//        origins = "*")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+        methods = {RequestMethod.POST, RequestMethod.DELETE},
+        origins = "*")
 public class PlanModifyController {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
