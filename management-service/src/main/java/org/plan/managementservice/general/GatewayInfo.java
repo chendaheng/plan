@@ -45,11 +45,11 @@ public class GatewayInfo {
     * */
 
     public static int getUserId () {
-        return 8;
+        return 3;
     }
 
     public static String getUserName () {
-        return "孙博士";
+        return "张三";
     }
 
     public static String getDeptName () {

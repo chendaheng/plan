@@ -18,12 +18,12 @@ public interface InfoObtainMapper {
     List <Range> getRangeByName(String name);
 
     // 根据brandId获取系列名称
-    @Select("SELECT id, name FROM `range` WHERE brandId=#{brandId};")
-    List <RangeName> getRangeName(Integer brandId);
+    @Select("SELECT id, name FROM `rangesearch` WHERE brandId=#{brandId} AND userId=#{userId};")
+    List <RangeName> getRangeName(@Param("userId")Integer userId, @Param("brandId") Integer brandId);
 
     // 获取所有的系列名称
-    @Select("SELECT id, name FROM `range`;")
-    List <RangeName> getAllRangeName();
+    @Select("SELECT id, name FROM `rangesearch` WHERE userId=#{userId};")
+    List <RangeName> getAllRangeName(Integer userId);
 
     // 依据系列id获取相应名称
     @Select("SELECT name FROM `range` WHERE id=#{id};")

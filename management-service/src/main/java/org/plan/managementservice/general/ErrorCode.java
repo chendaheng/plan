@@ -24,7 +24,7 @@ public class ErrorCode {
 
     // 新增的数据数据库中已经存在
     public static Integer dataExist = -1;
-    // 传入信息的字段不匹配
+    // 传入信息的字段确实
     public static Integer dataNotMatch = -2;
     // 数据库操作错误
     public static Integer sqlError = -3;
@@ -34,6 +34,8 @@ public class ErrorCode {
     public static Integer otherError = -5;
     // 数据不存在
     public static Integer nullError = -6;
+    // 数据状态错误
+    public static Integer stateError = -7;
 
 /*------------------------------------------计划管理错误码----------------------------------------------*/
     // 所需属性值缺失

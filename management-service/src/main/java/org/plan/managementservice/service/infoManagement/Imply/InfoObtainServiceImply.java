@@ -15,13 +15,13 @@ public class InfoObtainServiceImply{
     @Autowired
     private InfoObtainMapper infoObtainMapper;
 
-    public List <RangeName> getRangeName(Integer brandId) {
+    public List <RangeName> getRangeName(Integer userId, Integer brandId) {
         // 获取系列名称
         if (brandId != null){
-            return infoObtainMapper.getRangeName(brandId);
+            return infoObtainMapper.getRangeName(userId, brandId);
         }
         else {
-            return infoObtainMapper.getAllRangeName();
+            return infoObtainMapper.getAllRangeName(userId);
         }
     }
 
