@@ -1,8 +1,6 @@
 package org.plan.managementservice.mapper.authorityManagement;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.plan.managementfacade.model.authorityModel.AuthorityReq;
 
 import java.util.Map;
 

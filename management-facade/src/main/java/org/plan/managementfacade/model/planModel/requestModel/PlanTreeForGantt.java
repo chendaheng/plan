@@ -1,5 +1,7 @@
 package org.plan.managementfacade.model.planModel.requestModel;
 
+import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+
 import java.util.List;
 
 public class PlanTreeForGantt {
@@ -14,16 +16,16 @@ public class PlanTreeForGantt {
     private boolean haveException;
     private List<PlanTreeForGantt> children;
 
-    public PlanTreeForGantt(Integer id, String name, String projectType, Integer order, Integer quantity, String startDate, String endDate, String createrName, boolean haveException) {
-        this.id = id;
-        this.name = name;
-        this.projectType = projectType;
-        this.order = order;
-        this.quantity = quantity;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.createrName = createrName;
-        this.haveException = haveException;
+    public PlanTreeForGantt(Plan plan) {
+        this.id = plan.getId();
+        this.name = plan.getName();
+        this.projectType = plan.getProjectType();
+        this.order = plan.getOrder();
+        this.quantity = plan.getQuantity();
+        this.startDate = plan.getStartDate();
+        this.endDate = plan.getEndDate();
+        this.createrName = plan.getCreaterName();
+        this.haveException = plan.isHaveException();
         this.children = null;
     }
 

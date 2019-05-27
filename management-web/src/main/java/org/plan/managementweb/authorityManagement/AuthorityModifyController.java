@@ -34,7 +34,7 @@ public class AuthorityModifyController {
 
     @DeleteMapping(value = "/deleteUserDataAuthority")
     @ApiOperation(value = "删除用户的数据操作权限", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int deleteUserDataAuthority (@RequestParam("id") int id) {
-        return authorityModifyService.deleteUserDataAuthority(id);
+    public int deleteUserDataAuthority (@RequestParam("userId") int userId, @RequestParam("brandId") int brandId) {
+        return authorityModifyService.deleteUserDataAuthority(userId, brandId);
     }
 }

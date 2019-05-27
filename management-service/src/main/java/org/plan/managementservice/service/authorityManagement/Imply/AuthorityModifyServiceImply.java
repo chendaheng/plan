@@ -3,10 +3,11 @@ package org.plan.managementservice.service.authorityManagement.Imply;
 import org.plan.managementfacade.model.authorityModel.AuthorityReq;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.authorityManagement.AuthorityModifyMapper;
-import org.plan.managementservice.mapper.authorityManagement.AuthorityObtainMapper;
 import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,50 +16,44 @@ public class AuthorityModifyServiceImply {
     @Autowired
     private AuthorityModifyMapper authorityModifyMapper;
     @Autowired
-    private AuthorityObtainMapper authorityObtainMapper;
-    @Autowired
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
+    @Transactional
     public int addUserDataAuthority (AuthorityReq authorityReq) {
+        Integer userId = authorityReq.getUserId();
+        String userName = authorityReq.getUserName();
         Integer customerId = authorityReq.getCustomerId();
-        Integer brandId = authorityReq.getBrandId();
-        if (authorityReq.getBrandId() != 0) {
-            // brandId不为0时需确保用户对品牌的操作权限在所拥有的客户权限之下
-            if (!customerId.equals(baseInfoObtainMapper.getCustomerIdByBrandId(brandId))) {
+        List<Integer> brandIdList = authorityReq.getBrandIdList();
+        // 对传入的所有品牌找出它对应的customerId与传入的customerId比较,若不同则说明传入数据有问题,不插入数据
+        for (Integer brandId : brandIdList) {
+            Integer brandCustomerId = baseInfoObtainMapper.getCustomerIdByBrandId(brandId);
+            if (!customerId.equals(brandCustomerId)) {
                 return ErrorCode.dataInconsistency;
-            } else {
-                return addOneUserDataAuthority(authorityReq);
             }
-        } else {
-            //brandId为0表示用户对该客户下的全部品牌均有操作权限
-            int result = 0;//result表示添加记录数
-            List<Integer> brandIdList = baseInfoObtainMapper.getBrandIdByCustomerId(authorityReq.getCustomerId());
-            for (Integer i : brandIdList) {
-                //将每个brandId对应权限依此加入数据库
-                authorityReq.setBrandId(i);
-                int ret = addOneUserDataAuthority(authorityReq);
-                if (ret > 0) {
-                    result++;//仅记录成功记录，失败则跳过
-                }
-            }
-            return result;
         }
+        int result = 0;
+        for (Integer brandId : brandIdList) {
+            int ret = addOneUserDataAuthority(userId, userName, customerId, brandId);
+            if (ret > 0) {
+                result += ret;
+            }
+        }
+        return result;
     }
 
-    public int deleteUserDataAuthority (int id) {
-        return authorityModifyMapper.deleteUserDataAuthority(id);
+    public int deleteUserDataAuthority (int userId, int brandId) {
+        return authorityModifyMapper.deleteUserDataAuthority(userId, brandId);
     }
 
-
-    //依据userId,customerId,brandId直接添加权限记录
-    private int addOneUserDataAuthority (AuthorityReq authorityReq) {
-        int count = authorityObtainMapper.getUserAuthorityCountByUserIdAndBrandId(authorityReq.getUserId(), authorityReq.getBrandId()).size();
-        if (count > 0) {
-            //count大于0表示当前userId与brandId已存在，返回数据重复错误
-            return ErrorCode.paramDuplication;
-        } else {
-            //否则添加数据
-            return authorityModifyMapper.addUserDataAuthority(authorityReq);
+    // 依据userId,userName,customerId,brandId直接添加权限记录
+    private int addOneUserDataAuthority (Integer userId, String userName, Integer customerId, Integer brandId) {
+        int result = 0;
+        try {
+            result = authorityModifyMapper.addUserDataAuthority(userId, userName, customerId, brandId);
+        } catch (DuplicateKeyException e) {
+            // 只对添加数据时出现的主键重复异常进行捕获,其他异常则回滚事务
+            e.printStackTrace();
         }
+        return result;
     }
 }

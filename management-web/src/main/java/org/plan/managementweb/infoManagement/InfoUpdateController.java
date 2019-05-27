@@ -3,6 +3,8 @@ package org.plan.managementweb.infoManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
+import org.plan.managementservice.general.CheckObject;
+import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.service.infoManagement.Imply.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,13 @@ public class InfoUpdateController {
     @RequestMapping (value = "/updateStyleGroup", method = RequestMethod.POST)
     @ApiOperation(value = "更新款式组")
     public int updateStyleGroup(@RequestBody StyleGroupUpdateRequest styleGroupUpdateRequest){
-        return infoUpdateServiceImply.updateStyleGroup(styleGroupUpdateRequest);
+        if (CheckObject.isContainsEmpty(styleGroupUpdateRequest)) {
+            logger.error("所传数据字段缺失");
+            return ErrorCode.dataNotMatch;
+        }
+        else {
+            return infoUpdateServiceImply.updateStyleGroup(styleGroupUpdateRequest);
+        }
     }
 
     @RequestMapping (value = "/updateStyle", method = RequestMethod.POST)

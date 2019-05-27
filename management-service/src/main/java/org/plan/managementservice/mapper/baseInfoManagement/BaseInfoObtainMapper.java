@@ -13,7 +13,7 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT * FROM product;")
     List<Product> getAllProduct();
 
-    @Select("SELECT * FROM product WHERE name=#{name};")
+    @Select("SELECT * FROM product WHERE name LIKE CONCAT('%',#{name},'%');")
     List<Product> getProductByName(@Param("name") String name);
 
     @Select("SELECT * FROM product WHERE name=#{name} AND deptName=#{deptName};")
@@ -25,7 +25,7 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT * FROM customer;")
     List<Customer> getAllCustomer();
 
-    @Select("SELECT * FROM customer WHERE name=#{name};")
+    @Select("SELECT * FROM customer WHERE name LIKE CONCAT('%',#{name},'%') OR abbr=#{name};")
     List<Customer> getCustomerByName(@Param("name") String name);
 
     @Select("SELECT distinct customer.id, customer.name FROM customer LEFT JOIN user_customer_brand " +

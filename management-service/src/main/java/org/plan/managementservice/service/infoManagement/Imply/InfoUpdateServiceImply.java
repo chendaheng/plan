@@ -93,38 +93,22 @@ public class InfoUpdateServiceImply{
             return ErrorCode.nullError;
         }
         if (styleResultById.size() == 1){
-            int rangeIdDatabase = styleResultById.get(0).getRangeId();
-            String numberDatabase = styleResultById.get(0).getNumber();
-            if (number.equals(numberDatabase)){
-                if (rangeId == rangeIdDatabase){
-                    logger.info("当前更新: 款号不变,系列Id不变");
-                    return infoUpdateMapper.updateStyle(styleUpdateRequest);
-                }
-                else {
-                    logger.info("当前更新: 款号不变,系列Id改变。注意: 当前更新会影响系列款数变化");
-                    int updateStyleResult = infoUpdateMapper.updateStyle(styleUpdateRequest);
-                    if (updateStyleResult == 1){
-                        int addNewStyleQuantityResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
-                        int minusOleStyleQuantityResult = infoUpdateMapper.minusStyleQuantityInRange(rangeIdDatabase);
-                        if (addNewStyleQuantityResult == 1 && minusOleStyleQuantityResult == 1){
-                            logger.info("id为" + rangeId + "的系列款数成功加1," + "id为" + rangeIdDatabase + "的系列款数成功减1");
-                        }
-                        else {
-                            logger.warn("系列款数更新出错,请检查数据库");
-                        }
-                    }
-                    return updateStyleResult;
-                }
+            Style style = styleResultById.get(0);
+            int state = style.getState();
+            if (state == 2){
+                logger.warn("id为" + id + "的款式的状态为已绑定,无法修改信息");
+                return ErrorCode.stateError;
             }
             else {
-                List <Style> styleResultByNumber = infoObtainMapper.getStyleByNumber(number);
-                if (styleResultByNumber.size() == 0){
+                int rangeIdDatabase = style.getRangeId();
+                String numberDatabase = style.getNumber();
+                if (number.equals(numberDatabase)){
                     if (rangeId == rangeIdDatabase){
-                        logger.info("当前更新: 款号改变,系列Id不变");
+                        logger.info("当前更新: 款号不变,系列Id不变");
                         return infoUpdateMapper.updateStyle(styleUpdateRequest);
                     }
                     else {
-                        logger.info("当前更新: 款号改变,系列Id改变。注意: 当前更新会影响系列款数变化");
+                        logger.info("当前更新: 款号不变,系列Id改变。注意: 当前更新会影响系列款数变化");
                         int updateStyleResult = infoUpdateMapper.updateStyle(styleUpdateRequest);
                         if (updateStyleResult == 1){
                             int addNewStyleQuantityResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
@@ -139,13 +123,37 @@ public class InfoUpdateServiceImply{
                         return updateStyleResult;
                     }
                 }
-                else if (styleResultByNumber.size() == 1){
-                    logger.error("数据库中已存在相同的款号,更新失败");
-                    return ErrorCode.dataExist;
-                }
                 else {
-                    logger.error("当前传入系列的number在数据库中对应多条记录,请检查数据库");
-                    return ErrorCode.notUnique;
+                    List <Style> styleResultByNumber = infoObtainMapper.getStyleByNumber(number);
+                    if (styleResultByNumber.size() == 0){
+                        if (rangeId == rangeIdDatabase){
+                            logger.info("当前更新: 款号改变,系列Id不变");
+                            return infoUpdateMapper.updateStyle(styleUpdateRequest);
+                        }
+                        else {
+                            logger.info("当前更新: 款号改变,系列Id改变。注意: 当前更新会影响系列款数变化");
+                            int updateStyleResult = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                            if (updateStyleResult == 1){
+                                int addNewStyleQuantityResult = infoUpdateMapper.addStyleQuantityInRange(rangeId);
+                                int minusOleStyleQuantityResult = infoUpdateMapper.minusStyleQuantityInRange(rangeIdDatabase);
+                                if (addNewStyleQuantityResult == 1 && minusOleStyleQuantityResult == 1){
+                                    logger.info("id为" + rangeId + "的系列款数成功加1," + "id为" + rangeIdDatabase + "的系列款数成功减1");
+                                }
+                                else {
+                                    logger.warn("系列款数更新出错,请检查数据库");
+                                }
+                            }
+                            return updateStyleResult;
+                        }
+                    }
+                    else if (styleResultByNumber.size() == 1){
+                        logger.error("数据库中已存在相同的款号,更新失败");
+                        return ErrorCode.dataExist;
+                    }
+                    else {
+                        logger.error("当前传入系列的number在数据库中对应多条记录,请检查数据库");
+                        return ErrorCode.notUnique;
+                    }
                 }
             }
         }
@@ -211,51 +219,67 @@ public class InfoUpdateServiceImply{
 
     public int unbindStyleGroup(int id) {
         // 解绑款式组
-        int updateStyleCount = 0; // 记录被更新style的数量
-        // 更新款式组状态
-        StyleGroupUpdateRequest styleGroupUpdateRequest = new StyleGroupUpdateRequest();
-        styleGroupUpdateRequest.setId(id);
-        styleGroupUpdateRequest.setState(1);
-        int updateStyleGroup = infoUpdateMapper.updateStyleGroup(styleGroupUpdateRequest);
-        if (updateStyleGroup == 1){
-            List <Style> styleResult = infoObtainMapper.getStyleByStyleGroupId(id);
-            if (styleResult.size() == 0){
-                logger.error("该款式组没有对应的款式，请检查数据库");
-            }
-            else if (styleResult.size() > 0){
-                for (Style style : styleResult){
-                    StyleUpdateRequest styleUpdateRequest = new StyleUpdateRequest();
-                    int styleId = style.getId();
-                    styleUpdateRequest.setId(styleId);
-                    styleUpdateRequest.setStyleGroupId(null);
-                    styleUpdateRequest.setStyleGroupName("");
-                    styleUpdateRequest.setStyleGroupNumber("");
-                    styleUpdateRequest.setState(1);
-                    int updateStyle = infoUpdateMapper.updateStyle(styleUpdateRequest);
-                    if (updateStyle == 1){
-                        logger.info("成功更新款式信息，当前款式id为"+ styleId);
-                        updateStyleCount += 1;
-                    }
-                    else {
-                        logger.error("更新款式信息失败，当前款式id为"+ styleId);
-                    }
-                }
-                if (styleResult.size() == updateStyleCount){
-                    logger.info("解绑成功，信息已完全更新");
-                }
-                else {
-                    logger.warn("传入列表的长度为" + styleResult.size() + ",实际更新的长度为" + updateStyleCount + ",请检查数据库");
-                }
-            }
-            else {
-                logger.error("其他错误");
-            }
+        List <StyleGroup> styleGroupResult = infoObtainMapper.getStyleGroupById(id);
+        if (styleGroupResult.size() != 1){
+            logger.error("id为" + id + "的款式组信息不存在,解绑失败,请检查数据库");
+            return ErrorCode.nullError;
         }
         else {
-            logger.error("更新款式组信息失败，当前款式组id为"+ id);
-            return ErrorCode.sqlError;
+            StyleGroup styleGroup = styleGroupResult.get(0);
+            int state = styleGroup.getState();
+            if (state == 1){
+                logger.warn("id为" + id + "的款式组的状态为未绑定,无法进行绑定操作");
+                return ErrorCode.stateError;
+            }
+            else {
+                int updateStyleCount = 0; // 记录被更新style的数量
+                // 更新款式组状态
+                StyleGroupUpdateRequest styleGroupUpdateRequest = new StyleGroupUpdateRequest();
+                styleGroupUpdateRequest.setId(id);
+                styleGroupUpdateRequest.setState(1);
+                int updateStyleGroup = infoUpdateMapper.updateStyleGroup(styleGroupUpdateRequest);
+                if (updateStyleGroup == 1){
+                    List <Style> styleResult = infoObtainMapper.getStyleByStyleGroupId(id);
+                    if (styleResult.size() == 0){
+                        logger.error("该款式组没有对应的款式，请检查数据库");
+                    }
+                    else if (styleResult.size() > 0){
+                        for (Style style : styleResult){
+                            StyleUpdateRequest styleUpdateRequest = new StyleUpdateRequest();
+                            int styleId = style.getId();
+                            styleUpdateRequest.setId(styleId);
+                            styleUpdateRequest.setStyleGroupId(null);
+                            styleUpdateRequest.setStyleGroupName("");
+                            styleUpdateRequest.setStyleGroupNumber("");
+                            styleUpdateRequest.setState(1);
+                            int updateStyle = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                            if (updateStyle == 1){
+                                logger.info("成功更新款式信息，当前款式id为"+ styleId);
+                                updateStyleCount += 1;
+                            }
+                            else {
+                                logger.error("更新款式信息失败，当前款式id为"+ styleId);
+                            }
+                        }
+                        if (styleResult.size() == updateStyleCount){
+                            logger.info("解绑成功，信息已完全更新");
+                        }
+                        else {
+                            logger.warn("传入列表的长度为" + styleResult.size() + ",实际更新的长度为" + updateStyleCount + ",请检查数据库");
+                        }
+                    }
+                    else {
+                        logger.error("其他错误");
+                    }
+                }
+                else {
+                    logger.error("更新款式组信息失败，当前款式组id为"+ id);
+                    return ErrorCode.sqlError;
+                }
+                return updateStyleCount;
+            }
         }
-        return updateStyleCount;
+
     }
 
     public int completeRangeById (int id) {

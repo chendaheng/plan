@@ -1,21 +1,12 @@
 package org.plan.managementfacade.model.authorityModel;
 
 public class AuthorityResp {
-    private Integer id;
     private Integer userId;
     private String userName;
     private Integer customerId;
     private String customerName;
     private Integer brandId;
     private String brandName;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getUserId() {
         return userId;

@@ -22,25 +22,25 @@ import java.util.Map;
 @RestController
 @RequestMapping("/planManagement")
 @Api(value = "计划信息增删接口", tags = {"计划信息增删接口"})
-//@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-//        methods = {RequestMethod.POST, RequestMethod.DELETE},
-//        origins = "*")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+        methods = {RequestMethod.POST, RequestMethod.DELETE},
+        origins = "*")
 public class PlanModifyController {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private PlanModifyServiceImply planModifyService;
 
-    @GetMapping(value = "/test")
-    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Test> test () {
-        return null;
-    }
-
-    @PostMapping(value = "/test")
-    public int test(@RequestBody Test t) {
-        return planModifyService.addTest(t);
-    }
+//    @GetMapping(value = "/test")
+//    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public List<Test> test () {
+//        return null;
+//    }
+//
+//    @PostMapping(value = "/test")
+//    public int test(@RequestBody Test t) {
+//        return planModifyService.addTest(t);
+//    }
 
     @PostMapping(value = "/addPlan")
     @ApiOperation(value = "新增计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
