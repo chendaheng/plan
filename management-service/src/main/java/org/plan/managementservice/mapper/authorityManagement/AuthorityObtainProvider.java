@@ -21,4 +21,19 @@ public class AuthorityObtainProvider {
             }
         }.toString();
     }
+
+    public String getRoleSystemAuthorityByParams (Map<String, Object> params) {
+        String[] keyList = {"roleId", "pageName"};
+        return new SQL() {
+            {
+                SELECT("*").FROM("role_page");
+                for (String key : keyList) {
+                    if (params.containsKey(key)) {
+                        Object value = params.get(key);
+                        WHERE(key + "='" + value + "'");
+                    }
+                }
+            }
+        }.toString();
+    }
 }

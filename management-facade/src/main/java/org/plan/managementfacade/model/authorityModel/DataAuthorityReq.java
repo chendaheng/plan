@@ -1,12 +1,12 @@
 package org.plan.managementfacade.model.authorityModel;
 
-public class AuthorityResp {
+import java.util.List;
+
+public class DataAuthorityReq {
     private Integer userId;
     private String userName;
     private Integer customerId;
-    private String customerName;
-    private Integer brandId;
-    private String brandName;
+    private List<Integer> brandIdList;
 
     public Integer getUserId() {
         return userId;
@@ -32,27 +32,11 @@ public class AuthorityResp {
         this.customerId = customerId;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public List<Integer> getBrandIdList() {
+        return brandIdList;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public Integer getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setBrandIdList(List<Integer> brandIdList) {
+        this.brandIdList = brandIdList;
     }
 }
