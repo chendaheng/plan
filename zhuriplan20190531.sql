@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : self
-Source Server Version : 80013
+Source Server         : localhost_3306
+Source Server Version : 50725
 Source Host           : localhost:3306
-Source Database       : planservice
+Source Database       : zhuriplan
 
 Target Server Type    : MYSQL
-Target Server Version : 80013
+Target Server Version : 50725
 File Encoding         : 65001
 
-Date: 2019-05-31 14:13:18
+Date: 2019-05-31 15:28:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -279,7 +279,7 @@ CREATE TABLE `range` (
 INSERT INTO `range` VALUES ('1', 'XL20190101001', 'Fall-2019(07/08/09)', '1', '2', '10', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:03:09', '系列备注1', '\0', '', '\0');
 INSERT INTO `range` VALUES ('2', 'XL20190101002', 'Spring-2019(01/02/03)', '2', '2', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:20', '系列备注2', '\0', '\0', '\0');
 INSERT INTO `range` VALUES ('3', 'XL20190501003', 'Winter-2019(10/11/12)', '3', '3', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:50', '系列备注3', '\0', '\0', '\0');
-INSERT INTO `range` VALUES ('4', 'XL20190501004', 'Summer-2019(08/09/10)', '4', '1', '2', '1', '1', '3', '张三', '信息管理', '2019-04-21 23:05:28', '系列备注4', '\0', '\0', '\0');
+INSERT INTO `range` VALUES ('4', 'XL20190501004', 'Summer-2019(08/09/10)', '4', '1', '5', '1', '1', '3', '张三', '信息管理', '2019-04-21 23:05:28', '系列备注4', '\0', '\0', '\0');
 
 -- ----------------------------
 -- Table structure for role_page
@@ -317,7 +317,7 @@ CREATE TABLE `style` (
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   CONSTRAINT `style_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of style
@@ -350,7 +350,7 @@ CREATE TABLE `stylegroup` (
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   CONSTRAINT `stylegroup_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stylegroup
@@ -375,6 +375,38 @@ CREATE TABLE `test` (
 -- ----------------------------
 INSERT INTO `test` VALUES ('1', '2019-06-12');
 INSERT INTO `test` VALUES ('5', '2019-05-12');
+
+-- ----------------------------
+-- Table structure for user_brand
+-- ----------------------------
+DROP TABLE IF EXISTS `user_brand`;
+CREATE TABLE `user_brand` (
+  `userId` int(11) NOT NULL,
+  `brandId` int(11) NOT NULL,
+  PRIMARY KEY (`userId`,`brandId`),
+  KEY `brandId` (`brandId`),
+  CONSTRAINT `user_brand_ibfk_1` FOREIGN KEY (`brandId`) REFERENCES `brand` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_brand
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_customer
+-- ----------------------------
+DROP TABLE IF EXISTS `user_customer`;
+CREATE TABLE `user_customer` (
+  `userId` int(11) NOT NULL,
+  `customerId` int(11) NOT NULL,
+  PRIMARY KEY (`userId`,`customerId`),
+  KEY `customerId` (`customerId`),
+  CONSTRAINT `user_customer_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_customer
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_customer_brand
@@ -434,7 +466,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- View structure for stylegroupsearch
 -- ----------------------------
 DROP VIEW IF EXISTS `stylegroupsearch`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stylegroupsearch` AS select `stylegroup`.`id` AS `id`,`stylegroup`.`number` AS `number`,`stylegroup`.`name` AS `name`,`stylegroup`.`rangeId` AS `rangeId`,`stylegroup`.`state` AS `state`,`stylegroup`.`createrId` AS `createrId`,`stylegroup`.`createrName` AS `createrName`,`stylegroup`.`deptName` AS `deptName`,`stylegroup`.`createTime` AS `createTime`,`stylegroup`.`havePlan` AS `havePlan`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`id` AS `brandId`,`brand`.`name` AS `brandName`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName`,`user_customer_brand`.`userId` AS `userId` from (((((`stylegroup` join `range` on((`stylegroup`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stylegroupsearch` AS select `stylegroup`.`id` AS `id`,`stylegroup`.`number` AS `number`,`stylegroup`.`name` AS `name`,`stylegroup`.`rangeId` AS `rangeId`,`stylegroup`.`state` AS `state`,`stylegroup`.`createrId` AS `createrId`,`stylegroup`.`createrName` AS `createrName`,`stylegroup`.`deptName` AS `deptName`,`stylegroup`.`createTime` AS `createTime`,`stylegroup`.`havePlan` AS `havePlan`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`id` AS `brandId`,`brand`.`name` AS `brandName`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName`,`user_customer_brand`.`userId` AS `userId`,`stylegroup`.`quantity` AS `quantity` from (((((`stylegroup` join `range` on((`stylegroup`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
 
 -- ----------------------------
 -- View structure for stylesearch
