@@ -4,11 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
-import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.GatewayInfo;
-import org.plan.managementservice.service.planManagement.imply.PlanModifyServiceImply;
+import org.plan.managementservice.service.planManagement.PlanModifyServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Map;
 
 @RestController

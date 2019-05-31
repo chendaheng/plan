@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.authorityManagement.Imply;
+package org.plan.managementservice.service.authorityManagement;
 
 import org.plan.managementfacade.model.authorityModel.DataAuthorityResp;
 import org.plan.managementfacade.model.authorityModel.SystemAuthority;

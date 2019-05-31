@@ -18,6 +18,6 @@ public interface AuthorityObtainMapper {
     @SelectProvider(type = AuthorityObtainProvider.class, method = "getRoleSystemAuthorityByParams")
     List<SystemAuthority> getRoleSystemAuthorityByParams (Map<String, Object> params);
 
-    @Select("SELECT * FROM `role_page` WHERE roleId=#{roleId}")
+    @Select("SELECT `pageName` FROM `role_page` WHERE roleId=#{roleId}")
     List<String> getSystemAuthorityByRoleId (@Param("roleId") Integer roleId);
 }

@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.baseInfoManagement.Imply;
+package org.plan.managementservice.service.baseInfoManagement;
 
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandResp;

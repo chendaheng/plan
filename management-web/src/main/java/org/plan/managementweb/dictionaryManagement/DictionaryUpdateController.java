@@ -6,7 +6,7 @@ import org.plan.managementfacade.model.dictionaryModel.CategoryProperty;
 import org.plan.managementfacade.model.dictionaryModel.DictionaryCategory;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
-import org.plan.managementservice.service.dictionaryManagement.Imply.DictionaryUpdateServiceImply;
+import org.plan.managementservice.service.dictionaryManagement.DictionaryUpdateServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

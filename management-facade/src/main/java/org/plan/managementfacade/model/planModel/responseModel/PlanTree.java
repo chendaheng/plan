@@ -1,4 +1,4 @@
-package org.plan.managementfacade.model.planModel.requestModel;
+package org.plan.managementfacade.model.planModel.responseModel;
 
 import java.util.List;
 

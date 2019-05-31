@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.authorityModel.DataAuthorityResp;
 import org.plan.managementfacade.model.authorityModel.SystemAuthority;
-import org.plan.managementservice.service.authorityManagement.Imply.AuthorityObtainServiceImply;
+import org.plan.managementservice.service.authorityManagement.AuthorityObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class AuthorityObtainController {
 
     @GetMapping(value = "/getSystemAuthorityByRole")
     @ApiOperation(value = "依据角色获取系统权限", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Set<String> getSystemAuthorityByRole (@RequestParam List<Integer> roleIdList) {
+    public Set<String> getSystemAuthorityByRole (@RequestParam("roleIdList") List<Integer> roleIdList) {
         return authorityObtainService.getSystemAuthorityByRole(roleIdList);
     }
 }
