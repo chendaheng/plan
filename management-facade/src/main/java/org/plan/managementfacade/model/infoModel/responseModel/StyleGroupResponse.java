@@ -7,6 +7,7 @@ public class StyleGroupResponse {
     private Integer id;
     private String number;
     private String name;
+    private Integer quantity;
     private Integer rangeId;
     private String rangeNumber; // 待取
     private String rangeName; // 待取
@@ -46,6 +47,14 @@ public class StyleGroupResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Integer getRangeId() {

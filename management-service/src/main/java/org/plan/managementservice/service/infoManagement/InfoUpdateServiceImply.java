@@ -214,6 +214,16 @@ public class InfoUpdateServiceImply{
                 logger.error("其他错误");
             }
         }
+        if (updateStyleCount > 0){
+            int styleGroupId = bindStyleGroupRequestList.get(0).getStyleGroupId();
+            int addResult = infoUpdateMapper.addStyleGroupQuantity(styleGroupId,updateStyleCount);
+            if (addResult == 1){
+                logger.info("成功将id为: " + styleGroupId + "的款式组的quantity加" + updateStyleCount);
+            }
+            else {
+                logger.error("将id为: " + styleGroupId + "的款式组的quantity更新失败,请检查数据库");
+            }
+        }
         return updateStyleCount;
     }
 

@@ -25,6 +25,10 @@ public interface InfoUpdateMapper {
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyleGroup")
     int updateStyleGroup (@Param("styleGroupUpdateRequest") StyleGroupUpdateRequest styleGroupUpdateRequest);
 
+    // 款式组中增加绑定的款数
+    @Update("UPDATE stylegroup SET quantity = quantity + #{styleCount} WHERE id=#{id};")
+    int addStyleGroupQuantity (@Param("id") int id, @Param("styleCount") int styleCount);
+
     // 更新款式信息
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyle")
     int updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest);
