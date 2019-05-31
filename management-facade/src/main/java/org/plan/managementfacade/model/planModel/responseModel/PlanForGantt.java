@@ -1,33 +1,17 @@
-package org.plan.managementfacade.model.planModel.requestModel;
+package org.plan.managementfacade.model.planModel.responseModel;
 
-import org.plan.managementfacade.model.planModel.sqlModel.Plan;
-
-import java.util.List;
-
-public class PlanTreeForGantt {
+public class PlanForGantt {
     private Integer id;
     private String name;
+    private Integer parentId;
     private String projectType;
     private Integer order;
     private Integer quantity;
     private String startDate;
     private String endDate;
     private String createrName;
+    private boolean isRoot;
     private boolean haveException;
-    private List<PlanTreeForGantt> children;
-
-    public PlanTreeForGantt(Plan plan) {
-        this.id = plan.getId();
-        this.name = plan.getName();
-        this.projectType = plan.getProjectType();
-        this.order = plan.getOrder();
-        this.quantity = plan.getQuantity();
-        this.startDate = plan.getStartDate();
-        this.endDate = plan.getEndDate();
-        this.createrName = plan.getCreaterName();
-        this.haveException = plan.isHaveException();
-        this.children = null;
-    }
 
     public Integer getId() {
         return id;
@@ -43,6 +27,14 @@ public class PlanTreeForGantt {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getProjectType() {
@@ -93,23 +85,19 @@ public class PlanTreeForGantt {
         this.createrName = createrName;
     }
 
+    public boolean getIsRoot() {
+        return isRoot;
+    }
+
+    public void setIsRoot (boolean isRoot) {
+        this.isRoot = isRoot;
+    }
+
     public boolean isHaveException() {
         return haveException;
     }
 
     public void setHaveException(boolean haveException) {
         this.haveException = haveException;
-    }
-
-    public List<PlanTreeForGantt> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<PlanTreeForGantt> children) {
-        this.children = children;
-    }
-
-    public void addChildren (PlanTreeForGantt child) {
-        this.children.add(child);
     }
 }

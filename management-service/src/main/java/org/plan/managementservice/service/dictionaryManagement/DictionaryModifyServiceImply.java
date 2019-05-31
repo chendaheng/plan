@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.dictionaryManagement.Imply;
+package org.plan.managementservice.service.dictionaryManagement;
 
 import org.plan.managementfacade.model.dictionaryModel.CategoryReq;
 import org.plan.managementfacade.model.dictionaryModel.PropertyReq;

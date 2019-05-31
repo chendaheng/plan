@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.baseInfoManagement.Imply;
+package org.plan.managementservice.service.baseInfoManagement;
 
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Brand;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;

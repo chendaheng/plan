@@ -1,12 +1,8 @@
-package org.plan.managementservice.service.planManagement.imply;
+package org.plan.managementservice.service.planManagement;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.requestModel.PlanTree;
-import org.plan.managementfacade.model.planModel.requestModel.PlanTreeForGantt;
-import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
-import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
-import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
+import org.plan.managementfacade.model.planModel.responseModel.*;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 import org.plan.managementservice.mapper.infoManagement.InfoObtainMapper;
 import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
@@ -15,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -213,35 +208,13 @@ public class PlanObtainServiceImply {
         return root;
     }
 
-    public List<PlanTreeForGantt> getGanttForPlan (Map<String, Object> params) {
-        List<PlanTreeForGantt> result = new ArrayList<>();
+    public List<PlanForGantt> getGanttForPlan (Map<String, Object> params) {
+        List<PlanForGantt> result = new ArrayList<>();
         List<Integer> planObjectIdList = planObtainMapper.getRootPlanObjectIdByParams(params);
         for (Integer planObjectId : planObjectIdList) {
-            // 此map用于将每个甘特图的树上的节点与id相对应
-            Map<Integer, PlanTreeForGantt> idPlanTreeForGanttMap = new HashMap<>();
-            // 依据计划对象id获取除预测计划和已删除计划外所有计划
-            List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, PlanType.PREDICT, PlanState.DELETED);
-            PlanTreeForGantt root = null;
-            for (Plan plan : planList) {
-                // 将每个获得的计划改为一个节点
-                PlanTreeForGantt node = new PlanTreeForGantt(plan);
-                // 当该计划是根节点时,将其设置为根,用于最后传回整棵树,同时直接将其存入map
-                if (plan.getIsRoot()) {
-                    root = node;
-                } else {
-                    Integer parentId = plan.getParentId();
-                    PlanTreeForGantt parent = idPlanTreeForGanttMap.get(parentId);
-                    if (parent.getChildren() == null) {
-                        parent.setChildren(new ArrayList<>());
-                    }
-                    parent.addChildren(node);
-                }
-                idPlanTreeForGanttMap.put(node.getId(), node);
-            }
-            // 根节点不为null时将其加入返回列表
-            if (root != null) {
-                result.add(root);
-            }
+            // 依据planObjectId将所有计划取出，放入list返回给前端
+            List<PlanForGantt> tmpList = planObtainMapper.getPlanForGanttByPlanObjectId(planObjectId, PlanType.PREDICT, PlanState.DELETED);
+            result.addAll(tmpList);
         }
         return result;
     }

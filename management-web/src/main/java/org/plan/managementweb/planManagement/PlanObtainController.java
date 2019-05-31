@@ -2,14 +2,9 @@ package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.planModel.requestModel.PlanTree;
-import org.plan.managementfacade.model.planModel.requestModel.PlanTreeForGantt;
-import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
-import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
-import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
-import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.responseModel.*;
 import org.plan.managementservice.general.GatewayInfo;
-import org.plan.managementservice.service.planManagement.imply.PlanObtainServiceImply;
+import org.plan.managementservice.service.planManagement.PlanObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -79,19 +74,19 @@ public class PlanObtainController {
 
     @GetMapping(value = "/getGanttForRangePlan")
     @ApiOperation(value = "获取系列计划甘特图", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<PlanTreeForGantt> getGanttForRangePlan (@RequestParam Map<String, Object> params) {
+    public List<PlanForGantt> getGanttForRangePlan (@RequestParam Map<String, Object> params) {
         return planObtainService.getGanttForPlan(params);
     }
 
     @GetMapping(value = "/getGanttForStyleGroupPlan")
     @ApiOperation(value = "依据系列根计划id获取款式组计划甘特图", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<PlanTreeForGantt> getGanttForStyleGroupPlan (@RequestParam Map<String, Object> params) {
+    public List<PlanForGantt> getGanttForStyleGroupPlan (@RequestParam Map<String, Object> params) {
         return planObtainService.getGanttForPlan(params);
     }
 
     @GetMapping(value = "/getGanttForStylePlan")
     @ApiOperation(value = "依据款式组根计划id获取款式计划甘特图", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<PlanTreeForGantt> getGanttForStylePlan (@RequestParam Map<String, Object> params) {
+    public List<PlanForGantt> getGanttForStylePlan (@RequestParam Map<String, Object> params) {
         return planObtainService.getGanttForPlan(params);
     }
 

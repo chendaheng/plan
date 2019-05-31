@@ -6,7 +6,7 @@ import org.plan.managementfacade.model.authorityModel.DataAuthorityReq;
 import org.plan.managementfacade.model.authorityModel.SystemAuthorityReq;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
-import org.plan.managementservice.service.authorityManagement.Imply.AuthorityModifyServiceImply;
+import org.plan.managementservice.service.authorityManagement.AuthorityModifyServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class AuthorityModifyController {
     @PostMapping(value = "/addUserDataAuthority")
     @ApiOperation(value = "增加用户的数据操作权限", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addUserDataAuthority (@RequestBody @NotNull DataAuthorityReq dataAuthorityReq) {
-        if (CheckObject.isContainsEmpty(dataAuthorityReq)) {
+        if (CheckObject.isContainsEmpty(dataAuthorityReq) || dataAuthorityReq.getBrandIdList().size() == 0) {
             return ErrorCode.fieldIsEmpty;
         } else {
             return authorityModifyService.addUserDataAuthority(dataAuthorityReq);

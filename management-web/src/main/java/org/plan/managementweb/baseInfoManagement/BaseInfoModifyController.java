@@ -8,7 +8,7 @@ import org.plan.managementfacade.model.baseInfoModel.requestModel.CustomerReq;
 import org.plan.managementfacade.model.baseInfoModel.requestModel.ProductReq;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
-import org.plan.managementservice.service.baseInfoManagement.Imply.BaseInfoModifyServiceImply;
+import org.plan.managementservice.service.baseInfoManagement.BaseInfoModifyServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

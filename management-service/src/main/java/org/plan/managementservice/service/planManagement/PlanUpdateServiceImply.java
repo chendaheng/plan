@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.planManagement.imply;
+package org.plan.managementservice.service.planManagement;
 
 import org.plan.managementfacade.model.enumModel.*;
 import org.plan.managementfacade.model.planModel.requestModel.ChildrenPlanReq;
@@ -40,7 +40,7 @@ public class PlanUpdateServiceImply {
         String name = planUpdateReq.getName();
         String startDate = planUpdateReq.getStartDate();
         String endDate = planUpdateReq.getEndDate();
-        Integer quantity = planUpdateReq.getQuantity();
+//        Integer quantity = planUpdateReq.getQuantity();
         int parentId = oldPlan.getParentId();
         // 若修改了名称，需确保当前名称与其他同类计划的名称不重复
         if (!name.equals(oldPlan.getName())) {
@@ -65,23 +65,23 @@ public class PlanUpdateServiceImply {
                 return ErrorCode.dateOutOfRange;
             }
         }
-        // 若计划款数增加，则需确保增加之后其父计划款数大于相应子计划款数之和
-        if (quantity > oldPlan.getQuantity()) {
-            PlanType type = oldPlan.getType();
-            if (parentId != 0) {
-                int parentQuantity = planObtainMapper.getPlanQuantityById(parentId);
-                int sumOfQuantity = quantity;
-                List<Integer> quantityList = planObtainMapper.getPlanQuantityByParentIdAndType(parentId, type, PlanState.DELETED);
-                for (Integer i : quantityList) {
-                    sumOfQuantity += i;
-                }
-                sumOfQuantity -= oldPlan.getQuantity();
-                if (sumOfQuantity > parentQuantity) {
-                    logger.error("子计划的Quantity总和大于父计划,更新计划失败。");
-                    return ErrorCode.quantityExceed;
-                }
-            }
-        }
+//        // 若计划款数增加，则需确保增加之后其父计划款数大于相应子计划款数之和
+//        if (quantity > oldPlan.getQuantity()) {
+//            PlanType type = oldPlan.getType();
+//            if (parentId != 0) {
+//                int parentQuantity = planObtainMapper.getPlanQuantityById(parentId);
+//                int sumOfQuantity = quantity;
+//                List<Integer> quantityList = planObtainMapper.getPlanQuantityByParentIdAndType(parentId, type, PlanState.DELETED);
+//                for (Integer i : quantityList) {
+//                    sumOfQuantity += i;
+//                }
+//                sumOfQuantity -= oldPlan.getQuantity();
+//                if (sumOfQuantity > parentQuantity) {
+//                    logger.error("子计划的Quantity总和大于父计划,更新计划失败。");
+//                    return ErrorCode.quantityExceed;
+//                }
+//            }
+//        }
         return planUpdateMapper.updatePlan(planUpdateReq);
     }
 
@@ -187,19 +187,19 @@ public class PlanUpdateServiceImply {
             logger.error("计划名称重复,无法进行恢复操作。");
             return ErrorCode.planNameDuplication;
         }
-        // 待恢复计划存在父计划时，确保其计划款数与其他兄弟计划的款数之和不大于父计划
-        if (parentId != 0) {
-            int parentQuantity = planObtainMapper.getPlanQuantityById(parentId);
-            int sumOfQuantity = quantity;
-            List<Integer> quantityList = planObtainMapper.getPlanQuantityByParentIdAndType(parentId, type, PlanState.DELETED);
-            for (Integer i : quantityList) {
-                sumOfQuantity += i;
-            }
-            if (sumOfQuantity > parentQuantity) {
-                logger.error("计划款数超额,新增计划失败。父计划的款数为:" + parentQuantity);
-                return ErrorCode.quantityExceed;
-            }
-        }
+//        // 待恢复计划存在父计划时，确保其计划款数与其他兄弟计划的款数之和不大于父计划
+//        if (parentId != 0) {
+//            int parentQuantity = planObtainMapper.getPlanQuantityById(parentId);
+//            int sumOfQuantity = quantity;
+//            List<Integer> quantityList = planObtainMapper.getPlanQuantityByParentIdAndType(parentId, type, PlanState.DELETED);
+//            for (Integer i : quantityList) {
+//                sumOfQuantity += i;
+//            }
+//            if (sumOfQuantity > parentQuantity) {
+//                logger.error("计划款数超额,新增计划失败。父计划的款数为:" + parentQuantity);
+//                return ErrorCode.quantityExceed;
+//            }
+//        }
         // 以上条件均满足时，恢复计划
         if (deletedPlan.getRejectReason() != null) {
             result = planUpdateMapper.updatePlanStateById(id, PlanState.REFUSED);

@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.planManagement.imply;
+package org.plan.managementservice.service.planManagement;
 
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
@@ -94,19 +94,19 @@ public class PlanModifyServiceImply {
                 return ErrorCode.dateOutOfRange;
             }
         }
-        // 同类型子计划的款数之和不得超过父计划的款数
-        if (parentId != 0) {
-            int parentQuantity = planObtainMapper.getPlanQuantityById(parentId);
-            int sumOfQuantity = planAddReq.getQuantity();
-            List<Integer> quantityList = planObtainMapper.getPlanQuantityByParentIdAndType(parentId, type, PlanState.DELETED);
-            for (Integer i : quantityList) {
-                sumOfQuantity += i;
-            }
-            if (sumOfQuantity > parentQuantity) {
-                logger.error("计划款数超额,新增计划失败。父计划的款数为:" + parentQuantity);
-                return ErrorCode.quantityExceed;
-            }
-        }
+//        // 同类型子计划的款数之和不得超过父计划的款数
+//        if (parentId != 0) {
+//            int parentQuantity = planObtainMapper.getPlanQuantityById(parentId);
+//            int sumOfQuantity = planAddReq.getQuantity();
+//            List<Integer> quantityList = planObtainMapper.getPlanQuantityByParentIdAndType(parentId, type, PlanState.DELETED);
+//            for (Integer i : quantityList) {
+//                sumOfQuantity += i;
+//            }
+//            if (sumOfQuantity > parentQuantity) {
+//                logger.error("计划款数超额,新增计划失败。父计划的款数为:" + parentQuantity);
+//                return ErrorCode.quantityExceed;
+//            }
+//        }
         // 以上条件都满足时，添加计划
         Plan plan = new Plan(planAddReq);
         String lastNumber = planObtainMapper.getLastPlanNumber();

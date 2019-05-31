@@ -1,4 +1,4 @@
-package org.plan.managementservice.service.infoManagement.Imply;
+package org.plan.managementservice.service.infoManagement;
 
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;

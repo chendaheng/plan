@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.requestModel.PlanTreeForGantt;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
+import org.plan.managementfacade.model.planModel.responseModel.PlanForGantt;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
@@ -67,6 +67,12 @@ public interface PlanObtainMapper {
 
     @Select("SELECT id,number,name,`order`,startDate,endDate,createrName,deptName,createTime FROM plan WHERE parentId=#{parentId} AND type=#{type} AND state!=#{state};")
     List<ChildrenPlanResp> getPlanByParentIdAndType(@Param("parentId") int parentId, @Param("type") PlanType type, @Param("state") PlanState state);
+
+    // 为方便前端展示，将搜索得到的plan按parentId和order排序，使同一级计划order小的排在前面
+    @Select("SELECT id, name, parentId, projectType, `order`, quantity, startDate, endDate, createrName, isRoot, haveException " +
+            "FROM plan WHERE planObjectId=#{planObjectId} AND type!=#{type} AND state!=#{state} " +
+            "ORDER BY parentId ASC, `order` ASC;")
+    List<PlanForGantt> getPlanForGanttByPlanObjectId(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT number FROM planexception order by id desc limit 1;")
     String getLastExceptionNumber();
