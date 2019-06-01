@@ -1,9 +1,6 @@
 package org.plan.managementservice.service.baseInfoManagement;
 
-import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandName;
-import org.plan.managementfacade.model.baseInfoModel.responseModel.BrandResp;
-import org.plan.managementfacade.model.baseInfoModel.responseModel.ClothingLevelName;
-import org.plan.managementfacade.model.baseInfoModel.responseModel.CustomerName;
+import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
@@ -60,5 +57,9 @@ public class BaseInfoObtainServiceImply {
     public List<ClothingLevelName> getClothingLevelName() {
         // 获取服装层次名称
         return baseInfoObtainMapper.getClothingLevelName();
+    }
+
+    public List<UserName> getUserNameByBrandId (Integer brandId) {
+        return baseInfoObtainMapper.getUserNameByBrandId(brandId);
     }
 }
