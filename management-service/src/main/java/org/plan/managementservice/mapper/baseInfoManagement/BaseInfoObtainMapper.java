@@ -58,4 +58,7 @@ public interface BaseInfoObtainMapper {
 
     @Select("SELECT customerId FROM brand WHERE id=#{brandId};")
     Integer getCustomerIdByBrandId(@Param("brandId") int brandId);
+
+    @Select("SELECT userId, userName FROM user_customer_brand WHERE brandId=#{brandId};")
+    List<UserName> getUserNameByBrandId(@Param("brandId") Integer brandId);
 }
