@@ -286,10 +286,19 @@ public class InfoUpdateServiceImply{
                     logger.error("更新款式组信息失败，当前款式组id为"+ id);
                     return ErrorCode.sqlError;
                 }
+                if (updateStyleCount > 0){
+                    int styleGroupId = styleGroupResult.get(0).getId();
+                    int minusResult = infoUpdateMapper.minusStyleGroupQuantity(styleGroupId,updateStyleCount);
+                    if (minusResult == 1){
+                        logger.info("成功将id为: " + styleGroupId + "的款式组的quantity减" + updateStyleCount);
+                    }
+                    else {
+                        logger.error("将id为: " + styleGroupId + "的款式组的quantity更新失败,请检查数据库");
+                    }
+                }
                 return updateStyleCount;
             }
         }
-
     }
 
     public int completeRangeById (int id) {

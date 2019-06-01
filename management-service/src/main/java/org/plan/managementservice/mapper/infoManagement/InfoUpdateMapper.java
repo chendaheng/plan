@@ -29,6 +29,10 @@ public interface InfoUpdateMapper {
     @Update("UPDATE stylegroup SET quantity = quantity + #{styleCount} WHERE id=#{id};")
     int addStyleGroupQuantity (@Param("id") int id, @Param("styleCount") int styleCount);
 
+    // 款式组解绑时,减少被绑的款数
+    @Update("UPDATE stylegroup SET quantity = quantity - #{styleCount} WHERE id=#{id};")
+    int minusStyleGroupQuantity (@Param("id") int id, @Param("styleCount") int styleCount);
+
     // 更新款式信息
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyle")
     int updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest);
