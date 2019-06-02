@@ -49,7 +49,7 @@ public class GatewayInfo {
 //    }
 //
 //    public static String getUserName () {
-//        return "张三";
+//        return "李四";
 //    }
 //
 //    public static String getDeptName () {

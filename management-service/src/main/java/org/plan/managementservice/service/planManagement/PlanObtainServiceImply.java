@@ -218,6 +218,12 @@ public class PlanObtainServiceImply {
             List<PlanForGantt> tmpList = planObtainMapper.getPlanForGanttByPlanObjectIdAndType(planObjectId, type, PlanState.DELETED);
             result.addAll(tmpList);
         }
+        for (PlanForGantt plan : result) {
+            if (plan.getIsRoot()) {
+                // 适配前端甘特图，需将根计划的parentId设为0
+                plan.setParentId(0);
+            }
+        }
         return result;
     }
 }
