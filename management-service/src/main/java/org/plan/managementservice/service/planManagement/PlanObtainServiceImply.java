@@ -186,7 +186,7 @@ public class PlanObtainServiceImply {
         Map<Integer, PlanTree> idPlanTreeMap = new HashMap<>();
         idPlanTreeMap.put(root.getId(), root);
         // 依据planObjectId获取该计划树上全部计划,预测计划与已删除计划除外
-        List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, PlanType.PREDICT, PlanState.DELETED);
+        List<Plan> planList = planObtainMapper.getPlanByPlanObjectId(planObjectId, type, PlanState.DELETED);
         for (Plan plan : planList) {
             if (plan.getIsRoot()) {
                 continue;
@@ -210,10 +210,12 @@ public class PlanObtainServiceImply {
 
     public List<PlanForGantt> getGanttForPlan (Map<String, Object> params) {
         List<PlanForGantt> result = new ArrayList<>();
-        List<Integer> planObjectIdList = planObtainMapper.getRootPlanObjectIdByParams(params);
-        for (Integer planObjectId : planObjectIdList) {
-            // 依据planObjectId将所有计划取出，放入list返回给前端
-            List<PlanForGantt> tmpList = planObtainMapper.getPlanForGanttByPlanObjectId(planObjectId, PlanType.PREDICT, PlanState.DELETED);
+        List<Plan> rootPlanList = planObtainMapper.getRootPlanByParams(params);
+        for (Plan plan : rootPlanList) {
+            // 依据planObjectId和type将所有计划取出，放入list返回给前端
+            Integer planObjectId = plan.getPlanObjectId();
+            PlanType type = plan.getType();
+            List<PlanForGantt> tmpList = planObtainMapper.getPlanForGanttByPlanObjectIdAndType(planObjectId, type, PlanState.DELETED);
             result.addAll(tmpList);
         }
         return result;

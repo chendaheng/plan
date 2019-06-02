@@ -62,7 +62,7 @@ public interface PlanObtainMapper {
     @Select("SELECT type FROM plan WHERE id=#{id};")
     PlanType getPlanTypeById(int id);
 
-    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND type!=#{type} AND state!=#{state};")
+    @Select("SELECT * FROM plan WHERE planObjectId=#{planObjectId} AND type=#{type} AND state!=#{state};")
     List<Plan> getPlanByPlanObjectId(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT id,number,name,`order`,startDate,endDate,createrName,deptName,createTime FROM plan WHERE parentId=#{parentId} AND type=#{type} AND state!=#{state};")
@@ -70,9 +70,9 @@ public interface PlanObtainMapper {
 
     // 为方便前端展示，将搜索得到的plan按parentId和order排序，使同一级计划order小的排在前面
     @Select("SELECT id, name, parentId, projectType, `order`, quantity, startDate, endDate, createrName, isRoot, haveException " +
-            "FROM plan WHERE planObjectId=#{planObjectId} AND type!=#{type} AND state!=#{state} " +
+            "FROM plan WHERE planObjectId=#{planObjectId} AND type=#{type} AND state!=#{state} " +
             "ORDER BY parentId ASC, `order` ASC;")
-    List<PlanForGantt> getPlanForGanttByPlanObjectId(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
+    List<PlanForGantt> getPlanForGanttByPlanObjectIdAndType(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
 
     @Select("SELECT number FROM planexception order by id desc limit 1;")
     String getLastExceptionNumber();
@@ -101,6 +101,6 @@ public interface PlanObtainMapper {
     @SelectProvider(type = PlanObtainProvider.class, method = "getCompletedPlanListByParams")
     List<PlanSearchResp> getCompletedPlanListByParams(Map<String, Object> params);
 
-    @SelectProvider(type = PlanObtainProvider.class, method = "getRootPlanObjectIdByParams")
-    List<Integer> getRootPlanObjectIdByParams(Map<String, Object> params);
+    @SelectProvider(type = PlanObtainProvider.class, method = "getRootPlanByParams")
+    List<Plan> getRootPlanByParams(Map<String, Object> params);
 }

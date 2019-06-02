@@ -174,9 +174,9 @@ public class PlanModifyServiceImply {
         // 取出系列根计划信息，生成新的款式组根计划
         Plan rangePlan = rangePlanList.get(0);
         PlanAddReq planAddReq = new PlanAddReq(rangePlan);
-        planAddReq.setName("新的款式组根计划");
-        planAddReq.setProposal("新的款式组根计划");
-        planAddReq.setDescription("由引用系列计划生成");
+//        planAddReq.setName("新的款式组根计划");
+//        planAddReq.setProposal("新的款式组根计划");
+//        planAddReq.setDescription("由引用系列计划生成");
         planAddReq.setType(PlanType.STYLEGROUP);
         planAddReq.setPlanObjectId(styleGroupId);
         return addPlan(planAddReq, userName, deptName);
