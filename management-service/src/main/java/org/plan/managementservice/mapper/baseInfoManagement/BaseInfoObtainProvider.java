@@ -23,7 +23,7 @@ public class BaseInfoObtainProvider {
                 SELECT("brand.*, customer.name AS customerName");
                 FROM("brand").LEFT_OUTER_JOIN("customer ON brand.customerId=customer.id");
                 if (name != null) {
-                    WHERE("brand.name LIKE '%" + name + "%'" + " OR brand.abbr ='" + name + "'");
+                    WHERE("(brand.name LIKE '%" + name + "%'" + " OR brand.abbr ='" + name + "')");
                 }
                 if (customerId != null) {
                     WHERE("brand.customerId=" + customerId);

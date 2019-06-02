@@ -160,7 +160,9 @@ public class PlanUpdateServiceImply {
                     result += 0;
                 }
             }
-            result += planUpdateMapper.updatePlanStateById(planId, PlanState.DISTRIBUTED);
+            if (result > 0) {
+                planUpdateMapper.updatePlanStateById(planId, PlanState.DISTRIBUTED);
+            }
             return result;
         }
     }

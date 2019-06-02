@@ -98,7 +98,7 @@ public class PlanObtainProvider {
                     WHERE("createTime<='" + params.get("endDate").toString() + "'");
                 }
                 WHERE("type!=" + PlanType.PREDICT.getIndex());
-                WHERE("state=" + PlanState.PASS.getIndex() + " OR state=" + PlanState.DISTRIBUTED.getIndex());
+                WHERE("(state=" + PlanState.PASS.getIndex() + " OR state=" + PlanState.DISTRIBUTED.getIndex() + ")");
                 WHERE("isCompleted=false");
             }
         }.toString();
@@ -192,10 +192,10 @@ public class PlanObtainProvider {
         }.toString();
     }
 
-    public String getRootPlanObjectIdByParams(Map<String, Object> params) {
+    public String getRootPlanByParams(Map<String, Object> params) {
         return new SQL() {
             {
-                SELECT("planObjectId").FROM("plan");
+                SELECT("planObjectId, type").FROM("plan");
                 if (params.containsKey("name")) {
                     WHERE("name LIKE '%" + params.get("name").toString() + "%'");
                 }

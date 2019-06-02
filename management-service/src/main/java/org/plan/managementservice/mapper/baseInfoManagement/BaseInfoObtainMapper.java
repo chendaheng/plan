@@ -25,7 +25,7 @@ public interface BaseInfoObtainMapper {
     @Select("SELECT * FROM customer;")
     List<Customer> getAllCustomer();
 
-    @Select("SELECT * FROM customer WHERE name LIKE CONCAT('%',#{name},'%') OR abbr=#{name};")
+    @Select("SELECT * FROM customer WHERE name LIKE CONCAT('%',#{name},'%') OR abbr LIKE CONCAT('%',#{name},'%');")
     List<Customer> getCustomerByName(@Param("name") String name);
 
     @Select("SELECT distinct customer.id, customer.name FROM customer LEFT JOIN user_customer_brand " +
