@@ -6,6 +6,7 @@ import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServiceImply;
@@ -77,5 +78,11 @@ public class BaseInfoObtainController {
         } else {
             return baseInfoObtainService.getUserNameByBrandId(brandId);
         }
+    }
+
+    @GetMapping (value = "/getSerialNoRegularByObject")
+    @ApiOperation(value = "根据单号的对象查找单号生成规则", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SerialNoRegular getSerialNoRegularByObject(@RequestParam("numberObject") String numberObject){
+        return baseInfoObtainService.getSerialNoRegularByNumberObject(numberObject);
     }
 }

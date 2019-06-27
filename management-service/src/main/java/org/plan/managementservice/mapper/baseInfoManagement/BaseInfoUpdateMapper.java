@@ -3,10 +3,7 @@ package org.plan.managementservice.mapper.baseInfoManagement;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Brand;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 
 @Mapper
 public interface BaseInfoUpdateMapper {
@@ -25,4 +22,13 @@ public interface BaseInfoUpdateMapper {
     @Update("UPDATE clothinglevel SET name=#{clothingLevel.name}, description=#{clothingLevel.description} " +
             "WHERE id=#{clothingLevel.id};")
     int updateClothingLevel(@Param("clothingLevel") ClothingLevel clothingLevel);
+
+    // 更新单号规则
+    @Update("UPDATE serialno_regular SET numberPrefix=#{numberPrefix}, numberLength=#{numberLength}, " +
+            "lastNumberLength=#{lastNumberLength} WHERE id=#{id};")
+    int updateSerialNoRegular(@Param("id")int id, @Param("numberPrefix")String numberPrefix, @Param("numberLength")int numberLength, @Param("lastNumberLength")int lastNumberLength);
+
+//    // 更新单号规则里的afterChangeGenerate属性
+//    @Update("UPDATE serialno_regular SET afterChangeGenerate = 1 WHERE id=#{id};")
+//    int updateSerialNoRegularFlag(@Param("id")int id);
 }

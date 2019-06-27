@@ -61,4 +61,12 @@ public interface BaseInfoObtainMapper {
 
     @Select("SELECT userId, userName FROM user_customer_brand WHERE brandId=#{brandId};")
     List<UserName> getUserNameByBrandId(@Param("brandId") Integer brandId);
+
+    // 根据单号的对象查找单号生成规则
+    @Select("SELECT * FROM serialno_regular WHERE numberObject=#{numberObject};")
+    List <SerialNoRegular> getSerialNoRegularByObject(@Param("numberObject") String numberObject);
+
+    // 根据id查找单号生成规则
+    @Select("SELECT * FROM serialno_regular WHERE id=#{id};")
+    List <SerialNoRegular> getSerialNoRegularById(@Param("id") int id);
 }
