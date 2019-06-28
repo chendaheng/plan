@@ -34,9 +34,13 @@ public class SerialNumberGenerate {
         int lastNumberLength = serialNoRegular.getLastNumberLength();
         Boolean afterChangeGenerate = serialNoRegular.getAfterChangeGenerate();
         if (lastNumber != null){ // 数据库里有数据了
+            if (lastNumber.length() > (numberPrefix.length() + 8 + numberLength)){ // 超限情况处理
+                numberLength = numberLength + lastNumber.length() - (numberPrefix.length() + 8 + numberLength);
+                lastNumberLength = lastNumberLength + lastNumber.length() - (numberPrefix.length() + 8 + lastNumberLength);
+            }
             if (afterChangeGenerate == true){ // 修改以后已经生成过单号,按照之前的进行
                 String lastDateStr = lastNumber.substring(lastNumber.length() - numberLength - 8 ,lastNumber.length() - numberLength);
-                System.out.println("已生成过单号情况下lastDateStr: " + lastDateStr);
+//                System.out.println("已生成过单号情况下lastDateStr: " + lastDateStr);
                 if (dateStr.equals(lastDateStr)){ // 说明是同一天的单号,count接上一条
                     int lastCount = Integer.parseInt(lastNumber.substring(lastNumber.length() - numberLength, lastNumber.length()));
                     numberCount = lastCount + 1;
@@ -47,7 +51,7 @@ public class SerialNumberGenerate {
             }
             else if (afterChangeGenerate == false){// 修改以后未生成过单号,count接上一条
                 String lastDateStr = lastNumber.substring(lastNumber.length() - lastNumberLength - 8 ,lastNumber.length() - lastNumberLength);
-                System.out.println("修改以后未生成过单号lastDateStr: " + lastDateStr);
+//                System.out.println("修改以后未生成过单号lastDateStr: " + lastDateStr);
                 if (dateStr.equals(lastDateStr)){ // 说明是同一天的单号,count接上一条
                     int lastCount = Integer.parseInt(lastNumber.substring(lastNumber.length() - lastNumberLength, lastNumber.length())); // 获取旧单号的count
                     numberCount = lastCount + 1;

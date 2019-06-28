@@ -32,6 +32,9 @@ public class InfoModifyServiceImply{
     @Autowired
     private BaseInfoObtainMapper baseInfoObtainMapper;
 
+    @Autowired
+    private BaseInfoObtainServiceImply baseInfoObtainServiceImply;
+
     public int addRange(RangeAddRequest rangeAddRequest) {
         // 新增系列
         String name = rangeAddRequest.getName();
@@ -40,8 +43,11 @@ public class InfoModifyServiceImply{
             logger.error("数据库中已存在该系列的名称");
             return ErrorCode.dataExist;
         }else {
-            String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
-            rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
+            SerialNoRegular serialNoRegular = baseInfoObtainMapper.getSerialNoRegularByObject("系列").get(0);
+            String serialNo = baseInfoObtainServiceImply.generateSerialNo(serialNoRegular);
+//            String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
+//            rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
+            rangeAddRequest.setNumber(serialNo);
             rangeAddRequest.setAddingMode(1);
             return infoModifyMapper.addRange(rangeAddRequest);
         }
@@ -57,8 +63,11 @@ public class InfoModifyServiceImply{
                 logger.info("数据库中已存在该系列的名称,当前系列的名称为:" + rangeAddRequest.getName());
             }
             else {
-                String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
-                rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
+                SerialNoRegular serialNoRegular = baseInfoObtainMapper.getSerialNoRegularByObject("系列").get(0);
+                String serialNo = baseInfoObtainServiceImply.generateSerialNo(serialNoRegular);
+//                String lastRangeNumber = infoObtainMapper.getLastRangeNumber();
+//                rangeAddRequest.setNumber(SerialNumberGenerate.generateNumber("XL",lastRangeNumber));
+                rangeAddRequest.setNumber(serialNo);
                 rangeAddRequest.setAddingMode(2);
                 int addResult = infoModifyMapper.addRange(rangeAddRequest);
                 if (addResult == 1){
@@ -86,8 +95,11 @@ public class InfoModifyServiceImply{
             return ErrorCode.dataExist;
         }
         else {
-            String lastStyleGroupNumber = infoObtainMapper.getLastStyleGroupNumber();
-            styleGroupAddRequest.setNumber(SerialNumberGenerate.generateNumber("KSZ",lastStyleGroupNumber));
+            SerialNoRegular serialNoRegular = baseInfoObtainMapper.getSerialNoRegularByObject("款式组").get(0);
+            String serialNo = baseInfoObtainServiceImply.generateSerialNo(serialNoRegular);
+//            String lastStyleGroupNumber = infoObtainMapper.getLastStyleGroupNumber();
+//            styleGroupAddRequest.setNumber(SerialNumberGenerate.generateNumber("KSZ",lastStyleGroupNumber));
+            styleGroupAddRequest.setNumber(serialNo);
             return infoModifyMapper.addStyleGroup(styleGroupAddRequest);
         }
     }

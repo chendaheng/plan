@@ -119,6 +119,9 @@ public class BaseInfoObtainServiceImply {
             case "计划":
                 lastNumber = planObtainMapper.getLastPlanNumber();
                 break;
+            case "异常":
+                lastNumber = planObtainMapper.getLastExceptionNumber();
+                break;
         }
         String serialNo = SerialNumberGenerate.generateSerialNumber(serialNoRegular, lastNumber);
         if (afterChangeGenerate == false){
