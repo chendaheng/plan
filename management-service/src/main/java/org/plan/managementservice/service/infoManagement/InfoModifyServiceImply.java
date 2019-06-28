@@ -1,5 +1,6 @@
 package org.plan.managementservice.service.infoManagement;
 
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.sqlModel.*;
 import org.plan.managementservice.general.ErrorCode;
@@ -7,6 +8,7 @@ import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.general.SerialNumberGenerate;
 import org.plan.managementservice.mapper.baseInfoManagement.*;
 import org.plan.managementservice.mapper.infoManagement.*;
+import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

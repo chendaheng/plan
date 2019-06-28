@@ -14,13 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/baseInfoManagement")
 @Api(value = "基本信息获取接口", tags = {"基本信息获取接口"})
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.GET},
+        methods = {RequestMethod.GET,RequestMethod.POST},
         origins = "*")
 public class BaseInfoObtainController {
     @Autowired
@@ -84,5 +85,12 @@ public class BaseInfoObtainController {
     @ApiOperation(value = "根据单号的对象查找单号生成规则", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SerialNoRegular getSerialNoRegularByObject(@RequestParam("numberObject") String numberObject){
         return baseInfoObtainService.getSerialNoRegularByNumberObject(numberObject);
+    }
+
+    @GetMapping(value = "/getSerialNoByRegular")
+    @ApiOperation(value = "根据生成规则自动生成单号", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String getSerialNoByRegular(@RequestParam("numberObject") String numberObject){
+        SerialNoRegular serialNoRegular = baseInfoObtainService.getSerialNoRegularByNumberObject(numberObject);
+        return baseInfoObtainService.generateSerialNo(serialNoRegular);
     }
 }

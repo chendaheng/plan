@@ -9,6 +9,7 @@ public class SerialNoRegular {
     private String numberPrefix;
     private Integer numberLength;
     private Integer lastNumberLength;
+    private Boolean afterChangeGenerate;
 
     public Integer getId() {
         return id;
@@ -48,5 +49,13 @@ public class SerialNoRegular {
 
     public void setLastNumberLength(Integer lastNumberLength) {
         this.lastNumberLength = lastNumberLength;
+    }
+
+    public Boolean getAfterChangeGenerate() {
+        return afterChangeGenerate;
+    }
+
+    public void setAfterChangeGenerate(Boolean afterChangeGenerate) {
+        this.afterChangeGenerate = afterChangeGenerate;
     }
 }

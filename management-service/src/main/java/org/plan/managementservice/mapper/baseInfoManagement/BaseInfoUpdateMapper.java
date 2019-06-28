@@ -25,10 +25,10 @@ public interface BaseInfoUpdateMapper {
 
     // 更新单号规则
     @Update("UPDATE serialno_regular SET numberPrefix=#{numberPrefix}, numberLength=#{numberLength}, " +
-            "lastNumberLength=#{lastNumberLength} WHERE id=#{id};")
+            "lastNumberLength=#{lastNumberLength}, afterChangeGenerate = 0 WHERE id=#{id};")
     int updateSerialNoRegular(@Param("id")int id, @Param("numberPrefix")String numberPrefix, @Param("numberLength")int numberLength, @Param("lastNumberLength")int lastNumberLength);
 
-//    // 更新单号规则里的afterChangeGenerate属性
-//    @Update("UPDATE serialno_regular SET afterChangeGenerate = 1 WHERE id=#{id};")
-//    int updateSerialNoRegularFlag(@Param("id")int id);
+    // 更新单号规则里的afterChangeGenerate属性
+    @Update("UPDATE serialno_regular SET afterChangeGenerate = 1 WHERE id=#{id};")
+    int updateSerialNoRegularFlag(@Param("id")int id);
 }
