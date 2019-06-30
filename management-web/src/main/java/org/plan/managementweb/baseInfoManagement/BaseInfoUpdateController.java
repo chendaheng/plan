@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/baseInfoManagement")
 @Api(value = "基本信息修改接口", tags = {"基本信息修改接口"})
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.POST},
+        methods = {RequestMethod.POST, RequestMethod.GET},
         origins = "*")
 public class BaseInfoUpdateController {
     @Autowired
@@ -66,5 +66,11 @@ public class BaseInfoUpdateController {
     @ApiOperation(value = "更新单号规则", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateSerialNoRegular(@RequestBody @NotNull SerialNoRegular serialNoRegular){
         return baseInfoUpdateService.updateSerialNoRegular(serialNoRegular);
+    }
+
+    @GetMapping(value = "/updateMessageStateRead")
+    @ApiOperation(value = "将消息状态更新为已读", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMessageStateRead(@RequestParam("id") int id){
+        return baseInfoUpdateService.updateMessageStateRead(id);
     }
 }

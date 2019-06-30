@@ -2,6 +2,7 @@ package org.plan.managementweb.baseInfoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.MessageSearchReq;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
@@ -92,5 +93,21 @@ public class BaseInfoObtainController {
     public String getSerialNoByRegular(@RequestParam("numberObject") String numberObject){
         SerialNoRegular serialNoRegular = baseInfoObtainService.getSerialNoRegularByNumberObject(numberObject);
         return baseInfoObtainService.generateSerialNo(serialNoRegular);
+    }
+
+    @PostMapping(value = "/getReceiveMessageResponse")
+    @ApiOperation(value = "获取当前用户收到的消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List <MessageResp> getReceiveMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
+        int userId = GatewayInfo.getUserId();
+        messageSearchReq.setUserId(userId);
+        return baseInfoObtainService.getReceiveMessageResponse(messageSearchReq);
+    }
+
+    @PostMapping(value = "/getSendMessageResponse")
+    @ApiOperation(value = "获取当前用户发送的消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List <MessageResp> getSendMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
+        int userId = GatewayInfo.getUserId();
+        messageSearchReq.setUserId(userId);
+        return baseInfoObtainService.getSendMessageResponse(messageSearchReq);
     }
 }

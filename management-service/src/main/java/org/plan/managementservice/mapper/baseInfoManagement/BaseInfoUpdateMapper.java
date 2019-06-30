@@ -30,5 +30,9 @@ public interface BaseInfoUpdateMapper {
 
     // 更新单号规则里的afterChangeGenerate属性
     @Update("UPDATE serialno_regular SET afterChangeGenerate = 1 WHERE id=#{id};")
-    int updateSerialNoRegularFlag(@Param("id")int id);
+    int updateSerialNoRegularFlag(@Param("id") int id);
+
+    // 将消息状态更新为已读
+    @Update("UPDATE message SET state = 2 WHERE id=#{id};")
+    int updateMessageStateRead(@Param("id") int id);
 }

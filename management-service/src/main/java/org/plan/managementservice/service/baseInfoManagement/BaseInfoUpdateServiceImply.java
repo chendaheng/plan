@@ -2,8 +2,7 @@ package org.plan.managementservice.service.baseInfoManagement;
 
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 import org.plan.managementservice.general.ErrorCode;
-import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper;
-import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoUpdateMapper;
+import org.plan.managementservice.mapper.baseInfoManagement.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -107,5 +106,10 @@ public class BaseInfoUpdateServiceImply {
         Integer numberLength = serialNoRegular.getNumberLength();
         Integer lastNumberLength = serialNoRegular.getLastNumberLength();
         return baseInfoUpdateMapper.updateSerialNoRegular(id, numberPrefix, numberLength, lastNumberLength);
+    }
+
+    public int updateMessageStateRead(int id){
+        // 将消息状态更新为已读
+        return baseInfoUpdateMapper.updateMessageStateRead(id);
     }
 }

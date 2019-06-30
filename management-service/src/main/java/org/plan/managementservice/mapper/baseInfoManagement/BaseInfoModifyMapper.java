@@ -4,10 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.BrandReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.ClothingLevelReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.CustomerReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.ProductReq;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.*;
 
 @Mapper
 public interface BaseInfoModifyMapper {
@@ -34,4 +31,8 @@ public interface BaseInfoModifyMapper {
 
     @Delete("DELETE FROM clothinglevel WHERE id=#{id};")
     int deleteClothingLevel (@Param("id") int id);
+
+    // 添加消息
+    @Insert("INSERT INTO message(senderId, senderName, receiverId, receiverName, messageDetails) VALUES(#{messageAddReq.senderId}, #{messageAddReq.senderName}, #{messageAddReq.receiverId}, #{messageAddReq.receiverName} ,#{messageAddReq.messageDetails})")
+    int addMessage(@Param("messageAddReq") MessageAddReq messageAddReq);
 }

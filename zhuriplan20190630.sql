@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50725
 File Encoding         : 65001
 
-Date: 2019-06-28 18:45:42
+Date: 2019-06-30 21:56:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -120,6 +120,31 @@ CREATE TABLE `dictionarycategory` (
 -- ----------------------------
 INSERT INTO `dictionarycategory` VALUES ('1', '性别', 'SEX');
 INSERT INTO `dictionarycategory` VALUES ('2', '项目类型', 'projectType');
+
+-- ----------------------------
+-- Table structure for message
+-- ----------------------------
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `senderId` int(11) NOT NULL,
+  `senderName` varchar(255) NOT NULL,
+  `receiverId` int(11) NOT NULL,
+  `receiverName` varchar(255) NOT NULL,
+  `messageDetails` varchar(255) NOT NULL,
+  `state` tinyint(255) NOT NULL DEFAULT '1' COMMENT '1为未读，2为已读',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of message
+-- ----------------------------
+INSERT INTO `message` VALUES ('1', '3', '李四', '5', '刘五', '李四发给刘五', '1', '2019-06-28 15:55:16');
+INSERT INTO `message` VALUES ('2', '2', '王二', '3', '李四', '王二发给李四', '2', '2019-06-29 20:09:04');
+INSERT INTO `message` VALUES ('3', '2', '王二', '3', '李四', '王二发给李四', '2', '2019-06-30 20:09:38');
+INSERT INTO `message` VALUES ('4', '3', '李四', '5', '刘五', '李四发给刘五', '1', '2019-06-29 20:10:12');
+INSERT INTO `message` VALUES ('5', '3', '李四', '5', '刘五', '李四发给刘五', '1', '2019-06-30 20:17:02');
 
 -- ----------------------------
 -- Table structure for plan

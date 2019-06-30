@@ -1,11 +1,13 @@
 package org.plan.managementservice.service.baseInfoManagement;
 
 import io.swagger.models.auth.In;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.MessageSearchReq;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
+import org.plan.managementfacade.model.enumModel.MessageState;
 import org.plan.managementservice.general.SerialNumberGenerate;
 import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper;
 import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoUpdateMapper;
@@ -128,5 +130,27 @@ public class BaseInfoObtainServiceImply {
             baseInfoUpdateMapper.updateSerialNoRegularFlag(id);
         }
         return serialNo;
+    }
+
+    public List <MessageResp> getReceiveMessageResponse(MessageSearchReq messageSearchReq){
+        // 获取当前用户收到的所有消息
+        List <MessageResp> messageRespResult = baseInfoObtainMapper.getReceiveMessageResponse(messageSearchReq);
+        for (MessageResp messageResp : messageRespResult){
+            int state = messageResp.getState();
+            String stateStr = MessageState.getName(state);
+            messageResp.setStateStr(stateStr);
+        }
+        return messageRespResult;
+    }
+
+    public List <MessageResp> getSendMessageResponse(MessageSearchReq messageSearchReq){
+        // 根据当前用户的id获取所有发送的消息
+        List <MessageResp> messageRespResult = baseInfoObtainMapper.getSendMessageResponse(messageSearchReq);
+        for (MessageResp messageResp : messageRespResult){
+            int state = messageResp.getState();
+            String stateStr = MessageState.getName(state);
+            messageResp.setStateStr("对方" + stateStr);
+        }
+        return messageRespResult;
     }
 }

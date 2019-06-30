@@ -3,6 +3,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.MessageSearchReq;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 
@@ -69,4 +70,20 @@ public interface BaseInfoObtainMapper {
     // 根据id查找单号生成规则
     @Select("SELECT * FROM serialno_regular WHERE id=#{id};")
     List <SerialNoRegular> getSerialNoRegularById(@Param("id") int id);
+
+    // 根据当前用户的id获取收到的所有消息
+    @Select("SELECT * FROM message WHERE receiverId=#{userId}")
+    List <MessageResp> getMessageByReceiverId(@Param("userId") int userId);
+
+    // 根据当前用户的id获取所有发送的消息
+    @Select("SELECT * FROM message WHERE senderId=#{userId}")
+    List <MessageResp> getMessageBySenderId(@Param("userId") int userId);
+
+    // 根据条件搜索当前用户收到的消息
+    @SelectProvider(type = BaseInfoObtainProvider.class, method = "getReceiveMessageResponse")
+    List <MessageResp> getReceiveMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq);
+
+    // 根据条件搜索当前用户发送的消息
+    @SelectProvider(type = BaseInfoObtainProvider.class, method = "getSendMessageResponse")
+    List <MessageResp> getSendMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq);
 }
