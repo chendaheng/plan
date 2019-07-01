@@ -2,10 +2,7 @@ package org.plan.managementweb.baseInfoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Brand;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
-import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.*;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.service.baseInfoManagement.BaseInfoUpdateServiceImply;
@@ -19,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/baseInfoManagement")
 @Api(value = "基本信息修改接口", tags = {"基本信息修改接口"})
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.POST},
+        methods = {RequestMethod.POST, RequestMethod.GET},
         origins = "*")
 public class BaseInfoUpdateController {
     @Autowired
@@ -63,5 +60,17 @@ public class BaseInfoUpdateController {
         } else {
             return baseInfoUpdateService.updateClothingLevel(clothingLevel);
         }
+    }
+
+    @PostMapping(value = "/updateSerialNoRegular")
+    @ApiOperation(value = "更新单号规则", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateSerialNoRegular(@RequestBody @NotNull SerialNoRegular serialNoRegular){
+        return baseInfoUpdateService.updateSerialNoRegular(serialNoRegular);
+    }
+
+    @GetMapping(value = "/updateMessageStateRead")
+    @ApiOperation(value = "将消息状态更新为已读", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMessageStateRead(@RequestParam("id") int id){
+        return baseInfoUpdateService.updateMessageStateRead(id);
     }
 }

@@ -36,7 +36,6 @@ public class InfoObtainServiceImply{
             int state = rangeResponse.getState();
             String stateStr = InfoState.getName(state);
             rangeResponse.setStateStr(stateStr);
-
         }
         return rangeResponseResult;
     }

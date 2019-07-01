@@ -2,12 +2,10 @@ package org.plan.managementweb.baseInfoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.BrandReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.ClothingLevelReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.CustomerReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.ProductReq;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.*;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
+import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.baseInfoManagement.BaseInfoModifyServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -87,5 +85,15 @@ public class BaseInfoModifyController {
     @ApiOperation(value = "删除产品信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deleteClothingLevel (@RequestParam("id") int id) {
         return baseInfoModifyService.deleteClothingLevel(id);
+    }
+
+    @PostMapping(value = "/addMessage")
+    @ApiOperation(value = "增加消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int addMessage(@RequestBody @NotNull MessageAddReq messageAddReq){
+        int senderId = GatewayInfo.getUserId();
+        String senderName = GatewayInfo.getUserName();
+        messageAddReq.setSenderId(senderId);
+        messageAddReq.setSenderName(senderName);
+        return baseInfoModifyService.addMessage(messageAddReq);
     }
 }
