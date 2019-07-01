@@ -2,6 +2,7 @@ package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementservice.general.CheckObject;
@@ -11,10 +12,18 @@ import org.plan.managementservice.service.planManagement.PlanModifyServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,6 +37,8 @@ public class PlanModifyController {
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private PlanModifyServiceImply planModifyService;
+    @Value("${plan.file.dir}")
+    private String filePath;
 
 //    @GetMapping(value = "/test")
 //    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -36,8 +47,26 @@ public class PlanModifyController {
 //    }
 //
 //    @PostMapping(value = "/test")
-//    public int test(@RequestBody Test t) {
-//        return planModifyService.addTest(t);
+//    public String test(HttpServletRequest request) {
+//        List<MultipartFile> files = ((MultipartHttpServletRequest)request).getFiles("file");
+//        for (MultipartFile file : files) {
+//            if (!file.isEmpty()) {
+//                try {
+//                    byte[] bytes = file.getBytes();
+//                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+//                            new File(filePath + file.getOriginalFilename())));
+//                    stream.write(bytes);
+//                    stream.close();
+//                } catch (Exception e) {
+//                    String err = "文件" + file.getOriginalFilename() + "上传失败 ==> " + e.getMessage();
+//                    logger.error(err);
+//                    return err;
+//                }
+//            } else {
+//                return "文件" + file.getOriginalFilename() + "为空，上传失败";
+//            }
+//        }
+//        return "上传成功";
 //    }
 
     @PostMapping(value = "/addPlan")

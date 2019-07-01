@@ -97,6 +97,9 @@ public interface InfoObtainMapper {
     @Select("SELECT * FROM style WHERE styleGroupId=#{styleGroupId};")
     List <Style> getStyleByStyleGroupId(int styleGroupId);
 
+    @Select("SELECT number, createrName, createTime FROM style WHERE styleGroupId=#{styleGroupId};")
+    List<SimpleStyle> getStyleListByGroupId(int styleGroupId);
+
     @Select("SELECT styleGroupId FROM style WHERE id=#{id};")
     Integer getStyleGroupIdByStyleId(int id);
 }
