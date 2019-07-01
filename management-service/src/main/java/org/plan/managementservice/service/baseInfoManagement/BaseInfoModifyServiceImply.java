@@ -1,9 +1,6 @@
 package org.plan.managementservice.service.baseInfoManagement;
 
-import org.plan.managementfacade.model.baseInfoModel.requestModel.BrandReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.ClothingLevelReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.CustomerReq;
-import org.plan.managementfacade.model.baseInfoModel.requestModel.ProductReq;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.*;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoModifyMapper;
 import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper;
@@ -83,5 +80,9 @@ public class BaseInfoModifyServiceImply {
 
     public int deleteClothingLevel (int id) {
         return baseInfoModifyMapper.deleteClothingLevel(id);
+    }
+
+    public int addMessage(MessageAddReq messageAddReq){
+        return baseInfoModifyMapper.addMessage(messageAddReq);
     }
 }

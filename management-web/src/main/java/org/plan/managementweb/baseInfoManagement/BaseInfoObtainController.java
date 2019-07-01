@@ -2,10 +2,12 @@ package org.plan.managementweb.baseInfoManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.MessageSearchReq;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServiceImply;
@@ -13,13 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/baseInfoManagement")
 @Api(value = "基本信息获取接口", tags = {"基本信息获取接口"})
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-        methods = {RequestMethod.GET},
+        methods = {RequestMethod.GET,RequestMethod.POST},
         origins = "*")
 public class BaseInfoObtainController {
     @Autowired
@@ -77,5 +80,34 @@ public class BaseInfoObtainController {
         } else {
             return baseInfoObtainService.getUserNameByBrandId(brandId);
         }
+    }
+
+    @GetMapping (value = "/getSerialNoRegularByObject")
+    @ApiOperation(value = "根据单号的对象查找单号生成规则", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SerialNoRegular getSerialNoRegularByObject(@RequestParam("numberObject") String numberObject){
+        return baseInfoObtainService.getSerialNoRegularByNumberObject(numberObject);
+    }
+
+    @GetMapping(value = "/getSerialNoByRegular")
+    @ApiOperation(value = "根据生成规则自动生成单号", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String getSerialNoByRegular(@RequestParam("numberObject") String numberObject){
+        SerialNoRegular serialNoRegular = baseInfoObtainService.getSerialNoRegularByNumberObject(numberObject);
+        return baseInfoObtainService.generateSerialNo(serialNoRegular);
+    }
+
+    @PostMapping(value = "/getReceiveMessageResponse")
+    @ApiOperation(value = "获取当前用户收到的消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List <MessageResp> getReceiveMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
+        int userId = GatewayInfo.getUserId();
+        messageSearchReq.setUserId(userId);
+        return baseInfoObtainService.getReceiveMessageResponse(messageSearchReq);
+    }
+
+    @PostMapping(value = "/getSendMessageResponse")
+    @ApiOperation(value = "获取当前用户发送的消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List <MessageResp> getSendMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
+        int userId = GatewayInfo.getUserId();
+        messageSearchReq.setUserId(userId);
+        return baseInfoObtainService.getSendMessageResponse(messageSearchReq);
     }
 }

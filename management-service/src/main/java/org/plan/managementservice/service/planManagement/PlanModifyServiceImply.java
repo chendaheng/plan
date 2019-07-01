@@ -1,5 +1,6 @@
 package org.plan.managementservice.service.planManagement;
 
+import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
@@ -8,11 +9,13 @@ import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.SerialNumberGenerate;
+import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper;
 import org.plan.managementservice.mapper.infoManagement.InfoObtainMapper;
 import org.plan.managementservice.mapper.infoManagement.InfoUpdateMapper;
 import org.plan.managementservice.mapper.planManagement.PlanModifyMapper;
 import org.plan.managementservice.mapper.planManagement.PlanUpdateMapper;
 import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
+import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,10 @@ public class PlanModifyServiceImply {
     private InfoObtainMapper infoObtainMapper;
     @Autowired
     private InfoUpdateMapper infoUpdateMapper;
+    @Autowired
+    private BaseInfoObtainMapper baseInfoObtainMapper;
+    @Autowired
+    private BaseInfoObtainServiceImply baseInfoObtainServiceImply;
 
     public int addPlan (PlanAddReq planAddReq, String userName, String deptName) {
         // 同一系列下同一类型计划名称不得重复,不包括已删除计划
@@ -109,9 +116,12 @@ public class PlanModifyServiceImply {
 //        }
         // 以上条件都满足时，添加计划
         Plan plan = new Plan(planAddReq);
-        String lastNumber = planObtainMapper.getLastPlanNumber();
-        String number = SerialNumberGenerate.generateNumber("JX", lastNumber);
-        plan.setNumber(number);
+//        String lastNumber = planObtainMapper.getLastPlanNumber();
+//        String number = SerialNumberGenerate.generateNumber("JX", lastNumber);
+//        plan.setNumber(number);
+        SerialNoRegular serialNoRegular = baseInfoObtainMapper.getSerialNoRegularByObject("计划").get(0);
+        String serialNo = baseInfoObtainServiceImply.generateSerialNo(serialNoRegular);
+        plan.setNumber(serialNo);
         plan.setState(PlanState.MADE);
         plan.setCreaterName(userName);
         plan.setDeptName(deptName);
@@ -184,9 +194,12 @@ public class PlanModifyServiceImply {
 
 
     public int addExceptionForPlan(PlanException planException) {
-        String lastNumber = planObtainMapper.getLastExceptionNumber();
-        String number = SerialNumberGenerate.generateNumber("YC", lastNumber);
-        planException.setNumber(number);
+        SerialNoRegular serialNoRegular = baseInfoObtainMapper.getSerialNoRegularByObject("异常").get(0);
+        String serialNo = baseInfoObtainServiceImply.generateSerialNo(serialNoRegular);
+        planException.setNumber(serialNo);
+//        String lastNumber = planObtainMapper.getLastExceptionNumber();
+//        String number = SerialNumberGenerate.generateNumber("YC", lastNumber);
+//        planException.setNumber(number);
         int result = planModifyMapper.addExceptionForPlan(planException);
         // 添加异常信息成功时,将对应计划的haveException修改为true
         if (result == 1) {

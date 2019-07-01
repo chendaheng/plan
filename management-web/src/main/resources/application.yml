@@ -2,15 +2,15 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 12345678
+    password: hadoop
     url: jdbc:mysql://127.0.0.1:3306/zhuriPlan?useSSL=false&useUnicode=true&characterEncoding=UTF-8
   application:
     name: PlanService
   servlet:
     multipart:
       # 针对post请求数据量可能过大的情况
-      maxFileSize: 100
-      maxRequestSize: 100
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
   output:
     ansi:
       enabled: detect
@@ -22,7 +22,7 @@ spring:
     cache: false
 
 server:
-  port: 8081
+  port: 8080
 
 mybatis:
   mapper-locations: classpath*:org/plan/managementservice/mapper/**/*Mapper.xml
@@ -45,3 +45,7 @@ security:
       jwt:
         key-value: 123
       id: openid
+
+plan:
+  file:
+    dir: /home/malous/Downloads/

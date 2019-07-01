@@ -2,6 +2,7 @@ package org.plan.managementservice.mapper.baseInfoManagement;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
+import org.plan.managementfacade.model.baseInfoModel.requestModel.MessageSearchReq;
 
 public class BaseInfoObtainProvider {
     public String getBrandName (@Param("customerId") Integer customerId, @Param("userId") Integer userId) {
@@ -28,6 +29,40 @@ public class BaseInfoObtainProvider {
                 if (customerId != null) {
                     WHERE("brand.customerId=" + customerId);
                 }
+            }
+        }.toString();
+    }
+
+    public String getReceiveMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq) {
+        // 根据条件搜索当前用户接受的消息
+        return new SQL(){
+            {
+                SELECT("*");
+                FROM("message");
+                if (messageSearchReq.getStartDate() != null){
+                    WHERE("createTime>='" + messageSearchReq.getStartDate().toString() + "'");
+                }
+                if (messageSearchReq.getEndDate() != null){
+                    WHERE("createTime<='" + messageSearchReq.getEndDate().toString() + "'");
+                }
+                WHERE("receiverId" + "=" + messageSearchReq.getUserId());
+            }
+        }.toString();
+    }
+
+    public String getSendMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq) {
+        // 根据条件搜索当前用户发送的消息
+        return new SQL(){
+            {
+                SELECT("*");
+                FROM("message");
+                if (messageSearchReq.getStartDate() != null){
+                    WHERE("createTime>='" + messageSearchReq.getStartDate().toString() + "'");
+                }
+                if (messageSearchReq.getEndDate() != null){
+                    WHERE("createTime<='" + messageSearchReq.getEndDate().toString() + "'");
+                }
+                WHERE("senderId" + "=" + messageSearchReq.getUserId());
             }
         }.toString();
     }

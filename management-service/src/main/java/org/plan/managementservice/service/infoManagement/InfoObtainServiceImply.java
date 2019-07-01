@@ -3,6 +3,7 @@ package org.plan.managementservice.service.infoManagement;
 import org.plan.managementfacade.model.enumModel.*;
 import org.plan.managementfacade.model.infoModel.requestModel.*;
 import org.plan.managementfacade.model.infoModel.responseModel.*;
+import org.plan.managementfacade.model.infoModel.sqlModel.Style;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,6 @@ public class InfoObtainServiceImply{
             int state = rangeResponse.getState();
             String stateStr = InfoState.getName(state);
             rangeResponse.setStateStr(stateStr);
-
         }
         return rangeResponseResult;
     }
@@ -83,5 +83,9 @@ public class InfoObtainServiceImply{
             styleResponse.setStateStr(stateStr);
         }
         return styleResponseResult;
+    }
+
+    public List<SimpleStyle> getStyleListByGroupId(int styleGroupId) {
+        return infoObtainMapper.getStyleListByGroupId(styleGroupId);
     }
 }
