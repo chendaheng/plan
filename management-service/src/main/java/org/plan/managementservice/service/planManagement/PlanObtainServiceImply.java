@@ -73,6 +73,9 @@ public class PlanObtainServiceImply {
             }
             planSearch.setParentName(parentName);
             planSearch.setPlanObject(planObject);
+            // 对于每个计划，遍历plan_files表，将每个计划对应的文件名组成list存入files属性
+            List<String> files = planObtainMapper.getPlanFilesByPlanId(planSearch.getId());
+            planSearch.setFiles(files);
         }
         return planSearchList;
     }

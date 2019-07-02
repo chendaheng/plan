@@ -2,7 +2,6 @@ package org.plan.managementweb.planManagement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementservice.general.CheckObject;
@@ -38,7 +37,7 @@ public class PlanModifyController {
     @Autowired
     private PlanModifyServiceImply planModifyService;
     @Value("${plan.file.dir}")
-    private String filePath;
+    private String filePackage;
 
 //    @GetMapping(value = "/test")
 //    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -82,6 +81,15 @@ public class PlanModifyController {
         }
     }
 
+    @PostMapping(value = "/addPlanFiles")
+    @ApiOperation(value = "计划新增成功后将文件上传", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<String> addPlanFiles (HttpServletRequest httpServletRequest) {
+        MultipartHttpServletRequest request = (MultipartHttpServletRequest) httpServletRequest;
+        List<MultipartFile> files = request.getFiles("file");
+        Integer planId = Integer.parseInt(request.getParameter("planId"));
+        return planModifyService.addPlanFiles(files, planId, filePackage);
+    }
+
     @PostMapping(value = "/quotePredictPlan")
     @ApiOperation(value = "引用预测计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int quotePredictPlan (@RequestBody Map<String, Object> params) {
@@ -122,10 +130,26 @@ public class PlanModifyController {
         }
     }
 
-    @DeleteMapping (value = "/deletePlan")
+    @DeleteMapping(value = "/deletePlan")
     @ApiOperation(value = "依据计划id删除计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deletePlanById(@RequestParam("id") int id) {
         String userName = GatewayInfo.getUserName();
         return planModifyService.deletePlan(id, userName);
+    }
+
+    @DeleteMapping(value = "/deletePlanFile")
+    @ApiOperation(value = "依据计划id和文件名删除文件", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int deletePlanFile(@RequestParam("planId") Integer planId, @RequestParam("filename") String filename) {
+        String filePath = filePackage + planId + "/" + filename;
+        File file = new File(filePath);
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return planModifyService.deletePlanFile(planId, filename);
+            } else {
+                return ErrorCode.unkownError;
+            }
+        } else {
+            return ErrorCode.fileNotFound;
+        }
     }
 }

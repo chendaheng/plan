@@ -6,9 +6,14 @@ import org.plan.managementfacade.model.planModel.responseModel.*;
 import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.planManagement.PlanObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +27,8 @@ public class PlanObtainController {
 
     @Autowired
     private PlanObtainServiceImply planObtainService;
+    @Value("${plan.file.dir}")
+    private String filePackage;
 
     @GetMapping(value = "/getPlanList")
     @ApiOperation(value = "按权限获取计划列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -33,6 +40,50 @@ public class PlanObtainController {
             int userId = GatewayInfo.getUserId();
             params.put("userId", userId);
             return planObtainService.getPlanList(params);
+        }
+    }
+
+    @GetMapping(value = "/downloadPlanFile")
+    @ApiOperation(value = "下载计划对应文件", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String downloadPlanFile (@RequestParam("planId") Integer planId, @RequestParam("filename") String filename, HttpServletResponse response) {
+        File file = new File(filePackage + planId + "/" + filename);
+        if (file.exists()) {
+            FileInputStream fileInputStream = null;
+            BufferedInputStream bufferedInputStream = null;
+            try {
+                response.setHeader("content-type", "application/force-download");
+                response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(filename, "UTF-8"));
+                byte[] bytes = new byte[1024];
+                fileInputStream = new FileInputStream(file);
+                bufferedInputStream = new BufferedInputStream(fileInputStream);
+                OutputStream os = response.getOutputStream();
+                int i = bufferedInputStream.read(bytes);
+                while(i != -1) {
+                    os.write(bytes, 0 ,i);
+                    i = bufferedInputStream.read(bytes);
+                }
+                return "下载成功";
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bufferedInputStream != null) {
+                    try {
+                        bufferedInputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return "异常情况，下载失败，请联系系统管理员";
+        } else {
+            return "该文件不存在，下载失败";
         }
     }
 
