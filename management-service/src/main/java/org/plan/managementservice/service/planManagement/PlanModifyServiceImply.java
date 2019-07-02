@@ -19,8 +19,14 @@ import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -42,6 +48,7 @@ public class PlanModifyServiceImply {
     private BaseInfoObtainMapper baseInfoObtainMapper;
     @Autowired
     private BaseInfoObtainServiceImply baseInfoObtainServiceImply;
+
 
     public int addPlan (PlanAddReq planAddReq, String userName, String deptName) {
         // 同一系列下同一类型计划名称不得重复,不包括已删除计划
@@ -143,6 +150,43 @@ public class PlanModifyServiceImply {
                     break;
             }
         }
+        // result大于0表示插入成功，将生成的planId返回，否则返回result(0)，表示出现异常问题
+        if (result > 0) {
+            return plan.getId();
+        } else {
+            return result;
+        }
+    }
+
+    public List<String> addPlanFiles (List<MultipartFile> files, Integer planId, String filePackage) {
+        List<String> result = new ArrayList<>();
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                try {
+                    byte[] bytes = file.getBytes();
+                    String filePath = filePackage + planId + "/" + file.getOriginalFilename();
+                    File originFile = new File(filePath);
+                    boolean fileExist = originFile.exists();
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+                           originFile));
+                    stream.write(bytes);
+                    stream.close();
+                    // 该文件原先不存在时，将其与plan的关系存入数据库，否则新文件直接将原文件覆盖
+                    if (!fileExist) {
+                        planModifyMapper.addPlanFile(planId, file.getOriginalFilename());
+                    }
+                    String success = "文件" + file.getOriginalFilename() + "上传成功";
+                    result.add(success);
+                } catch (Exception e) {
+                    String error = "文件" + file.getOriginalFilename() + "上传失败 ==> " + e.getMessage();
+                    logger.error(error);
+                    result.add(error);
+                }
+            } else {
+                String miss = "文件" + file.getOriginalFilename() + "为空，上传失败";
+                result.add(miss);
+            }
+        }
         return result;
     }
 
@@ -239,6 +283,10 @@ public class PlanModifyServiceImply {
             }
             return result;
         }
+    }
+
+    public int deletePlanFile(Integer planId, String filename) {
+        return planModifyMapper.deletePlanFile(planId, filename);
     }
 
     public int addTest (Test t) {

@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50725
+Source Server         : self
+Source Server Version : 80013
 Source Host           : localhost:3306
-Source Database       : zhuriplan
+Source Database       : planservice
 
 Target Server Type    : MYSQL
-Target Server Version : 50725
+Target Server Version : 80013
 File Encoding         : 65001
 
-Date: 2019-06-30 21:56:47
+Date: 2019-07-01 16:42:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -183,13 +183,13 @@ CREATE TABLE `plan` (
   KEY `plan_ibfk_2` (`productId`),
   CONSTRAINT `plan_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `plan_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of plan
 -- ----------------------------
-INSERT INTO `plan` VALUES ('1', 'JX125001', '系列A计划', '1', '2', '', '0', '1', '头样', '0', '20', '1', '2020-04-30', '交货日期', '2019-05-01', '2020-06-10', '爱丽丝的', '啥问你', '1', '张三', '设计管理部', '2019-05-03 15:26:31', null, '张三', '2019-05-12 21:14:19', '', '');
-INSERT INTO `plan` VALUES ('2', 'JX20190521001', 'A1计划', '1', '2', '\0', '1', '1', '销样', '0', '10', '1', '2020-03-01', '交货日期', '2019-06-01', '2019-10-10', '上帝就发', '的咖啡机', '5', '张三', '设计管理部', '2019-05-21 09:51:18', null, null, null, '\0', '');
+INSERT INTO `plan` VALUES ('1', 'JX125001', '系列A计划', '1', '2', '', '0', '1', '头样', '0', '20', '1', '2020-04-30', '交货日期', '2019-05-01', '2020-06-10', '爱丽丝的', '啥问你', '1', '张三', '设计管理部', '2019-05-03 15:26:31', null, '张三', '2019-05-12 21:14:19', '\0', '');
+INSERT INTO `plan` VALUES ('2', 'JX20190521001', 'A1计划', '1', '2', '\0', '1', '1', '销样', '0', '10', '1', '2020-03-01', '交货日期', '2019-06-01', '2019-10-10', '上帝就发', '的咖啡机', '1', '张三', '设计管理部', '2019-05-21 09:51:18', null, null, null, '\0', '');
 
 -- ----------------------------
 -- Table structure for planexception
@@ -205,7 +205,7 @@ CREATE TABLE `planexception` (
   PRIMARY KEY (`id`),
   KEY `planId` (`planId`),
   CONSTRAINT `planexception_ibfk_1` FOREIGN KEY (`planId`) REFERENCES `plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of planexception
@@ -229,6 +229,23 @@ CREATE TABLE `plantemplate` (
 
 -- ----------------------------
 -- Records of plantemplate
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for plan_files
+-- ----------------------------
+DROP TABLE IF EXISTS `plan_files`;
+CREATE TABLE `plan_files` (
+  `id` int(11) NOT NULL,
+  `planId` int(11) DEFAULT NULL,
+  `filePath` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `planId` (`planId`),
+  CONSTRAINT `plan_files_ibfk_1` FOREIGN KEY (`planId`) REFERENCES `plan` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of plan_files
 -- ----------------------------
 
 -- ----------------------------
@@ -296,7 +313,7 @@ CREATE TABLE `range` (
   KEY `clothingLevelId` (`clothingLevelId`),
   CONSTRAINT `range_ibfk_1` FOREIGN KEY (`brandId`) REFERENCES `brand` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `range_ibfk_2` FOREIGN KEY (`clothingLevelId`) REFERENCES `clothinglevel` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of range
@@ -304,7 +321,7 @@ CREATE TABLE `range` (
 INSERT INTO `range` VALUES ('1', 'XL20190101001', 'Fall-2019(07/08/09)', '1', '2', '10', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:03:09', '系列备注1', '\0', '', '\0');
 INSERT INTO `range` VALUES ('2', 'XL20190101002', 'Spring-2019(01/02/03)', '2', '2', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:20', '系列备注2', '\0', '\0', '\0');
 INSERT INTO `range` VALUES ('3', 'XL20190501003', 'Winter-2019(10/11/12)', '3', '3', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:50', '系列备注3', '\0', '\0', '\0');
-INSERT INTO `range` VALUES ('4', 'XL20190501004', 'Summer-2019(08/09/10)', '4', '1', '5', '1', '1', '3', '张三', '信息管理', '2019-04-21 23:05:28', '系列备注4', '\0', '\0', '\0');
+INSERT INTO `range` VALUES ('4', 'XL20190501004', 'Summer-2019(08/09/10)', '4', '1', '2', '1', '1', '3', '张三', '信息管理', '2019-04-21 23:05:28', '系列备注4', '\0', '\0', '\0');
 
 -- ----------------------------
 -- Table structure for role_page
@@ -364,7 +381,7 @@ CREATE TABLE `style` (
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   CONSTRAINT `style_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of style
@@ -377,9 +394,6 @@ INSERT INTO `style` VALUES ('5', '10190114(CX1905)', '1', '2', 'KSZ20190101002',
 INSERT INTO `style` VALUES ('6', '10190114(CX1906)', '2', '3', 'KSZ20190101003', '款式3组', '1', '2', '3', '张三', '信息管理', '2018-08-26 12:00:00', '\0');
 INSERT INTO `style` VALUES ('7', '10190114(CX1907)', '2', '3', 'KSZ20190101003', '款式3组', '1', '2', '3', '张三', '信息管理', '2018-08-27 12:00:00', '\0');
 INSERT INTO `style` VALUES ('8', '10190114(CX1908)', '3', '4', 'KSZ20190101004', '款式4组', '1', '2', '3', '张三', '信息管理', '2018-08-28 12:00:00', '\0');
-INSERT INTO `style` VALUES ('9', '新增系列list1', '4', '5', 'KSZ20190531001', '新增款式组测试', '2', '2', '3', '张三', '设计管理部', '2019-05-31 14:31:07', '\0');
-INSERT INTO `style` VALUES ('10', '新增系列list2', '4', '5', 'KSZ20190531001', '新增款式组测试', '2', '2', '3', '张三', '设计管理部', '2019-05-31 14:31:08', '\0');
-INSERT INTO `style` VALUES ('11', '新增系列list3', '4', '5', 'KSZ20190531001', '新增款式组测试', '2', '2', '3', '张三', '设计管理部', '2019-05-31 14:31:08', '\0');
 
 -- ----------------------------
 -- Table structure for stylegroup
@@ -400,7 +414,7 @@ CREATE TABLE `stylegroup` (
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   CONSTRAINT `stylegroup_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stylegroup
@@ -427,66 +441,33 @@ INSERT INTO `test` VALUES ('1', '2019-06-12');
 INSERT INTO `test` VALUES ('5', '2019-05-12');
 
 -- ----------------------------
--- Table structure for user_brand
--- ----------------------------
-DROP TABLE IF EXISTS `user_brand`;
-CREATE TABLE `user_brand` (
-  `userId` int(11) NOT NULL,
-  `brandId` int(11) NOT NULL,
-  PRIMARY KEY (`userId`,`brandId`),
-  KEY `brandId` (`brandId`),
-  CONSTRAINT `user_brand_ibfk_1` FOREIGN KEY (`brandId`) REFERENCES `brand` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user_brand
--- ----------------------------
-
--- ----------------------------
--- Table structure for user_customer
--- ----------------------------
-DROP TABLE IF EXISTS `user_customer`;
-CREATE TABLE `user_customer` (
-  `userId` int(11) NOT NULL,
-  `customerId` int(11) NOT NULL,
-  PRIMARY KEY (`userId`,`customerId`),
-  KEY `customerId` (`customerId`),
-  CONSTRAINT `user_customer_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user_customer
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_customer_brand
 -- ----------------------------
 DROP TABLE IF EXISTS `user_customer_brand`;
 CREATE TABLE `user_customer_brand` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `userName` varchar(100) NOT NULL,
   `customerId` int(11) NOT NULL,
   `brandId` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`userId`,`brandId`),
   KEY `customerId` (`customerId`),
   KEY `brandId` (`brandId`),
   CONSTRAINT `user_customer_brand_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_customer_brand_ibfk_2` FOREIGN KEY (`brandId`) REFERENCES `brand` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_customer_brand
 -- ----------------------------
-INSERT INTO `user_customer_brand` VALUES ('1', '3', '张三', '1', '1');
-INSERT INTO `user_customer_brand` VALUES ('2', '3', '张三', '1', '2');
-INSERT INTO `user_customer_brand` VALUES ('3', '4', '李四', '1', '2');
-INSERT INTO `user_customer_brand` VALUES ('4', '4', '李四', '2', '3');
-INSERT INTO `user_customer_brand` VALUES ('5', '4', '李四', '3', '4');
-INSERT INTO `user_customer_brand` VALUES ('6', '3', '张三', '2', '3');
-INSERT INTO `user_customer_brand` VALUES ('7', '3', '张三', '3', '4');
-INSERT INTO `user_customer_brand` VALUES ('8', '5', '王五', '1', '1');
-INSERT INTO `user_customer_brand` VALUES ('9', '8', '孙博士', '4', '5');
+INSERT INTO `user_customer_brand` VALUES ('3', '张三', '1', '1');
+INSERT INTO `user_customer_brand` VALUES ('3', '张三', '1', '2');
+INSERT INTO `user_customer_brand` VALUES ('3', '张三', '2', '3');
+INSERT INTO `user_customer_brand` VALUES ('3', '张三', '3', '4');
+INSERT INTO `user_customer_brand` VALUES ('4', '李四', '1', '2');
+INSERT INTO `user_customer_brand` VALUES ('4', '李四', '2', '3');
+INSERT INTO `user_customer_brand` VALUES ('4', '李四', '3', '4');
+INSERT INTO `user_customer_brand` VALUES ('5', '王五', '1', '1');
+INSERT INTO `user_customer_brand` VALUES ('8', '孙博士', '4', '5');
 
 -- ----------------------------
 -- View structure for distributedplansearch
@@ -516,10 +497,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- View structure for stylegroupsearch
 -- ----------------------------
 DROP VIEW IF EXISTS `stylegroupsearch`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stylegroupsearch` AS select `stylegroup`.`id` AS `id`,`stylegroup`.`number` AS `number`,`stylegroup`.`name` AS `name`,`stylegroup`.`rangeId` AS `rangeId`,`stylegroup`.`state` AS `state`,`stylegroup`.`createrId` AS `createrId`,`stylegroup`.`createrName` AS `createrName`,`stylegroup`.`deptName` AS `deptName`,`stylegroup`.`createTime` AS `createTime`,`stylegroup`.`havePlan` AS `havePlan`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`id` AS `brandId`,`brand`.`name` AS `brandName`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName`,`user_customer_brand`.`userId` AS `userId`,`stylegroup`.`quantity` AS `quantity` from (((((`stylegroup` join `range` on((`stylegroup`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stylegroupsearch` AS select `stylegroup`.`id` AS `id`,`stylegroup`.`number` AS `number`,`stylegroup`.`name` AS `name`,`stylegroup`.`rangeId` AS `rangeId`,`stylegroup`.`state` AS `state`,`stylegroup`.`createrId` AS `createrId`,`stylegroup`.`createrName` AS `createrName`,`stylegroup`.`deptName` AS `deptName`,`stylegroup`.`createTime` AS `createTime`,`stylegroup`.`havePlan` AS `havePlan`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`id` AS `brandId`,`brand`.`name` AS `brandName`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName`,`user_customer_brand`.`userId` AS `userId` from (((((`stylegroup` join `range` on((`stylegroup`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
 
 -- ----------------------------
 -- View structure for stylesearch
 -- ----------------------------
 DROP VIEW IF EXISTS `stylesearch`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stylesearch` AS select `style`.`id` AS `id`,`style`.`number` AS `number`,`style`.`rangeId` AS `rangeId`,`style`.`styleGroupId` AS `styleGroupId`,`style`.`styleGroupNumber` AS `styleGroupNumber`,`style`.`styleGroupName` AS `styleGroupName`,`style`.`addingMode` AS `addingMode`,`style`.`state` AS `state`,`style`.`createrId` AS `createrId`,`style`.`createrName` AS `createrName`,`style`.`deptName` AS `deptName`,`style`.`createTime` AS `createTime`,`style`.`havePlan` AS `havePlan`,`range`.`number` AS `rangeNumber`,`range`.`name` AS `rangeName`,`brand`.`name` AS `brandName`,`brand`.`id` AS `brandId`,`customer`.`id` AS `customerId`,`customer`.`name` AS `customerName`,`clothinglevel`.`id` AS `clothingLevelId`,`clothinglevel`.`name` AS `clothingLevelName`,`user_customer_brand`.`userId` AS `userId` from (((((`style` join `range` on((`style`.`rangeId` = `range`.`id`))) join `brand` on((`range`.`brandId` = `brand`.`id`))) join `customer` on((`brand`.`customerId` = `customer`.`id`))) join `clothinglevel` on((`range`.`clothingLevelId` = `clothinglevel`.`id`))) join `user_customer_brand` on(((`user_customer_brand`.`customerId` = `customer`.`id`) and (`user_customer_brand`.`brandId` = `brand`.`id`)))) ;
+
+SET FOREIGN_KEY_CHECKS=1;

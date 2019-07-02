@@ -60,5 +60,7 @@ public class ErrorCode {
     public static Integer illegalStateUpdate = -10;
     // 与已有计划冲突
     public static Integer conflictWithExistPlan = -11;
+    // 文件不存在
+    public static Integer fileNotFound = -12;
 
 }
