@@ -63,4 +63,10 @@ public class InfoObtainController {
         styleSearchRequest.setUserId(userId);
         return infoObtainServiceImply.getStyleResponse(styleSearchRequest);
     }
+
+    @RequestMapping(value = "/getStyleListByGroupId", method = RequestMethod.GET)
+    @ApiOperation(value = "依据款式组id获取对应款式")
+    public List<SimpleStyle> getStyleListByGroupId(@RequestBody int styleGroupId) {
+        return infoObtainServiceImply.getStyleListByGroupId(styleGroupId);
+    }
 }

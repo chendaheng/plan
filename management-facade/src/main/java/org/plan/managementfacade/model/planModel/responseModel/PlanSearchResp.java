@@ -3,6 +3,8 @@ package org.plan.managementfacade.model.planModel.responseModel;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 
+import java.util.List;
+
 public class PlanSearchResp {
     private Integer id;
     private String number;
@@ -41,6 +43,7 @@ public class PlanSearchResp {
     private boolean isCompleted;
     private Integer clothingLevelId;
     private String clothingLevelName;
+    private List<String> files = null;
 
     public Integer getId() {
         return id;
@@ -336,5 +339,13 @@ public class PlanSearchResp {
 
     public void setClothingLevelName(String clothingLevelName) {
         this.clothingLevelName = clothingLevelName;
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
     }
 }

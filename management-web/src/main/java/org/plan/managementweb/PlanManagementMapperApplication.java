@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "org.plan.managementweb"})
 @MapperScan({"org.material.managementservice.mapper"})
 @EnableTransactionManagement(proxyTargetClass = true)
- @EnableEurekaClient
+@EnableEurekaClient
 public class PlanManagementMapperApplication {
 
     public static void main (String[] args) {

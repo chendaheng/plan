@@ -77,6 +77,9 @@ public interface PlanObtainMapper {
     @Select("SELECT number FROM planexception order by id desc limit 1;")
     String getLastExceptionNumber();
 
+    @Select("SELECT fileName FROM plan_files WHERE planId=#{planId};")
+    List<String> getPlanFilesByPlanId(@Param("planId") Integer planId);
+
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanListInPredictByParams")
     List<PlanSearchResp> getPlanListInPredict(Map<String, Object> params);
 

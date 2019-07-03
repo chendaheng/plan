@@ -11,10 +11,18 @@ import org.plan.managementservice.service.planManagement.PlanModifyServiceImply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,6 +36,8 @@ public class PlanModifyController {
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private PlanModifyServiceImply planModifyService;
+    @Value("${plan.file.dir}")
+    private String filePackage;
 
 //    @GetMapping(value = "/test")
 //    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -36,8 +46,26 @@ public class PlanModifyController {
 //    }
 //
 //    @PostMapping(value = "/test")
-//    public int test(@RequestBody Test t) {
-//        return planModifyService.addTest(t);
+//    public String test(HttpServletRequest request) {
+//        List<MultipartFile> files = ((MultipartHttpServletRequest)request).getFiles("file");
+//        for (MultipartFile file : files) {
+//            if (!file.isEmpty()) {
+//                try {
+//                    byte[] bytes = file.getBytes();
+//                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+//                            new File(filePath + file.getOriginalFilename())));
+//                    stream.write(bytes);
+//                    stream.close();
+//                } catch (Exception e) {
+//                    String err = "文件" + file.getOriginalFilename() + "上传失败 ==> " + e.getMessage();
+//                    logger.error(err);
+//                    return err;
+//                }
+//            } else {
+//                return "文件" + file.getOriginalFilename() + "为空，上传失败";
+//            }
+//        }
+//        return "上传成功";
 //    }
 
     @PostMapping(value = "/addPlan")
@@ -51,6 +79,15 @@ public class PlanModifyController {
             String deptName = GatewayInfo.getDeptName();
             return planModifyService.addPlan(planAddReq, userName, deptName);
         }
+    }
+
+    @PostMapping(value = "/addPlanFiles")
+    @ApiOperation(value = "计划新增成功后将文件上传", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<String> addPlanFiles (HttpServletRequest httpServletRequest) {
+        MultipartHttpServletRequest request = (MultipartHttpServletRequest) httpServletRequest;
+        List<MultipartFile> files = request.getFiles("file");
+        Integer planId = Integer.parseInt(request.getParameter("planId"));
+        return planModifyService.addPlanFiles(files, planId, filePackage);
     }
 
     @PostMapping(value = "/quotePredictPlan")
@@ -93,10 +130,26 @@ public class PlanModifyController {
         }
     }
 
-    @DeleteMapping (value = "/deletePlan")
+    @DeleteMapping(value = "/deletePlan")
     @ApiOperation(value = "依据计划id删除计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int deletePlanById(@RequestParam("id") int id) {
         String userName = GatewayInfo.getUserName();
         return planModifyService.deletePlan(id, userName);
+    }
+
+    @DeleteMapping(value = "/deletePlanFile")
+    @ApiOperation(value = "依据计划id和文件名删除文件", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int deletePlanFile(@RequestParam("planId") Integer planId, @RequestParam("filename") String filename) {
+        String filePath = filePackage + planId + "/" + filename;
+        File file = new File(filePath);
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return planModifyService.deletePlanFile(planId, filename);
+            } else {
+                return ErrorCode.unkownError;
+            }
+        } else {
+            return ErrorCode.fileNotFound;
+        }
     }
 }
