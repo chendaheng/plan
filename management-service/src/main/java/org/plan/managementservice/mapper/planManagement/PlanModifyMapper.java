@@ -14,8 +14,8 @@ public interface PlanModifyMapper {
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Integer.class)
     int addPlan(Plan plan);
 
-    @Insert("INSERT INTO `plan_files`(planId, filePath) VALUES(#{planId}, #{filePath});")
-    void addPlanFile(@Param("planId") Integer planId, @Param("filePath") String filePath);
+    @Insert("INSERT INTO `plan_files`(planId, filename) VALUES(#{planId}, #{filename});")
+    void addPlanFile(@Param("planId") Integer planId, @Param("filename") String filename);
 
     @Insert("INSERT INTO planexception (number, planId, cause, userName) VALUES(#{number}, #{planId}, #{cause}, #{userName});")
     int addExceptionForPlan(PlanException planException);
@@ -27,7 +27,7 @@ public interface PlanModifyMapper {
     int deletePlanById(int id);
 
     @Delete("DELETE FROM plan_files WHERE planId=#{planId} AND filename=#{filename};")
-    int deletePlanFile(@Param("planId") Integer planId, @Param("fileName") String filename);
+    int deletePlanFile(@Param("planId") Integer planId, @Param("filename") String filename);
 
     @Insert("INSERT INTO test(id, createTime) VALUES(#{test.id}, #{test.createTime})")
     int addTest(Test test);

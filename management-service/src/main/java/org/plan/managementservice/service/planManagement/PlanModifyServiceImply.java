@@ -165,10 +165,13 @@ public class PlanModifyServiceImply {
                 try {
                     byte[] bytes = file.getBytes();
                     String filePath = filePackage + planId + "/" + file.getOriginalFilename();
-                    File originFile = new File(filePath);
-                    boolean fileExist = originFile.exists();
-                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
-                           originFile));
+                    File localFile = new File(filePath);
+                    File parentFile = localFile.getParentFile();
+                    if (!parentFile.exists()) {
+                        parentFile.mkdir();
+                    }
+                    boolean fileExist = localFile.exists();
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(localFile));
                     stream.write(bytes);
                     stream.close();
                     // 该文件原先不存在时，将其与plan的关系存入数据库，否则新文件直接将原文件覆盖
