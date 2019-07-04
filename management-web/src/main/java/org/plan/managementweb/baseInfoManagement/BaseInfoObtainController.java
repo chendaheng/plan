@@ -8,14 +8,12 @@ import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Customer;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.Product;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
-import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -97,7 +95,7 @@ public class BaseInfoObtainController {
 
     @PostMapping(value = "/getReceiveMessageResponse")
     @ApiOperation(value = "获取当前用户收到的消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List <MessageResp> getReceiveMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
+    public List <MessageReceiveResp> getReceiveMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
         int userId = GatewayInfo.getUserId();
         messageSearchReq.setUserId(userId);
         return baseInfoObtainService.getReceiveMessageResponse(messageSearchReq);
@@ -105,7 +103,7 @@ public class BaseInfoObtainController {
 
     @PostMapping(value = "/getSendMessageResponse")
     @ApiOperation(value = "获取当前用户发送的消息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List <MessageResp> getSendMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
+    public List <MessageSendResp> getSendMessageResponse(@RequestBody MessageSearchReq messageSearchReq){
         int userId = GatewayInfo.getUserId();
         messageSearchReq.setUserId(userId);
         return baseInfoObtainService.getSendMessageResponse(messageSearchReq);

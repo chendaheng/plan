@@ -1,6 +1,5 @@
 package org.plan.managementservice.service.baseInfoManagement;
 
-import io.swagger.models.auth.In;
 import org.plan.managementfacade.model.baseInfoModel.requestModel.MessageSearchReq;
 import org.plan.managementfacade.model.baseInfoModel.responseModel.*;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.ClothingLevel;
@@ -132,25 +131,25 @@ public class BaseInfoObtainServiceImply {
         return serialNo;
     }
 
-    public List <MessageResp> getReceiveMessageResponse(MessageSearchReq messageSearchReq){
+    public List <MessageReceiveResp> getReceiveMessageResponse(MessageSearchReq messageSearchReq){
         // 获取当前用户收到的所有消息
-        List <MessageResp> messageRespResult = baseInfoObtainMapper.getReceiveMessageResponse(messageSearchReq);
-        for (MessageResp messageResp : messageRespResult){
-            int state = messageResp.getState();
+        List <MessageReceiveResp> messageReceiveRespResult = baseInfoObtainMapper.getReceiveMessageResponse(messageSearchReq);
+        for (MessageReceiveResp messageReceiveResp : messageReceiveRespResult){
+            int state = messageReceiveResp.getState();
             String stateStr = MessageState.getName(state);
-            messageResp.setStateStr(stateStr);
+            messageReceiveResp.setStateStr(stateStr);
         }
-        return messageRespResult;
+        return messageReceiveRespResult;
     }
 
-    public List <MessageResp> getSendMessageResponse(MessageSearchReq messageSearchReq){
+    public List <MessageSendResp> getSendMessageResponse(MessageSearchReq messageSearchReq){
         // 根据当前用户的id获取所有发送的消息
-        List <MessageResp> messageRespResult = baseInfoObtainMapper.getSendMessageResponse(messageSearchReq);
-        for (MessageResp messageResp : messageRespResult){
-            int state = messageResp.getState();
+        List <MessageSendResp> messageSendRespResult = baseInfoObtainMapper.getSendMessageResponse(messageSearchReq);
+        for (MessageSendResp messageSendResp : messageSendRespResult){
+            int state = messageSendResp.getState();
             String stateStr = MessageState.getName(state);
-            messageResp.setStateStr("对方" + stateStr);
+            messageSendResp.setStateStr("对方" + stateStr);
         }
-        return messageRespResult;
+        return messageSendRespResult;
     }
 }
