@@ -34,10 +34,10 @@ public class SerialNumberGenerate {
         int lastNumberLength = serialNoRegular.getLastNumberLength();
         Boolean afterChangeGenerate = serialNoRegular.getAfterChangeGenerate();
         if (lastNumber != null){ // 数据库里有数据了
-            if (lastNumber.length() > (numberPrefix.length() + 8 + numberLength)){ // 超限情况处理
-                numberLength = numberLength + lastNumber.length() - (numberPrefix.length() + 8 + numberLength);
-                lastNumberLength = lastNumberLength + lastNumber.length() - (numberPrefix.length() + 8 + lastNumberLength);
-            }
+//            if (lastNumber.length() > (numberPrefix.length() + 8 + numberLength)){ // 超限情况处理
+//                numberLength = numberLength + lastNumber.length() - (numberPrefix.length() + 8 + numberLength);
+//                lastNumberLength = lastNumberLength + lastNumber.length() - (numberPrefix.length() + 8 + lastNumberLength);
+//            }
             if (afterChangeGenerate == true){ // 修改以后已经生成过单号,按照之前的进行
                 String lastDateStr = lastNumber.substring(lastNumber.length() - numberLength - 8 ,lastNumber.length() - numberLength);
 //                System.out.println("已生成过单号情况下lastDateStr: " + lastDateStr);

@@ -2,10 +2,10 @@ package org.plan.managementfacade.model.baseInfoModel.responseModel;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("消息返回模型")
-public class MessageResp {
+@ApiModel("发送的消息返回模型")
+public class MessageSendResp {
     private int id;
-    private String senderName;
+    private String receiverName;
     private String messageDetails;
     private int state;
     private String stateStr;
@@ -19,12 +19,12 @@ public class MessageResp {
         this.id = id;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public String getMessageDetails() {

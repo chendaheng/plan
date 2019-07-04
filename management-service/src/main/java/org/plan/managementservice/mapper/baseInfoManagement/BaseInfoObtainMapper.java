@@ -73,17 +73,17 @@ public interface BaseInfoObtainMapper {
 
     // 根据当前用户的id获取收到的所有消息
     @Select("SELECT * FROM message WHERE receiverId=#{userId}")
-    List <MessageResp> getMessageByReceiverId(@Param("userId") int userId);
+    List <MessageReceiveResp> getMessageByReceiverId(@Param("userId") int userId);
 
     // 根据当前用户的id获取所有发送的消息
     @Select("SELECT * FROM message WHERE senderId=#{userId}")
-    List <MessageResp> getMessageBySenderId(@Param("userId") int userId);
+    List <MessageSendResp> getMessageBySenderId(@Param("userId") int userId);
 
     // 根据条件搜索当前用户收到的消息
     @SelectProvider(type = BaseInfoObtainProvider.class, method = "getReceiveMessageResponse")
-    List <MessageResp> getReceiveMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq);
+    List <MessageReceiveResp> getReceiveMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq);
 
     // 根据条件搜索当前用户发送的消息
     @SelectProvider(type = BaseInfoObtainProvider.class, method = "getSendMessageResponse")
-    List <MessageResp> getSendMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq);
+    List <MessageSendResp> getSendMessageResponse(@Param("messageSearchReq") MessageSearchReq messageSearchReq);
 }
