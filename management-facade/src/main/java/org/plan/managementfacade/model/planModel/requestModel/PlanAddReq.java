@@ -3,6 +3,9 @@ package org.plan.managementfacade.model.planModel.requestModel;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 public class PlanAddReq {
     private String name;
     private Integer rangeId;
@@ -26,6 +29,9 @@ public class PlanAddReq {
 
     // 此构造函数用于引用模板生成计划
     public PlanAddReq(String name, Integer rangeId, PlanType type, boolean isRoot, Integer parentId, Integer planObjectId, Integer quantity) {
+        // 对于模板生成的计划，默认初始化时将其开始结束日期均设为当年的第一天（方便查看人员发现问题）
+        Calendar calendar = Calendar.getInstance();
+        String date = calendar.get(Calendar.YEAR) + "-01-01";
         this.name = name;
         this.rangeId = rangeId;
         this.type = type;
@@ -38,8 +44,8 @@ public class PlanAddReq {
         this.productId = 1;
         this.productDate = "";
         this.productDateType = "";
-        this.startDate = "";
-        this.endDate = "";
+        this.startDate = date;
+        this.endDate = date;
         this.proposal = "";
         this.description = "";
         this.note = "";
