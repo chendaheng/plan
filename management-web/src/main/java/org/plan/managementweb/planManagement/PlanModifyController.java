@@ -1,9 +1,13 @@
 package org.plan.managementweb.planManagement;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTemplateAddReq;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanTemplate;
+import org.plan.managementfacade.model.planModel.sqlModel.TemplateTree;
 import org.plan.managementservice.general.CheckObject;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.GatewayInfo;
@@ -19,9 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +70,11 @@ public class PlanModifyController {
 //        return "上传成功";
 //    }
 
+    /**
+     *
+     * @param planAddReq
+     * @return 返回插入成功后对应计划的id
+     */
     @PostMapping(value = "/addPlan")
     @ApiOperation(value = "新增计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addPlan (@RequestBody @NotNull PlanAddReq planAddReq) {
@@ -90,6 +97,28 @@ public class PlanModifyController {
         return planModifyService.addPlanFiles(files, planId, filePackage);
     }
 
+    @PostMapping(value = "/addPlanTemplate")
+    @ApiOperation(value = "添加计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int addPlanTemplate (@RequestBody PlanTemplateAddReq addReq) {
+        TemplateTree tree = addReq.getTree();
+        if (CheckObject.isContainsEmpty(tree)) {
+            return ErrorCode.fieldIsEmpty;
+        } else {
+            int createrId = GatewayInfo.getUserId();
+            String createrName = GatewayInfo.getUserName();
+            return planModifyService.addPlanTemplate(addReq, createrId, createrName);
+        }
+    }
+
+    @PostMapping(value = "/quotePlanTemplate")
+    @ApiOperation(value = "引用计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int quotePlanTemplate (@RequestParam("rangeId") Integer rangeId, @RequestParam("quantity") Integer quantity, @RequestParam("planTemplateId") Integer planTemplateId) {
+        String userName = GatewayInfo.getUserName();
+        String deptName = GatewayInfo.getDeptName();
+        return planModifyService.quotePlanTemplate(rangeId, quantity, planTemplateId, userName, deptName);
+    }
+
+    // TODO: 引用预测计划需要修改，以树形结构引用
     @PostMapping(value = "/quotePredictPlan")
     @ApiOperation(value = "引用预测计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int quotePredictPlan (@RequestBody Map<String, Object> params) {
@@ -103,6 +132,7 @@ public class PlanModifyController {
         }
     }
 
+    // TODO: 引用系列计划也要修改，也需按树形结构进行引用
     @PostMapping(value = "/quoteRangePlan")
     @ApiOperation(value = "引用系列计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int quoteRangePlan (@RequestBody Map<String, Object> params) {
@@ -151,5 +181,11 @@ public class PlanModifyController {
         } else {
             return ErrorCode.fileNotFound;
         }
+    }
+
+    @DeleteMapping(value = "/deletePlanTemplate")
+    @ApiOperation(value = "依据计划模板id删除模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int deletePlanTemplate(@RequestParam("id") Integer id) {
+        return planModifyService.deletePlanTemplate(id);
     }
 }

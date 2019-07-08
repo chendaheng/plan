@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80013
 File Encoding         : 65001
 
-Date: 2019-07-01 16:42:00
+Date: 2019-07-08 16:48:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -156,7 +156,7 @@ CREATE TABLE `plan` (
   `name` varchar(100) NOT NULL,
   `rangeId` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL COMMENT '1代表预测计划，2代表系列计划，3代表款式组计划，4代表款式计划',
-  `isRoot` bit(1) NOT NULL,
+  `isRoot` tinyint(1) NOT NULL,
   `parentId` int(11) NOT NULL,
   `planObjectId` int(11) NOT NULL,
   `projectType` varchar(100) NOT NULL COMMENT '属性值来自数据字典',
@@ -167,8 +167,8 @@ CREATE TABLE `plan` (
   `productDateType` varchar(100) NOT NULL COMMENT '属性值来自数据字典',
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
-  `proposal` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `proposal` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `state` tinyint(4) NOT NULL COMMENT '1为已制定，2为已提交，3为被驳回，4为已审核，5为已下发，6为已删除',
   `createrName` varchar(100) NOT NULL,
   `deptName` varchar(100) NOT NULL,
@@ -176,20 +176,21 @@ CREATE TABLE `plan` (
   `rejectReason` varchar(255) DEFAULT NULL,
   `deleterName` varchar(100) DEFAULT NULL,
   `deleteTime` datetime DEFAULT NULL COMMENT '额外属性',
-  `haveException` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
-  `note` varchar(255) DEFAULT '',
+  `haveException` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为false，1为true',
+  `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   KEY `plan_ibfk_2` (`productId`),
   CONSTRAINT `plan_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `plan_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of plan
 -- ----------------------------
-INSERT INTO `plan` VALUES ('1', 'JX125001', '系列A计划', '1', '2', '', '0', '1', '头样', '0', '20', '1', '2020-04-30', '交货日期', '2019-05-01', '2020-06-10', '爱丽丝的', '啥问你', '1', '张三', '设计管理部', '2019-05-03 15:26:31', null, '张三', '2019-05-12 21:14:19', '\0', '');
-INSERT INTO `plan` VALUES ('2', 'JX20190521001', 'A1计划', '1', '2', '\0', '1', '1', '销样', '0', '10', '1', '2020-03-01', '交货日期', '2019-06-01', '2019-10-10', '上帝就发', '的咖啡机', '1', '张三', '设计管理部', '2019-05-21 09:51:18', null, null, null, '\0', '');
+INSERT INTO `plan` VALUES ('1', 'JX125001', '系列A计划', '1', '2', '1', '0', '1', '头样', '0', '20', '1', '2020-04-30', '交货日期', '2019-05-01', '2019-07-09', '爱丽丝的', '啥问你', '1', '张三', '设计管理部', '2019-05-03 15:26:31', null, '张三', '2019-05-12 21:14:19', '0', '');
+INSERT INTO `plan` VALUES ('2', 'JX20190521001', 'A1计划', '1', '2', '0', '1', '1', '销样', '0', '10', '1', '2020-03-01', '交货日期', '2019-06-01', '2019-10-10', '上帝就发', '的咖啡机', '1', '张三', '设计管理部', '2019-05-21 09:51:18', null, null, null, '0', '');
+INSERT INTO `plan` VALUES ('4', 'JH20190701001', '系列B计划', '2', '2', '1', '0', '2', '大货', '0', '100', '2', '2020-10-01', '交货日期', '2019-11-22', '2020-09-25', '士大夫', '阿道夫', '1', '李四', '设计管理部', '2019-07-01 17:02:37', null, null, null, '0', '');
 
 -- ----------------------------
 -- Table structure for planexception
@@ -216,29 +217,35 @@ CREATE TABLE `planexception` (
 -- ----------------------------
 DROP TABLE IF EXISTS `plantemplate`;
 CREATE TABLE `plantemplate` (
-  `id` int(11) DEFAULT NULL,
-  `name` varchar(20) DEFAULT NULL,
-  `planName` varchar(20) DEFAULT NULL,
-  `parentId` int(11) DEFAULT NULL,
-  `customerId` int(11) DEFAULT NULL,
-  `brandId` int(11) DEFAULT NULL,
-  `createrId` int(11) DEFAULT NULL,
-  `createTime` datetime DEFAULT NULL,
-  `isPublic` bit(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `customerName` varchar(100) NOT NULL,
+  `brandName` varchar(100) NOT NULL,
+  `tree` json NOT NULL,
+  `createrId` int(11) NOT NULL,
+  `createrName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间，以生成记录时为准',
+  `is_public` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `customerName` (`customerName`),
+  CONSTRAINT `plantemplate_ibfk_1` FOREIGN KEY (`customerName`) REFERENCES `customer` (`name`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of plantemplate
 -- ----------------------------
+INSERT INTO `plantemplate` VALUES ('2', '大F计划', '单独测试客户(勿删)', '单独测试品牌(勿删)', '{\"id\": 1, \"children\": [{\"id\": 2, \"children\": [{\"id\": 3, \"planName\": \"A11计划\"}, {\"id\": 4, \"planName\": \"A12计划\"}], \"planName\": \"A1计划\"}, {\"id\": 5, \"children\": [{\"id\": 6, \"planName\": \"A21计划\"}, {\"id\": 7, \"planName\": \"A22计划\"}], \"planName\": \"A2计划\"}, {\"id\": 8, \"planName\": \"A3计划\"}], \"planName\": \"A计划\"}', '3', '李四', '2019-07-06 12:12:01');
+INSERT INTO `plantemplate` VALUES ('3', '大A计划', '单独测试客户(勿删)', '单独测试品牌(勿删)', '{\"id\": 1, \"children\": [{\"id\": 2, \"children\": [{\"id\": 3, \"planName\": \"A11计划\"}, {\"id\": 4, \"planName\": \"A12计划\"}], \"planName\": \"A1计划\"}, {\"id\": 5, \"children\": [{\"id\": 6, \"planName\": \"A21计划\"}, {\"id\": 7, \"planName\": \"A22计划\"}], \"planName\": \"A2计划\"}, {\"id\": 8, \"planName\": \"A3计划\"}], \"planName\": \"A计划\"}', '3', '李四', '2019-07-06 12:39:29');
 
 -- ----------------------------
 -- Table structure for plan_files
 -- ----------------------------
 DROP TABLE IF EXISTS `plan_files`;
 CREATE TABLE `plan_files` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `planId` int(11) DEFAULT NULL,
-  `filePath` varchar(100) NOT NULL,
+  `filename` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `planId` (`planId`),
   CONSTRAINT `plan_files_ibfk_1` FOREIGN KEY (`planId`) REFERENCES `plan` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -246,6 +253,23 @@ CREATE TABLE `plan_files` (
 
 -- ----------------------------
 -- Records of plan_files
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for plan_instance
+-- ----------------------------
+DROP TABLE IF EXISTS `plan_instance`;
+CREATE TABLE `plan_instance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `planId` int(11) NOT NULL,
+  `instanceId` int(11) NOT NULL,
+  `nodeId` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `planId` (`planId`) USING BTREE COMMENT '对于一个计划来说，只可能引用了一个实例，故在此表中planId应唯一'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of plan_instance
 -- ----------------------------
 
 -- ----------------------------
@@ -276,7 +300,7 @@ CREATE TABLE `product` (
   `deptName` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `number` (`number`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
@@ -304,9 +328,9 @@ CREATE TABLE `range` (
   `deptName` varchar(100) NOT NULL,
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `note` varchar(255) DEFAULT '',
-  `havePredictPlan` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
-  `havePlan` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
-  `isCompleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
+  `havePredictPlan` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为false，1为true',
+  `havePlan` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为false，1为true',
+  `isCompleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为false，1为true',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `range_ibfk_1` (`brandId`),
@@ -318,10 +342,10 @@ CREATE TABLE `range` (
 -- ----------------------------
 -- Records of range
 -- ----------------------------
-INSERT INTO `range` VALUES ('1', 'XL20190101001', 'Fall-2019(07/08/09)', '1', '2', '10', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:03:09', '系列备注1', '\0', '', '\0');
-INSERT INTO `range` VALUES ('2', 'XL20190101002', 'Spring-2019(01/02/03)', '2', '2', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:20', '系列备注2', '\0', '\0', '\0');
-INSERT INTO `range` VALUES ('3', 'XL20190501003', 'Winter-2019(10/11/12)', '3', '3', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:50', '系列备注3', '\0', '\0', '\0');
-INSERT INTO `range` VALUES ('4', 'XL20190501004', 'Summer-2019(08/09/10)', '4', '1', '2', '1', '1', '3', '张三', '信息管理', '2019-04-21 23:05:28', '系列备注4', '\0', '\0', '\0');
+INSERT INTO `range` VALUES ('1', 'XL20190101001', 'Fall-2019(07/08/09)', '1', '2', '10', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:03:09', '系列备注1', '0', '1', '0');
+INSERT INTO `range` VALUES ('2', 'XL20190101002', 'Spring-2019(01/02/03)', '2', '2', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:20', '系列备注2', '0', '1', '0');
+INSERT INTO `range` VALUES ('3', 'XL20190501003', 'Winter-2019(10/11/12)', '3', '3', '5', '1', '2', '3', '张三', '信息管理', '2019-04-21 23:04:50', '系列备注3', '0', '0', '0');
+INSERT INTO `range` VALUES ('4', 'XL20190501004', 'Summer-2019(08/09/10)', '4', '1', '2', '1', '1', '3', '张三', '信息管理', '2019-04-21 23:05:28', '系列备注4', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for role_page
@@ -377,7 +401,7 @@ CREATE TABLE `style` (
   `createrName` varchar(100) NOT NULL,
   `deptName` varchar(100) NOT NULL,
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `havePlan` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
+  `havePlan` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为false，1为true',
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   CONSTRAINT `style_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE
@@ -386,14 +410,14 @@ CREATE TABLE `style` (
 -- ----------------------------
 -- Records of style
 -- ----------------------------
-INSERT INTO `style` VALUES ('1', '10190114(CX1901)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2019-05-03 15:02:54', '');
-INSERT INTO `style` VALUES ('2', '10190114(CX1902)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-21 12:00:00', '\0');
-INSERT INTO `style` VALUES ('3', '10190114(CX1903)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-23 12:00:00', '\0');
-INSERT INTO `style` VALUES ('4', '10190114(CX1904)', '1', '2', 'KSZ20190101002', '款式2组', '1', '2', '3', '张三', '信息管理', '2018-08-24 12:00:00', '\0');
-INSERT INTO `style` VALUES ('5', '10190114(CX1905)', '1', '2', 'KSZ20190101002', '款式2组', '1', '2', '3', '张三', '信息管理', '2018-08-25 12:00:00', '\0');
-INSERT INTO `style` VALUES ('6', '10190114(CX1906)', '2', '3', 'KSZ20190101003', '款式3组', '1', '2', '3', '张三', '信息管理', '2018-08-26 12:00:00', '\0');
-INSERT INTO `style` VALUES ('7', '10190114(CX1907)', '2', '3', 'KSZ20190101003', '款式3组', '1', '2', '3', '张三', '信息管理', '2018-08-27 12:00:00', '\0');
-INSERT INTO `style` VALUES ('8', '10190114(CX1908)', '3', '4', 'KSZ20190101004', '款式4组', '1', '2', '3', '张三', '信息管理', '2018-08-28 12:00:00', '\0');
+INSERT INTO `style` VALUES ('1', '10190114(CX1901)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2019-05-03 15:02:54', '1');
+INSERT INTO `style` VALUES ('2', '10190114(CX1902)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-21 12:00:00', '0');
+INSERT INTO `style` VALUES ('3', '10190114(CX1903)', '1', '1', 'KSZ20190101001', '款式1组', '1', '2', '3', '张三', '信息管理', '2018-08-23 12:00:00', '0');
+INSERT INTO `style` VALUES ('4', '10190114(CX1904)', '1', '2', 'KSZ20190101002', '款式2组', '1', '2', '3', '张三', '信息管理', '2018-08-24 12:00:00', '0');
+INSERT INTO `style` VALUES ('5', '10190114(CX1905)', '1', '2', 'KSZ20190101002', '款式2组', '1', '2', '3', '张三', '信息管理', '2018-08-25 12:00:00', '0');
+INSERT INTO `style` VALUES ('6', '10190114(CX1906)', '2', '3', 'KSZ20190101003', '款式3组', '1', '2', '3', '张三', '信息管理', '2018-08-26 12:00:00', '0');
+INSERT INTO `style` VALUES ('7', '10190114(CX1907)', '2', '3', 'KSZ20190101003', '款式3组', '1', '2', '3', '张三', '信息管理', '2018-08-27 12:00:00', '0');
+INSERT INTO `style` VALUES ('8', '10190114(CX1908)', '3', '4', 'KSZ20190101004', '款式4组', '1', '2', '3', '张三', '信息管理', '2018-08-28 12:00:00', '0');
 
 -- ----------------------------
 -- Table structure for stylegroup
@@ -410,7 +434,7 @@ CREATE TABLE `stylegroup` (
   `createrName` varchar(100) NOT NULL,
   `deptName` varchar(100) NOT NULL,
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `havePlan` bit(1) NOT NULL DEFAULT b'0' COMMENT '0为false，1为true',
+  `havePlan` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为false，1为true',
   PRIMARY KEY (`id`),
   KEY `rangeId` (`rangeId`),
   CONSTRAINT `stylegroup_ibfk_1` FOREIGN KEY (`rangeId`) REFERENCES `range` (`id`) ON UPDATE CASCADE
@@ -419,10 +443,27 @@ CREATE TABLE `stylegroup` (
 -- ----------------------------
 -- Records of stylegroup
 -- ----------------------------
-INSERT INTO `stylegroup` VALUES ('1', 'KSZ20190101001', '款式1组', '0', '1', '2', '3', '张三', '信息管理', '2018-07-20 12:00:00', '\0');
-INSERT INTO `stylegroup` VALUES ('2', 'KSZ20190101002', '款式2组', '0', '1', '2', '3', '张三', '信息管理', '2018-07-22 12:00:00', '\0');
-INSERT INTO `stylegroup` VALUES ('3', 'KSZ20190101003', '款式3组', '0', '2', '2', '3', '张三', '信息管理', '2018-07-24 12:00:01', '\0');
-INSERT INTO `stylegroup` VALUES ('4', 'KSZ20190101004', '款式4组', '0', '3', '2', '3', '张三', '信息管理', '2018-07-26 12:00:01', '\0');
+INSERT INTO `stylegroup` VALUES ('1', 'KSZ20190101001', '款式1组', '0', '1', '2', '3', '张三', '信息管理', '2018-07-20 12:00:00', '0');
+INSERT INTO `stylegroup` VALUES ('2', 'KSZ20190101002', '款式2组', '0', '1', '2', '3', '张三', '信息管理', '2018-07-22 12:00:00', '0');
+INSERT INTO `stylegroup` VALUES ('3', 'KSZ20190101003', '款式3组', '0', '2', '2', '3', '张三', '信息管理', '2018-07-24 12:00:01', '0');
+INSERT INTO `stylegroup` VALUES ('4', 'KSZ20190101004', '款式4组', '0', '3', '2', '3', '张三', '信息管理', '2018-07-26 12:00:01', '0');
+
+-- ----------------------------
+-- Table structure for templateinstance
+-- ----------------------------
+DROP TABLE IF EXISTS `templateinstance`;
+CREATE TABLE `templateinstance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rangeId` int(11) NOT NULL,
+  `createrName` varchar(100) NOT NULL,
+  `deptName` varchar(100) NOT NULL,
+  `tree` json NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of templateinstance
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for test
@@ -430,15 +471,18 @@ INSERT INTO `stylegroup` VALUES ('4', 'KSZ20190101004', '款式4组', '0', '3', 
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `createTime` date DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `struct` json DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of test
 -- ----------------------------
-INSERT INTO `test` VALUES ('1', '2019-06-12');
-INSERT INTO `test` VALUES ('5', '2019-05-12');
+INSERT INTO `test` VALUES ('1', '模板A');
+INSERT INTO `test` VALUES ('2', '模板B');
+INSERT INTO `test` VALUES ('3', '模板C');
+INSERT INTO `test` VALUES ('4', '模板D');
 
 -- ----------------------------
 -- Table structure for user_customer_brand

@@ -31,7 +31,6 @@ public class PlanObtainProvider {
         }.toString();
     }
 
-
     public String getPlanListInManageByParams (Map<String, Object> params) {
         String[] keyList = {"customerId", "brandId", "rangeId", "name", "clothingLevelId", "userId"};
         return new SQL() {
@@ -215,6 +214,30 @@ public class PlanObtainProvider {
                 }
                 WHERE("isRoot=true");
                 WHERE("type!='" + PlanType.PREDICT.getIndex() + "'");
+            }
+        }.toString();
+    }
+
+    public String getPlanTemplateByParams(Map<String, Object> params) {
+        return new SQL() {
+            {
+                SELECT("*").FROM("plantemplate");
+                if (params.containsKey("name")) {
+                    WHERE("name LIKE '%" + params.get("name").toString() + "%'");
+                }
+                if (params.containsKey("customerName")) {
+                    WHERE("customerName='" + params.get("customerName").toString() + "'");
+                }
+                if (params.containsKey("brandName")) {
+                    WHERE("brandName='" + params.get("brandName").toString() + "'");
+                }
+                if (params.containsKey("startDate")) {
+                    WHERE("createTime>='" + params.get("startDate").toString() + "'");
+                }
+                if (params.containsKey("endDate")) {
+                    WHERE("createTime<='" + params.get("endDate").toString() + "'");
+                }
+                WHERE("(createrId='" + params.get("userId").toString() + "' OR is_public=true)");
             }
         }.toString();
     }

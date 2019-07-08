@@ -4,6 +4,7 @@ import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.planModel.responseModel.*;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanTemplate;
 import org.plan.managementservice.mapper.infoManagement.InfoObtainMapper;
 import org.plan.managementservice.mapper.planManagement.PlanObtainMapper;
 import org.slf4j.Logger;
@@ -209,6 +210,10 @@ public class PlanObtainServiceImply {
             idPlanTreeMap.put(planId, node);
         }
         return root;
+    }
+
+    public List<PlanTemplate> getPlanTemplateList(Map<String, Object> params) {
+        return planObtainMapper.getPlanTemplateByParams(params);
     }
 
     public List<PlanForGantt> getGanttForPlan (Map<String, Object> params) {

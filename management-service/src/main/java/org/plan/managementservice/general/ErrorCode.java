@@ -24,7 +24,7 @@ public class ErrorCode {
 
     // 新增的数据数据库中已经存在
     public static Integer dataExist = -1;
-    // 传入信息的字段确实
+    // 传入信息的字段缺失
     public static Integer dataNotMatch = -2;
     // 数据库操作错误
     public static Integer sqlError = -3;

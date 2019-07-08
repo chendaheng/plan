@@ -24,6 +24,27 @@ public class PlanAddReq {
     public PlanAddReq() {
     }
 
+    // 此构造函数用于引用模板生成计划
+    public PlanAddReq(String name, Integer rangeId, PlanType type, boolean isRoot, Integer parentId, Integer planObjectId, Integer quantity) {
+        this.name = name;
+        this.rangeId = rangeId;
+        this.type = type;
+        this.isRoot = isRoot;
+        this.parentId = parentId;
+        this.planObjectId = planObjectId;
+        this.projectType = "";
+        this.quantity = quantity;
+        // productId在数据库中与product表建立了外键关联，因此必须有值，默认给予1
+        this.productId = 1;
+        this.productDate = "";
+        this.productDateType = "";
+        this.startDate = "";
+        this.endDate = "";
+        this.proposal = "";
+        this.description = "";
+        this.note = "";
+    }
+
     public PlanAddReq(Plan plan) {
         name = plan.getName();
         rangeId = plan.getRangeId();
