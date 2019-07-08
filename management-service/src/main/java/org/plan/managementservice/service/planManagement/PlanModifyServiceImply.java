@@ -34,6 +34,7 @@ import java.util.List;
 public class PlanModifyServiceImply {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
+    private static Integer nodeId = 1;
 
     @Autowired
     private PlanModifyMapper planModifyMapper;
@@ -196,6 +197,13 @@ public class PlanModifyServiceImply {
 
     public int addPlanTemplate (PlanTemplateAddReq addReq, int createrId, String createrName) {
         int result = ErrorCode.conflictWithExistPlan;
+        // 利用中序遍历将模板树上的每个节点的id设置好，并在完成遍历后将nodeId重设回1，以便下一个模板树使用
+        // 为防止多线程下对nodeId的共同写出现问题，采用synchronized确保线程安全
+        TemplateTree tree = addReq.getTree();
+        synchronized (nodeId) {
+            midTraversal(tree);
+            nodeId = 1;
+        }
         try {
             result = planModifyMapper.addPlanTemplate(addReq, createrId, createrName);
         } catch (Exception e) {
@@ -333,6 +341,19 @@ public class PlanModifyServiceImply {
 
     public int deletePlanTemplate(Integer id) {
         return planModifyMapper.deletePlanTemplateById(id);
+    }
+
+    // 利用中序遍历将模板树上的每个节点的id设置好(从1开始往后增加)
+    private void midTraversal (TemplateTree templateTree) {
+        if (templateTree != null) {
+            templateTree.setId(nodeId++);
+            List<TemplateTree> treeList = templateTree.getChildren();
+            if (treeList != null) {
+                for (TemplateTree tree : treeList) {
+                    midTraversal(tree);
+                }
+            }
+        }
     }
 
     public int addTest (Test t) {

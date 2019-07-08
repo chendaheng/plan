@@ -100,14 +100,9 @@ public class PlanModifyController {
     @PostMapping(value = "/addPlanTemplate")
     @ApiOperation(value = "添加计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addPlanTemplate (@RequestBody PlanTemplateAddReq addReq) {
-        TemplateTree tree = addReq.getTree();
-        if (CheckObject.isContainsEmpty(tree)) {
-            return ErrorCode.fieldIsEmpty;
-        } else {
-            int createrId = GatewayInfo.getUserId();
-            String createrName = GatewayInfo.getUserName();
-            return planModifyService.addPlanTemplate(addReq, createrId, createrName);
-        }
+        int createrId = GatewayInfo.getUserId();
+        String createrName = GatewayInfo.getUserName();
+        return planModifyService.addPlanTemplate(addReq, createrId, createrName);
     }
 
     @PostMapping(value = "/quotePlanTemplate")
