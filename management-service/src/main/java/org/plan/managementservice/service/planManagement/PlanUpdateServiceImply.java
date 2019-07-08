@@ -1,10 +1,11 @@
 package org.plan.managementservice.service.planManagement;
 
 import org.plan.managementfacade.model.enumModel.*;
-import org.plan.managementfacade.model.planModel.requestModel.ChildrenPlanReq;
-import org.plan.managementfacade.model.planModel.requestModel.DistributePlanReq;
-import org.plan.managementfacade.model.planModel.requestModel.PlanUpdateReq;
+import org.plan.managementfacade.model.planModel.requestModel.*;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanInstance;
+import org.plan.managementfacade.model.planModel.sqlModel.TemplateInstance;
+import org.plan.managementfacade.model.planModel.sqlModel.TemplateTree;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.mapper.infoManagement.*;
 import org.plan.managementservice.mapper.planManagement.*;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class PlanUpdateServiceImply {
     private PlanModifyMapper planModifyMapper;
     @Autowired
     private InfoUpdateMapper infoUpdateMapper;
+    @Autowired
+    private PlanModifyServiceImply planModifyService;
 
 
     public int updatePlan (PlanUpdateReq planUpdateReq) {
@@ -83,6 +87,20 @@ public class PlanUpdateServiceImply {
 //            }
 //        }
         return planUpdateMapper.updatePlan(planUpdateReq);
+    }
+
+    public int updatePlanTemplate (PlanTemplateUpdateReqq updateReqq) {
+        int result = ErrorCode.conflictWithExistPlan;
+        try {
+            result = planUpdateMapper.updatePlanTemplate(updateReqq);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    public int changePlanTemplateState (Integer id, boolean isPublic) {
+        return planUpdateMapper.changePlanTemplateState(id, isPublic);
     }
 
     public int updatePlanOrder (List<ChildrenPlanReq> childrenPlan) {
@@ -144,8 +162,8 @@ public class PlanUpdateServiceImply {
         // 仅允许已通过的计划下发
         int planId = planReq.getPlanId();
         List<Integer> executerIdList = planReq.getExecuterIdList();
-        PlanState planState = planObtainMapper.getPlanStateById(planId);
-        if (planState != PlanState.PASS) {
+        Plan plan = planObtainMapper.getPlanById(planId);
+        if (plan.getState() != PlanState.PASS) {
             logger.error("id为" + planId + "的计划状态不是已审核,无法进行下发操作。");
             return ErrorCode.illegalStateUpdate;
         } else {
@@ -156,12 +174,39 @@ public class PlanUpdateServiceImply {
                 try {
                     result += planModifyMapper.distributePlanToUser(planId, executerId);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                     result += 0;
                 }
             }
             if (result > 0) {
                 planUpdateMapper.updatePlanStateById(planId, PlanState.DISTRIBUTED);
+                // 由于planId唯一，因此对应的PlanInstance最多有一个，不用list接收
+                PlanInstance planInstance = planObtainMapper.getPlanInstanceByPlanId(planId);
+                // 当该planId对应的templateInstance存在，说明该计划由模板生成，需要生成其在模板中对应的子计划
+                if (planInstance != null) {
+                    Integer instanceId = planInstance.getInstanceId();
+                    Integer nodeId = planInstance.getNodeId();
+                    TemplateInstance templateInstance = planObtainMapper.getTemplateInstanceById(instanceId);
+                    TemplateTree templateTree = templateInstance.getTree();
+                    // 利用中序遍历获取该plan对应的模板节点
+                    TemplateTree node = midTraversal(templateTree, nodeId);
+                    // 模板节点与其子节点均存在时，新增相应的子计划
+                    if (node != null && node.getChildren() !=null) {
+                        List<TemplateTree> treeList = node.getChildren();
+                        Integer rangeId = templateInstance.getRangeId();
+                        for (TemplateTree tree : treeList) {
+                            PlanAddReq planAddReq = new PlanAddReq(tree.getPlanName(), rangeId, plan.getType(), false, planId, plan.getPlanObjectId(), plan.getQuantity());
+                            // 将子计划的开始结束时间直接设为父计化的确保其新增成功
+                            planAddReq.setStartDate(plan.getStartDate());
+                            planAddReq.setEndDate(plan.getEndDate());
+                            int newPlanId = planModifyService.addPlan(planAddReq, templateInstance.getCreaterName(), templateInstance.getDeptName());
+                            // 将获得的新计划id及instance，node的关系存入plan_instance表
+                            if (newPlanId > 0) {
+                                planModifyMapper.addPlanInstance(new PlanInstance(newPlanId, instanceId, tree.getId()));
+                            }
+                        }
+                    }
+                }
             }
             return result;
         }
@@ -225,5 +270,23 @@ public class PlanUpdateServiceImply {
             }
         }
         return result;
+    }
+
+    // 对模板树的中序遍历
+    private TemplateTree midTraversal (TemplateTree node, Integer nodeId) {
+        if (node.getId().equals(nodeId)) {
+            return node;
+        } else if (node.getChildren() != null) {
+            List<TemplateTree> treeList = node.getChildren();
+            for (TemplateTree tree : treeList) {
+                TemplateTree result = midTraversal(tree, nodeId);
+                if (result != null && result.getId().equals(nodeId)) {
+                    return result;
+                }
+            }
+        } else {
+            return null;
+        }
+        return null;
     }
 }

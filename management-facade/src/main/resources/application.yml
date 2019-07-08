@@ -11,3 +11,5 @@ spring:
       # 针对post请求数据量可能过大的情况
       maxFileSize: 100
       maxRequestSize: 100
+mybatis:
+  type-handlers-package: org.plan.managementfacade.model.planModel.sqlModel

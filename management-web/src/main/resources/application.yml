@@ -26,7 +26,7 @@ server:
 
 mybatis:
   mapper-locations: classpath*:org/plan/managementservice/mapper/**/*Mapper.xml
-  type-handlers-package: org.plan.managementfacade.model.enumModel, org.plan.managementfacade.planModel
+  type-handlers-package: org.plan.managementfacade.model.enumModel, org.plan.managementfacade.model.planModel.sqlModel
 
 logging:
   level:
@@ -46,6 +46,7 @@ security:
         key-value: 123
       id: openid
 
+# 存储文件的文件夹路径
 plan:
   file:
     dir: /home/malous/Postman/

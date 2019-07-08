@@ -3,6 +3,7 @@ package org.plan.managementweb.planManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.planModel.responseModel.*;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanTemplate;
 import org.plan.managementservice.general.GatewayInfo;
 import org.plan.managementservice.service.planManagement.PlanObtainServiceImply;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
@@ -118,6 +118,14 @@ public class PlanObtainController {
     @ApiOperation(value = "依据计划id获取相应计划树", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public PlanTree getPlanTree (@RequestParam("id") int id) {
         return planObtainService.getPlanTree(id);
+    }
+
+    @GetMapping(value = "/getPlanTemplate")
+    @ApiOperation(value = "根据查询条件获取对应计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<PlanTemplate> getPlanTemplateList (@RequestParam Map<String, Object> params) {
+        int userId = GatewayInfo.getUserId();
+        params.put("userId", userId);
+        return planObtainService.getPlanTemplateList(params);
     }
 
     @GetMapping(value = "/getGanttForRangePlan")

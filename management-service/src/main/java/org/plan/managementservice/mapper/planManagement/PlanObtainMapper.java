@@ -8,7 +8,7 @@ import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanForGantt;
-import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.sqlModel.*;
 import org.plan.managementfacade.model.planModel.responseModel.PlanExceptionResp;
 import org.plan.managementfacade.model.planModel.responseModel.PlanSearchResp;
 
@@ -74,11 +74,20 @@ public interface PlanObtainMapper {
             "ORDER BY parentId ASC, `order` ASC;")
     List<PlanForGantt> getPlanForGanttByPlanObjectIdAndType(@Param("planObjectId") int planObjectId, @Param("type") PlanType type, @Param("state") PlanState state);
 
+    @Select("SELECT * FROM plantemplate WHERE id=#{id};")
+    PlanTemplate getPlanTemplateById(@Param("id") Integer planTemplateId);
+
     @Select("SELECT number FROM planexception order by id desc limit 1;")
     String getLastExceptionNumber();
 
     @Select("SELECT filename FROM plan_files WHERE planId=#{planId};")
     List<String> getPlanFilesByPlanId(@Param("planId") Integer planId);
+
+    @Select("SELECT * FROM plan_instance WHERE planId=#{planId};")
+    PlanInstance getPlanInstanceByPlanId(@Param("planId") Integer planId);
+
+    @Select("SELECT * FROM templateinstance WHERE id=#{id};")
+    TemplateInstance getTemplateInstanceById(@Param("id") Integer id);
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanListInPredictByParams")
     List<PlanSearchResp> getPlanListInPredict(Map<String, Object> params);
@@ -106,4 +115,7 @@ public interface PlanObtainMapper {
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getRootPlanByParams")
     List<Plan> getRootPlanByParams(Map<String, Object> params);
+
+    @SelectProvider(type = PlanObtainProvider.class, method = "getPlanTemplateByParams")
+    List<PlanTemplate> getPlanTemplateByParams(Map<String, Object> params);
 }

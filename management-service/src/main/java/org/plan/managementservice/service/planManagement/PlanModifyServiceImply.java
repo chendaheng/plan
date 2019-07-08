@@ -3,9 +3,9 @@ package org.plan.managementservice.service.planManagement;
 import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
-import org.plan.managementfacade.model.planModel.sqlModel.Plan;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTemplateAddReq;
+import org.plan.managementfacade.model.planModel.sqlModel.*;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
-import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.ErrorCode;
 import org.plan.managementservice.general.SerialNumberGenerate;
@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
@@ -193,6 +194,44 @@ public class PlanModifyServiceImply {
         return result;
     }
 
+    public int addPlanTemplate (PlanTemplateAddReq addReq, int createrId, String createrName) {
+        int result = ErrorCode.conflictWithExistPlan;
+        try {
+            result = planModifyMapper.addPlanTemplate(addReq, createrId, createrName);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    // 由于涉及到对多张表操作，添加@Transactional注解，确保在出现未知异常情况下进行数据库操作回滚
+    @Transactional
+    public int quotePlanTemplate (Integer rangeId, Integer quantity, Integer planTemplateId, String userName, String deptName) {
+        PlanTemplate planTemplate = planObtainMapper.getPlanTemplateById(planTemplateId);
+        TemplateTree tree = planTemplate.getTree();
+        Integer nodeId = tree.getId();
+        String planName = tree.getPlanName();
+        TemplateInstance instance = new TemplateInstance(rangeId, userName, deptName, tree);
+        planModifyMapper.addTemplateInstance(instance);
+        Integer instanceId = instance.getId();
+        // 构造新的计划插入数据库，并获取生成的计划id
+        PlanAddReq planAddReq = new PlanAddReq(planName, rangeId, PlanType.RANGE, true, 0, rangeId, quantity);
+        int result = addPlan(planAddReq, userName, deptName);
+        // 若添加成功，则返回值是添加的计划的id，没能插入为0，负数则为插入计划过程中出现了已知错误
+        if (result > 0) {
+            int planId = result;
+            // 添加计划成功后，将plan与instance关系存入plan_instance表
+            PlanInstance planInstance = new PlanInstance(planId, instanceId, nodeId);
+            return planModifyMapper.addPlanInstance(planInstance);
+        } else if (result == 0){
+            logger.error("引用模板时插入数据库的计划失败，");
+            return ErrorCode.unkownError;
+        } else {
+            return result;
+        }
+
+    }
+
     public int quotePredictPlan (int rangeId, String userName, String deptName) {
         // 获取系列对应的预测计划
         List<Plan> predictPlanList = planObtainMapper.getRootPlanByPlanObjectIdAndType(rangeId, PlanType.PREDICT, PlanState.DELETED);
@@ -290,6 +329,10 @@ public class PlanModifyServiceImply {
 
     public int deletePlanFile(Integer planId, String filename) {
         return planModifyMapper.deletePlanFile(planId, filename);
+    }
+
+    public int deletePlanTemplate(Integer id) {
+        return planModifyMapper.deletePlanTemplateById(id);
     }
 
     public int addTest (Test t) {

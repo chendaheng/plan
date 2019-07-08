@@ -1,9 +1,13 @@
 package org.plan.managementservice.mapper.planManagement;
 
 import org.apache.ibatis.annotations.*;
+import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanTemplateAddReq;
 import org.plan.managementfacade.model.planModel.sqlModel.Plan;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.Test;
+import org.plan.managementfacade.model.planModel.sqlModel.PlanInstance;
+import org.plan.managementfacade.model.planModel.sqlModel.TemplateInstance;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -14,8 +18,19 @@ public interface PlanModifyMapper {
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Integer.class)
     int addPlan(Plan plan);
 
-    @Insert("INSERT INTO `plan_files`(planId, filename) VALUES(#{planId}, #{filename});")
+    @Insert("INSERT INTO plan_files(planId, filename) VALUES(#{planId}, #{filename});")
     void addPlanFile(@Param("planId") Integer planId, @Param("filename") String filename);
+
+    @Insert("INSERT INTO plantemplate(name, customerName, brandName, tree, createrId, createrName) " +
+            "VALUES(#{addReq.name}, #{addReq.customerName}, #{addReq.brandName}, #{addReq.tree}, #{createrId}, #{createrName});")
+    int addPlanTemplate(@Param("addReq") PlanTemplateAddReq addReq, @Param("createrId") int createrId, @Param("createrName") String createrName);
+
+    @Insert("INSERT INTO templateinstance(rangeId, createrName, deptName, tree) VALUES(#{rangeId}, #{createrName}, #{deptName}, #{tree});")
+    @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Integer.class)
+    void addTemplateInstance(TemplateInstance instance);
+
+    @Insert("INSERT INTO plan_instance(planId, instanceId, nodeId) VALUES(#{planId}, #{instanceId}, #{nodeId});")
+    int addPlanInstance(PlanInstance planInstance);
 
     @Insert("INSERT INTO planexception (number, planId, cause, userName) VALUES(#{number}, #{planId}, #{cause}, #{userName});")
     int addExceptionForPlan(PlanException planException);
@@ -28,6 +43,9 @@ public interface PlanModifyMapper {
 
     @Delete("DELETE FROM plan_files WHERE planId=#{planId} AND filename=#{filename};")
     int deletePlanFile(@Param("planId") Integer planId, @Param("filename") String filename);
+
+    @Delete("DELETE FROM plantemplate WHERE id=#{id};")
+    int deletePlanTemplateById(@Param("id") Integer id);
 
     @Insert("INSERT INTO test(id, createTime) VALUES(#{test.id}, #{test.createTime})")
     int addTest(Test test);
