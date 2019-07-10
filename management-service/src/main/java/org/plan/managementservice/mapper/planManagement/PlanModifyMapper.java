@@ -1,14 +1,9 @@
 package org.plan.managementservice.mapper.planManagement;
 
 import org.apache.ibatis.annotations.*;
-import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 import org.plan.managementfacade.model.planModel.requestModel.PlanTemplateAddReq;
-import org.plan.managementfacade.model.planModel.sqlModel.Plan;
-import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
+import org.plan.managementfacade.model.planModel.sqlModel.*;
 import org.plan.managementfacade.model.planModel.Test;
-import org.plan.managementfacade.model.planModel.sqlModel.PlanInstance;
-import org.plan.managementfacade.model.planModel.sqlModel.TemplateInstance;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -21,9 +16,14 @@ public interface PlanModifyMapper {
     @Insert("INSERT INTO plan_files(planId, filename) VALUES(#{planId}, #{filename});")
     void addPlanFile(@Param("planId") Integer planId, @Param("filename") String filename);
 
-    @Insert("INSERT INTO plantemplate(name, customerName, brandName, tree, createrId, createrName) " +
-            "VALUES(#{addReq.name}, #{addReq.customerName}, #{addReq.brandName}, #{addReq.tree}, #{createrId}, #{createrName});")
+    @Insert("INSERT INTO plantemplate(name, customerName, brandName, tree, createrId, createrName) VALUES" +
+            "(#{addReq.name}, #{addReq.customerName}, #{addReq.brandName}, #{addReq.tree}, #{createrId}, #{createrName});")
     int addPlanTemplate(@Param("addReq") PlanTemplateAddReq addReq, @Param("createrId") int createrId, @Param("createrName") String createrName);
+
+    @Insert("INSERT INTO plantemplate(name, customerName, brandName, tree, createrId, createrName, is_public) VALUES" +
+            "(#{name}, #{customerName}, #{brandName}, #{tree}, #{createrId}, #{createrName}, #{isPublic})")
+    int addPlanTemplate(@Param("name") String name, @Param("customerName") String customerName, @Param("brandName") String brandName, @Param("tree") TemplateTree tree,
+                        @Param("createrId") Integer createrId, @Param("createrName") String createrName, @Param("isPublic") boolean isPublic);
 
     @Insert("INSERT INTO templateinstance(rangeId, createrName, deptName, tree) VALUES(#{rangeId}, #{createrName}, #{deptName}, #{tree});")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Integer.class)

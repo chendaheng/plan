@@ -89,6 +89,9 @@ public interface PlanObtainMapper {
     @Select("SELECT * FROM templateinstance WHERE id=#{id};")
     TemplateInstance getTemplateInstanceById(@Param("id") Integer id);
 
+    @Select("SELECT id, name, parentId FROM plan WHERE rangeId=#{rangeId} AND type=#{type} AND state!=#{state}")
+    List<PlanForTemplate> getRangePlanForTemplate(@Param("rangeId") Integer rangeId, @Param("type") PlanType type, @Param("state") PlanState state);
+
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanListInPredictByParams")
     List<PlanSearchResp> getPlanListInPredict(Map<String, Object> params);
 

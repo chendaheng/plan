@@ -9,4 +9,8 @@ public class TemplateTree {
     private Integer id;
     private String planName;
     private List<TemplateTree> children;
+
+    public void addChild(TemplateTree child) {
+        this.children.add(child);
+    }
 }

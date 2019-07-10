@@ -5,6 +5,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 import org.plan.managementfacade.model.planModel.requestModel.PlanTemplateAddReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanToTemplateReq;
+import org.plan.managementfacade.model.planModel.requestModel.TemplateToPlanReq;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanException;
 import org.plan.managementfacade.model.planModel.sqlModel.PlanTemplate;
 import org.plan.managementfacade.model.planModel.sqlModel.TemplateTree;
@@ -73,7 +75,7 @@ public class PlanModifyController {
     /**
      *
      * @param planAddReq
-     * @return 返回插入成功后对应计划的id
+     * @return 返回插入成功情况下对应计划的id
      */
     @PostMapping(value = "/addPlan")
     @ApiOperation(value = "新增计划", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -99,18 +101,37 @@ public class PlanModifyController {
 
     @PostMapping(value = "/addPlanTemplate")
     @ApiOperation(value = "添加计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int addPlanTemplate (@RequestBody PlanTemplateAddReq addReq) {
+    public int addPlanTemplate (@RequestBody @NotNull PlanTemplateAddReq addReq) {
         int createrId = GatewayInfo.getUserId();
         String createrName = GatewayInfo.getUserName();
         return planModifyService.addPlanTemplate(addReq, createrId, createrName);
     }
 
+    @PostMapping(value = "/saveToPlanTemplate")
+    @ApiOperation(value = "添加计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int saveToPlanTemplate (@RequestBody @NotNull PlanToTemplateReq planToTemplateReq) {
+        if (CheckObject.isContainsEmpty(planToTemplateReq)) {
+            return ErrorCode.requiredFieldMiss;
+        } else {
+            int createrId = GatewayInfo.getUserId();
+            String createrName = GatewayInfo.getUserName();
+            return planModifyService.saveToPlanTemplate(planToTemplateReq, createrId, createrName);
+        }
+    }
+
     @PostMapping(value = "/quotePlanTemplate")
     @ApiOperation(value = "引用计划模板", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int quotePlanTemplate (@RequestParam("rangeId") Integer rangeId, @RequestParam("quantity") Integer quantity, @RequestParam("planTemplateId") Integer planTemplateId) {
-        String userName = GatewayInfo.getUserName();
-        String deptName = GatewayInfo.getDeptName();
-        return planModifyService.quotePlanTemplate(rangeId, quantity, planTemplateId, userName, deptName);
+    public int quotePlanTemplate (@RequestBody TemplateToPlanReq templateToPlanReq) {
+        if (CheckObject.isContainsEmpty(templateToPlanReq)) {
+            return ErrorCode.requiredFieldMiss;
+        } else {
+            Integer rangeId = templateToPlanReq.getRangeId();
+            Integer quantity = templateToPlanReq.getQuantity();
+            Integer planTemplateId = templateToPlanReq.getPlanTemplateId();
+            String userName = GatewayInfo.getUserName();
+            String deptName = GatewayInfo.getDeptName();
+            return planModifyService.quotePlanTemplate(rangeId, quantity, planTemplateId, userName, deptName);
+        }
     }
 
     // TODO: 引用预测计划需要修改，以树形结构引用
