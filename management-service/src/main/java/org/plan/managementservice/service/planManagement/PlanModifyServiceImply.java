@@ -4,11 +4,11 @@ import org.plan.managementfacade.model.baseInfoModel.sqlModel.SerialNoRegular;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.planModel.requestModel.PlanTemplateAddReq;
+import org.plan.managementfacade.model.planModel.requestModel.PlanToTemplateReq;
 import org.plan.managementfacade.model.planModel.sqlModel.*;
 import org.plan.managementfacade.model.planModel.requestModel.PlanAddReq;
 import org.plan.managementfacade.model.planModel.Test;
 import org.plan.managementservice.general.ErrorCode;
-import org.plan.managementservice.general.SerialNumberGenerate;
 import org.plan.managementservice.mapper.baseInfoManagement.BaseInfoObtainMapper;
 import org.plan.managementservice.mapper.infoManagement.InfoObtainMapper;
 import org.plan.managementservice.mapper.infoManagement.InfoUpdateMapper;
@@ -19,7 +19,6 @@ import org.plan.managementservice.service.baseInfoManagement.BaseInfoObtainServi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +27,15 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PlanModifyServiceImply {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-    private static Integer nodeId = 1;
+    private Integer nodeId = 1;
 
     @Autowired
     private PlanModifyMapper planModifyMapper;
@@ -210,6 +211,52 @@ public class PlanModifyServiceImply {
             logger.error(e.getMessage());
         }
         return result;
+    }
+
+    public int saveToPlanTemplate (PlanToTemplateReq planToTemplateReq, Integer createrId, String createrName) {
+        Integer rangeId = planToTemplateReq.getRangeId();
+        String name = planToTemplateReq.getName();
+        String customerName = planToTemplateReq.getCustomerName();
+        String brandName = planToTemplateReq.getBrandName();
+        boolean isPublic = planToTemplateReq.isPublic();
+        // 依据系列id取出该系列下所有计划的id，name，parentId
+        List<PlanForTemplate> planList = planObtainMapper.getRangePlanForTemplate(rangeId, PlanType.RANGE, PlanState.DELETED);
+        PlanForTemplate rootPlan = planList.get(0);
+        // 取出的计划中第一个计划应为根计划，若不是，计划id的编号可能出现问题，报错
+        if (rootPlan.getParentId() != 0) {
+            logger.error("数据库设计中父计划id应小于子计划，当前状态不符合，请检查");
+            return ErrorCode.illegalStateUpdate;
+        }
+        // 此map用于存放planId与其对应生成的模板树节点间的关系，从而重建模板树的父子关系
+        Map<Integer, TemplateTree> idTemplateTreeMap = new HashMap<>();
+        // 模板树的根节点
+        TemplateTree root = new TemplateTree();
+        root.setId(nodeId);
+        root.setPlanName(rootPlan.getName());
+        idTemplateTreeMap.put(rootPlan.getId(), root);
+        // 将取出的计划组装为模板树
+        synchronized (nodeId) {
+            nodeId++;
+            for (PlanForTemplate plan : planList) {
+                if (plan.getParentId() == 0) {
+                    continue;
+                }
+                TemplateTree tree = new TemplateTree();
+                tree.setId(nodeId++);
+                tree.setPlanName(plan.getName());
+                TemplateTree parentTree = idTemplateTreeMap.get(plan.getParentId());
+                if (parentTree.getChildren() == null) {
+                    parentTree.setChildren(new ArrayList<TemplateTree>());
+                }
+                parentTree.addChild(tree);
+                idTemplateTreeMap.put(plan.getId(), tree);
+            }
+            nodeId = 1;
+        }
+        return planModifyMapper.addPlanTemplate(name, customerName, brandName, root, createrId, createrName, isPublic);
+
+
+
     }
 
     // 由于涉及到对多张表操作，添加@Transactional注解，确保在出现未知异常情况下进行数据库操作回滚

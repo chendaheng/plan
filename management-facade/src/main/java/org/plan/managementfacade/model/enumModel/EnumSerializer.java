@@ -15,6 +15,4 @@ public class EnumSerializer extends JsonSerializer<IEnum> {
             generator.writeObject(value.getName());
         }
     }
-
-
 }
