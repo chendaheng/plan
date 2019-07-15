@@ -1,9 +1,7 @@
 package org.plan.managementservice.mapper.planManagement;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 import org.plan.managementfacade.model.enumModel.PlanState;
 import org.plan.managementfacade.model.enumModel.PlanType;
 import org.plan.managementfacade.model.planModel.responseModel.ChildrenPlanResp;
@@ -120,5 +118,8 @@ public interface PlanObtainMapper {
     List<Plan> getRootPlanByParams(Map<String, Object> params);
 
     @SelectProvider(type = PlanObtainProvider.class, method = "getPlanTemplateByParams")
+    @Results({
+            @Result(column = "is_public", property = "isPublic", jdbcType = JdbcType.TINYINT)
+    })
     List<PlanTemplate> getPlanTemplateByParams(Map<String, Object> params);
 }

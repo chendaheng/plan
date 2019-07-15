@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/planManagement")
@@ -50,8 +51,14 @@ public class PlanUpdateController {
 
     @PostMapping(value = "/changePlanTemplateState")
     @ApiOperation(value = "改变计划模板公有私有属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int changePlanTemplateState (@RequestParam("id") Integer id, @RequestParam("public") boolean isPublic) {
-        return planUpdateService.changePlanTemplateState(id, isPublic);
+    public int changePlanTemplateState (@RequestBody Map<String, Object> params) {
+        if (params.containsKey("id") && params.containsKey("public")) {
+            Integer id = (Integer) params.get("id");
+            boolean isPublic = (boolean) params.get("public");
+            return planUpdateService.changePlanTemplateState(id, isPublic);
+        } else {
+            return ErrorCode.requiredFieldMiss;
+        }
     }
 
     @PostMapping(value = "/adjustPlanOrder")
