@@ -22,7 +22,7 @@ public interface PlanModifyMapper {
 
     @Insert("INSERT INTO plantemplate(name, customerName, brandName, tree, createrId, createrName, is_public) VALUES" +
             "(#{name}, #{customerName}, #{brandName}, #{tree}, #{createrId}, #{createrName}, #{isPublic})")
-    int addPlanTemplate(@Param("name") String name, @Param("customerName") String customerName, @Param("brandName") String brandName, @Param("tree") TemplateTree tree,
+    int saveToPlanTemplate(@Param("name") String name, @Param("customerName") String customerName, @Param("brandName") String brandName, @Param("tree") TemplateTree tree,
                         @Param("createrId") Integer createrId, @Param("createrName") String createrName, @Param("isPublic") boolean isPublic);
 
     @Insert("INSERT INTO templateinstance(rangeId, createrName, deptName, tree) VALUES(#{rangeId}, #{createrName}, #{deptName}, #{tree});")

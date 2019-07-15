@@ -253,7 +253,7 @@ public class PlanModifyServiceImply {
             }
             nodeId = 1;
         }
-        return planModifyMapper.addPlanTemplate(name, customerName, brandName, root, createrId, createrName, isPublic);
+        return planModifyMapper.saveToPlanTemplate(name, customerName, brandName, root, createrId, createrName, isPublic);
 
 
 
