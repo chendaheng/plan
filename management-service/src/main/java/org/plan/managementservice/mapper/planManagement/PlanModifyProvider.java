@@ -75,6 +75,7 @@ public class PlanModifyProvider {
                     VALUES("deleteTime", "'" + plan.getDeleteTime() + "'");
                 }
                 VALUES("haveException", plan.isHaveException() + "");
+                VALUES("fromTemplate", plan.isFromTemplate() + "");
                 if (plan.getNote() != null) {
                     VALUES("note", "'" + plan.getNote() + "'");
                 }
@@ -82,14 +83,4 @@ public class PlanModifyProvider {
         }.toString();
 
     }
-//    public String addTest (@Param("test") Test test) {
-//        return new SQL() {
-//            {
-//                INSERT_INTO("test");
-//                VALUES("id", "'" + test.getId() + "'");
-//                VALUES("type", "'" + test.getType().getIndex() + "'");
-//                VALUES("note", "'" + test.getNote() + "'");
-//            }
-//        }.toString();
-//    }
 }
