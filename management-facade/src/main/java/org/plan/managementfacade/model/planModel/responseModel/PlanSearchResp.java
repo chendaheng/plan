@@ -33,6 +33,7 @@ public class PlanSearchResp {
     private String deleterName;
     private String deleteTime;
     private boolean haveException;
+    private boolean fromTemplate;
     private String note;
     private String rangeNumber;
     private String rangeName;
@@ -259,6 +260,14 @@ public class PlanSearchResp {
 
     public void setHaveException(boolean haveException) {
         this.haveException = haveException;
+    }
+
+    public boolean isFromTemplate() {
+        return fromTemplate;
+    }
+
+    public void setFromTemplate(boolean fromTemplate) {
+        this.fromTemplate = fromTemplate;
     }
 
     public String getNote() {

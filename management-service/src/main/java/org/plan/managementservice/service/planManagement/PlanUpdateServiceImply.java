@@ -180,10 +180,9 @@ public class PlanUpdateServiceImply {
             }
             if (result > 0) {
                 planUpdateMapper.updatePlanStateById(planId, PlanState.DISTRIBUTED);
-                // 由于planId唯一，因此对应的PlanInstance最多有一个，不用list接收
-                PlanInstance planInstance = planObtainMapper.getPlanInstanceByPlanId(planId);
-                // 当该planId对应的templateInstance存在，说明该计划由模板生成，需要生成其在模板中对应的子计划
-                if (planInstance != null) {
+                PlanInstance planInstance;
+                // 当该plan的fromTemplate为true时，说明该计划由模板生成，需要生成其在模板中对应的子计划
+                if (plan.isFromTemplate() && (planInstance = planObtainMapper.getPlanInstanceByPlanId(planId)) != null) {
                     Integer instanceId = planInstance.getInstanceId();
                     Integer nodeId = planInstance.getNodeId();
                     TemplateInstance templateInstance = planObtainMapper.getTemplateInstanceById(instanceId);

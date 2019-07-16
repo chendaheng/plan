@@ -22,6 +22,7 @@ public class PlanAddReq {
     private String endDate;
     private String proposal;
     private String description;
+    private boolean fromTemplate;
     private String note = "";
 
     public PlanAddReq() {
@@ -42,12 +43,14 @@ public class PlanAddReq {
         this.quantity = quantity;
         // productId在数据库中与product表建立了外键关联，因此必须有值，默认给予1
         this.productId = 1;
-        this.productDate = "";
+        this.productDate = date;
         this.productDateType = "";
         this.startDate = date;
         this.endDate = date;
         this.proposal = "";
         this.description = "";
+        // 仅在由模板生成计划时该标识符置为true
+        this.fromTemplate = true;
         this.note = "";
     }
 
@@ -192,6 +195,14 @@ public class PlanAddReq {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isFromTemplate() {
+        return fromTemplate;
+    }
+
+    public void setFromTemplate(boolean fromTemplate) {
+        this.fromTemplate = fromTemplate;
     }
 
     public String getNote() {

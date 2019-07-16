@@ -31,6 +31,7 @@ public class Plan {
     private String deleterName;
     private String deleteTime;
     private boolean haveException;
+    private boolean fromTemplate;
     private String note;
 
     public Plan() {
@@ -52,6 +53,7 @@ public class Plan {
         endDate = planAddReq.getEndDate();
         proposal = planAddReq.getProposal();
         description = planAddReq.getDescription();
+        fromTemplate = planAddReq.isFromTemplate();
         note = planAddReq.getNote();
     }
 
@@ -269,6 +271,14 @@ public class Plan {
 
     public void setHaveException(boolean haveException) {
         this.haveException = haveException;
+    }
+
+    public boolean isFromTemplate() {
+        return fromTemplate;
+    }
+
+    public void setFromTemplate(boolean fromTemplate) {
+        this.fromTemplate = fromTemplate;
     }
 
     public String getNote() {
