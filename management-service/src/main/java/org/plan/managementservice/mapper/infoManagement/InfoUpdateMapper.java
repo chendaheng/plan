@@ -37,6 +37,9 @@ public interface InfoUpdateMapper {
     @UpdateProvider(type = InfoUpdateProvider.class, method = "updateStyle")
     int updateStyle (@Param("styleUpdateRequest") StyleUpdateRequest styleUpdateRequest);
 
+    @Update("UPDATE style SET styleGroupId=null, styleGroupNumber=null, styleGroupName=null, state=1 WHERE id=#{id};")
+    int unbindStyleFromStyleGroup (@Param("id") int id);
+
     @Update("UPDATE `range` SET havePredictPlan=#{bool} WHERE id=#{id};")
     void updateRangeHavePredictPlanById(@Param("id") int id, @Param("bool") boolean bool);
 

@@ -34,13 +34,10 @@ public class InfoUpdateController {
     @RequestMapping (value = "/updateStyleGroup", method = RequestMethod.POST)
     @ApiOperation(value = "更新款式组")
     public int updateStyleGroup(@RequestBody StyleGroupUpdateRequest styleGroupUpdateRequest){
-        if (CheckObject.isContainsEmpty(styleGroupUpdateRequest)) {
-            logger.error("所传数据字段缺失");
+        if (styleGroupUpdateRequest.getId() == null || styleGroupUpdateRequest.getName() == null || styleGroupUpdateRequest.getRangeId() == null) {
             return ErrorCode.dataNotMatch;
         }
-        else {
-            return infoUpdateServiceImply.updateStyleGroup(styleGroupUpdateRequest);
-        }
+        return infoUpdateServiceImply.updateStyleGroup(styleGroupUpdateRequest);
     }
 
     @RequestMapping (value = "/updateStyle", method = RequestMethod.POST)

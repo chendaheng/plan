@@ -238,7 +238,7 @@ public class InfoUpdateServiceImply{
             StyleGroup styleGroup = styleGroupResult.get(0);
             int state = styleGroup.getState();
             if (state == 1){
-                logger.warn("id为" + id + "的款式组的状态为未绑定,无法进行绑定操作");
+                logger.warn("id为" + id + "的款式组的状态为未绑定,无法进行解绑操作");
                 return ErrorCode.stateError;
             }
             else {
@@ -255,20 +255,13 @@ public class InfoUpdateServiceImply{
                     }
                     else if (styleResult.size() > 0){
                         for (Style style : styleResult){
-                            StyleUpdateRequest styleUpdateRequest = new StyleUpdateRequest();
-                            int styleId = style.getId();
-                            styleUpdateRequest.setId(styleId);
-                            styleUpdateRequest.setStyleGroupId(null);
-                            styleUpdateRequest.setStyleGroupName("");
-                            styleUpdateRequest.setStyleGroupNumber("");
-                            styleUpdateRequest.setState(1);
-                            int updateStyle = infoUpdateMapper.updateStyle(styleUpdateRequest);
+                            int updateStyle = infoUpdateMapper.unbindStyleFromStyleGroup(style.getId());
                             if (updateStyle == 1){
-                                logger.info("成功更新款式信息，当前款式id为"+ styleId);
+                                logger.info("成功更新款式信息，当前款式id为"+ style.getId());
                                 updateStyleCount += 1;
                             }
                             else {
-                                logger.error("更新款式信息失败，当前款式id为"+ styleId);
+                                logger.error("更新款式信息失败，当前款式id为"+ style.getId());
                             }
                         }
                         if (styleResult.size() == updateStyleCount){
